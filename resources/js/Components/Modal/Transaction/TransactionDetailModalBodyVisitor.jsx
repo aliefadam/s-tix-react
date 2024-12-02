@@ -1,6 +1,11 @@
-import React from "react";
+import { initAccordions } from "flowbite";
+import React, { useEffect } from "react";
 
 function TransactionDetailModalBodyVisitor({ visitor }) {
+    useEffect(() => {
+        initAccordions();
+    }, []);
+
     return (
         <div className="space-y-4">
             <h1 className="poppins-semibold lg:text-base text-sm">

@@ -3,9 +3,9 @@
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-if (file_exists($maintenance = __DIR__ . env("MAINTENANCE_DIR", '/../storage/framework/maintenance.php'))) {
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
-require __DIR__ . env("AUTOLOAD_DIR", '/../vendor/autoload.php');
-(require_once __DIR__ . env("APP_DIR", '/../bootstrap/app.php'))
+require __DIR__ . '/../vendor/autoload.php';
+(require_once __DIR__ . '/../bootstrap/app.php')
     ->handleRequest(Request::capture());
