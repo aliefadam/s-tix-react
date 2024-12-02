@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MethodPayment;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
@@ -90,10 +91,29 @@ class TransactionController extends Controller
 
     public function show($id)
     {
+        $transaction = Transaction::firstWhere("id", $id);
         return response()->json([
-            "view" => view("components.modal.modal-detail-transaksi", [
-                "transaction" => Transaction::firstWhere("id", $id),
-            ])->render(),
+            "transaction" => [
+                "invoice" => $transaction->invoice,
+                "status" => $transaction->status,
+                "event" => mappingEvent($transaction->event),
+                "buyer" => getDataPembeli($transaction->id),
+                "visitor" => getDataPengunjung($transaction->id),
+                "tickets" => getGroupingTicket($transaction->id),
+                "payment" => [
+                    "method" => json_decode($transaction->payment)->method,
+                    "data" => json_decode($transaction->payment)->data,
+                    "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
+                    "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
+                    "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
+                ],
+                "internet_fee" => formatMoney($transaction->internet_fee),
+                "tax_percent" => $transaction->tax_percent,
+                "tax_amount" => formatMoney($transaction->tax_amount),
+                "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
+                "total" => formatMoney($transaction->total),
+                "created_at" => formatDate($transaction->created_at),
+            ],
         ]);
     }
 
