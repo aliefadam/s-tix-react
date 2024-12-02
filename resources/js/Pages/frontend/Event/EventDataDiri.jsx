@@ -7,22 +7,24 @@ import getDatePart from "@/utils/getDatePart";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
-function EventDataDiri({ profile, event, data_ticket }) {
-    const before = [
-        {
-            url: route("home"),
-            name: "Beranda",
-        },
-        {
-            url: route("event", event.slug),
-            name: event.name,
-        },
-        {
-            url: route("event.tickets", event.slug),
-            name: "Pilih Tiket",
-        },
-    ];
-    const active = "Pengisian Data Diri";
+function EventDataDiri({ title, profile, event, data_ticket }) {
+    const breadCrumbData = {
+        before: [
+            {
+                url: route("home"),
+                name: "Beranda",
+            },
+            {
+                url: route("event", event.slug),
+                name: event.name,
+            },
+            {
+                url: route("event.tickets", event.slug),
+                name: "Pilih Tiket",
+            },
+        ],
+        active: title,
+    };
 
     const { data, setData, post, processing } = useForm({
         data_pengunjung: [],
@@ -100,7 +102,7 @@ function EventDataDiri({ profile, event, data_ticket }) {
 
     return (
         <UserLayout title={"Detail Event"}>
-            <BreadCrumb active={active} before={before} />
+            <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <form action="" onSubmit={handleSubmit}>
                 <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">

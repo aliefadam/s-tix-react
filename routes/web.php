@@ -39,6 +39,7 @@ Route::middleware("auth")->group(function () {
     Route::prefix("/profile")->group(function () {
         Route::get("/", [PageController::class, "profile"])->name("profile");
         Route::put("/", [AuthController::class, "update"])->name("profile.update");
+        Route::put("/change-password", [AuthController::class, "changePasswordPost"])->name("profile.change-password");
     });
 
     Route::prefix("/transaction")->group(function () {

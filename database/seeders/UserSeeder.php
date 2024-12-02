@@ -30,8 +30,8 @@ class UserSeeder extends Seeder
                 'height' => 170,
                 'weight' => 50,
                 'religion' => 'Islam',
-                'region' => 'Indonesia',
-                'blood_type' => 'O',
+                'instagram' => 'aliefadm_',
+                'tiktok' => 'aliefadam',
                 'role' => 'user',
             ],
             [

@@ -174,7 +174,7 @@ class PageController extends Controller
 
     public function profile()
     {
-        return view("frontend.user.profile", [
+        return Inertia::render("frontend/Profile/Profile", [
             "title" => "Profil",
             "profile" => Auth::user(),
         ]);

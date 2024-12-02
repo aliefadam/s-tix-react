@@ -11,17 +11,19 @@ function EventTicket({ event }) {
         count: [],
     });
 
-    const before = [
-        {
-            url: route("home"),
-            name: "Beranda",
-        },
-        {
-            url: route("event", event.slug),
-            name: event.name,
-        },
-    ];
-    const active = "Pilih Tiket";
+    const breadCrumbData = {
+        before: [
+            {
+                url: route("home"),
+                name: "Beranda",
+            },
+            {
+                url: route("event", event.slug),
+                name: event.name,
+            },
+        ],
+        active: "Pilih Tiket",
+    };
 
     const setCounter = (type, countElement, id) => {
         const count = +countElement.value;
@@ -74,7 +76,7 @@ function EventTicket({ event }) {
 
     return (
         <UserLayout title={"Detail Event"}>
-            <BreadCrumb active={active} before={before} />
+            <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <div className="mt-10 min-h-[50vh]">
                 <form

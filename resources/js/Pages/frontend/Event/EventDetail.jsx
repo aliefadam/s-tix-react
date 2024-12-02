@@ -7,17 +7,19 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 
 function EventDetail({ event }) {
-    const before = [
-        {
-            url: route("home"),
-            name: "Beranda",
-        },
-    ];
-    const active = event.name;
+    const breadCrumbData = {
+        before: [
+            {
+                url: route("home"),
+                name: "Beranda",
+            },
+        ],
+        active: event.name,
+    };
 
     return (
         <UserLayout title={"Detail Event"}>
-            <BreadCrumb active={active} before={before} />
+            <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
                 <>

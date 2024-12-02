@@ -3,7 +3,7 @@ import React from "react";
 
 function EventList({ events }) {
     return (
-        <div className="grid grid-cols-4 gap-8 mt-10">
+        <div className="grid grid-cols-4 gap-8 mt-7">
             {events.map((event, i) => (
                 <Link
                     key={i}

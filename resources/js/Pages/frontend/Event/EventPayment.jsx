@@ -5,26 +5,28 @@ import UserLayout from "@/Layouts/UserLayout";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 
-function EventPayment({ event, data_ticket, method_payment }) {
-    const before = [
-        {
-            url: route("home"),
-            name: "Beranda",
-        },
-        {
-            url: route("event", event.slug),
-            name: event.name,
-        },
-        {
-            url: route("event.tickets", event.slug),
-            name: "Pilih Tiket",
-        },
-        {
-            url: route("event.data-diri", event.slug),
-            name: "Pengisian Data Diri",
-        },
-    ];
-    const active = "Pilih Pembayaran";
+function EventPayment({ title, event, data_ticket, method_payment }) {
+    const breadCrumbData = {
+        before: [
+            {
+                url: route("home"),
+                name: "Beranda",
+            },
+            {
+                url: route("event", event.slug),
+                name: event.name,
+            },
+            {
+                url: route("event.tickets", event.slug),
+                name: "Pilih Tiket",
+            },
+            {
+                url: route("event.data-diri", event.slug),
+                name: "Pengisian Data Diri",
+            },
+        ],
+        active: title,
+    };
 
     const { data, setData, post, processing } = useForm({
         data_ticket: data_ticket,
@@ -42,7 +44,7 @@ function EventPayment({ event, data_ticket, method_payment }) {
 
     return (
         <UserLayout title={"Pilih Pembayaran"}>
-            <BreadCrumb active={active} before={before} />
+            <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <form action="" onSubmit={handleSubmit} method="POST">
                 <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
