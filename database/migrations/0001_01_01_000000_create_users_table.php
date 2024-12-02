@@ -26,8 +26,8 @@ return new class extends Migration
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
             $table->string('religion')->nullable();
-            $table->string('region')->nullable();
-            $table->string('blood_type')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('tiktok')->nullable();
             $table->string('role');
             $table->rememberToken();
             $table->timestamps();

@@ -1,8 +1,8 @@
 import LoginBrand from "@/Components/Auth/LoginBrand";
 import LoginForm from "@/Components/Auth/LoginForm";
 import AuthLayout from "@/Layouts/AuthLayout";
-import { Link, useForm } from "@inertiajs/react";
-import React, { useState } from "react";
+import { useForm } from "@inertiajs/react";
+import React from "react";
 
 function Login({ title }) {
     const { data, setData, post, processing, errors, reset } = useForm({

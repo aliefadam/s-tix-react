@@ -1,7 +1,8 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-function BreadCrumb({ before, active }) {
+function BreadCrumb({ breadCrumbData }) {
+    const { before, active } = breadCrumbData;
     return (
         <div className="flex items-center gap-2 text-sm h-fit">
             {before &&

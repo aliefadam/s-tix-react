@@ -15,9 +15,9 @@ function Welcome({ events, static_banner, carousel }) {
                 </div>
             </div>
 
-            <div className="mt-10">
-                <h1 className="text-center text-3xl poppins-bold text-teal-700">
-                    Event
+            <div className="mt-16">
+                <h1 className="text-center text-3xl poppins-bold text-teal-700 border-b border-teal-700 pb-5">
+                    Daftar Event
                 </h1>
 
                 <EventList events={events} />
