@@ -1,0 +1,1 @@
+const o=(t,r)=>{if(!t)return null;const[a,e,n]=t.split("-");switch(r.toLowerCase()){case"day":return n.toString().padStart(2,"0");case"month":return e.toString().padStart(2,"0");case"year":return a}};export{o as g};

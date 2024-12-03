@@ -26,7 +26,7 @@ function NavbarMenu() {
                     <NavbarLink
                         href={"profile"}
                         icon={"fa-regular fa-user"}
-                        name={auth.name}
+                        name={`Profil Saya`}
                     />
                 </>
             ) : (

@@ -159,6 +159,7 @@ class PageController extends Controller
                     "method" => json_decode($transaction->payment)->method,
                     "data" => json_decode($transaction->payment)->data,
                     "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
+                    "expiration_time" => formatTime(json_decode($transaction->payment)->expiration_date, 7),
                     "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
                     "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
                 ],
@@ -168,6 +169,7 @@ class PageController extends Controller
                 "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
                 "total" => formatMoney($transaction->total),
                 "created_at" => formatDate($transaction->created_at),
+                "created_at_time" => formatTime($transaction->created_at),
             ],
         ]);
     }
@@ -196,6 +198,7 @@ class PageController extends Controller
                     "method" => json_decode($transaction->payment)->method,
                     "data" => json_decode($transaction->payment)->data,
                     "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
+                    "expiration_time" => formatTime(json_decode($transaction->payment)->expiration_date, 7),
                     "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
                     "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
                 ],

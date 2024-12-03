@@ -98,6 +98,16 @@ if (!function_exists("formatDate")) {
     }
 }
 
+if (!function_exists("formatTime")) {
+    function formatTime($time, $addHours = 0)
+    {
+        if ($addHours != 0) {
+            return Carbon::parse($time)->addHours($addHours)->format("H:i");
+        }
+        return Carbon::parse($time)->format("H:i");
+    }
+}
+
 if (!function_exists("concatDate")) {
     function concatDate($date, $month, $year)
     {
@@ -237,3 +247,5 @@ if (!function_exists("mappingEvent")) {
         ];
     }
 }
+
+function payment($invoice) {}

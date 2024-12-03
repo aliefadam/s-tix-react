@@ -18,7 +18,7 @@ function TransactionDetailModalBodyInfo({ transaction }) {
             <div className="flex justify-between">
                 <span className="lg:text-sm text-xs">Tanggal Pembelian</span>
                 <span className="lg:text-sm text-xs text-gray-600 text-right">
-                    {transaction.created_at}
+                    {transaction.created_at} - {transaction.created_at_time} WIB
                 </span>
             </div>
         </div>

@@ -113,6 +113,7 @@ class TransactionController extends Controller
                 "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
                 "total" => formatMoney($transaction->total),
                 "created_at" => formatDate($transaction->created_at),
+                "created_at_time" => formatTime($transaction->created_at),
             ],
         ]);
     }
