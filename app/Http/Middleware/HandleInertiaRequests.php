@@ -33,7 +33,31 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => $request->user(),
-            "notification" => $request->session()->get("notification")
+            "notification" => $request->session()->get("notification"),
+            "menu" => [
+                "menu_title" => $this->getMenu()['menu_title'],
+                "menu_link" => $this->getMenu()['menu_link'],
+            ],
+            "today" => today()->translatedFormat("l, d F Y") . " - " . date('H:i:s'),
         ];
+    }
+
+    public function getMenu()
+    {
+        $menu = [
+            "menu_title" => [],
+            "menu_link" => [],
+        ];
+
+        if (Auth::check()) {
+            foreach (getMenuTitle() as $menu_title) {
+                array_push($menu["menu_title"], $menu_title);
+                foreach (getMenuLink($menu_title->slug) as $menu_link) {
+                    array_push($menu["menu_link"], $menu_link);
+                }
+            }
+        }
+
+        return $menu;
     }
 }

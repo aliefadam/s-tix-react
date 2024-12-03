@@ -56,7 +56,7 @@ class AuthController extends Controller
                     "icon" => "error",
                 ]);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with("notification", [
                 "title" => "Gagal",
                 "text" => $e->getMessage(),
@@ -221,7 +221,6 @@ class AuthController extends Controller
                 "icon" => "success",
             ]);
         } catch (Exception $e) {
-            return $e->getMessage();
             DB::rollBack();
             return back()->with("notification", [
                 "title" => "Gagal",

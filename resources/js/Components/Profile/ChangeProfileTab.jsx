@@ -62,6 +62,7 @@ function ChangeProfileTab({ profile }) {
                     <InputGroup
                         type={"email"}
                         id={"email"}
+                        disabled={true}
                         label={"Email"}
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
