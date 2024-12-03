@@ -239,7 +239,7 @@ class PageController extends Controller
 
     public function dashboard()
     {
-        return view("backend.dashboard", [
+        return Inertia::render("backend/Dashboard", [
             "title" => "Dashboard",
         ]);
     }

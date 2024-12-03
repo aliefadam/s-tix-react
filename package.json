@@ -23,6 +23,8 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "animate.css": "^4.1.1",
+        "datatables.net-dt": "^2.1.8",
         "sweetalert2": "^11.14.5"
     }
 }

@@ -1,11 +1,11 @@
 .dt-layout-row:first-child {
-    padding: 10px 20px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-    margin: 20px 0;
 }
+
 .dt-layout-row:first-child .dt-layout-cell.dt-layout-start .dt-length {
     display: flex;
     align-items: center;
@@ -37,7 +37,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    margin: 15px 0;
 }
 
 .dt-layout-row:last-child .dt-layout-cell.dt-layout-start .dt-info {
