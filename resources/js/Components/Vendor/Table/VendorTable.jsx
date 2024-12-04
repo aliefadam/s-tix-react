@@ -3,7 +3,7 @@ import VendorTableHead from "./VendorTableHead";
 import VendorTableBody from "./VendorTableBody";
 import initDataTable from "@/utils/initDataTable";
 
-function VendorTable({ vendors }) {
+function VendorTable({ vendors, handleDelete }) {
     useEffect(() => {
         initDataTable();
     }, []);
@@ -14,7 +14,10 @@ function VendorTable({ vendors }) {
                 id="dataTable"
             >
                 <VendorTableHead />
-                <VendorTableBody vendors={vendors} />
+                <VendorTableBody
+                    handleDelete={handleDelete}
+                    vendors={vendors}
+                />
             </table>
         </div>
     );

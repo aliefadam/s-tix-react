@@ -1,6 +1,7 @@
 import React from "react";
+import VendorTableBodyLink from "./VendorTableBodyLink";
 
-function VendorTableBody({ vendors }) {
+function VendorTableBody({ vendors, handleDelete }) {
     return (
         <tbody>
             {vendors.map((vendor, i) => (
@@ -15,7 +16,7 @@ function VendorTableBody({ vendors }) {
                     <td className="px-6 py-5">
                         <button
                             id={`dropdownDefaultButton-${i}`}
-                            className="w-[30px] py-1"
+                            className="w-[30px] py-2 px-3 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-md"
                             data-dropdown-toggle={`dropdown-${i}`}
                         >
                             <i className="fa-solid fa-ellipsis-vertical" />
@@ -29,32 +30,28 @@ function VendorTableBody({ vendors }) {
                                 aria-labelledby={`dropdownDefaultButton-${i}`}
                             >
                                 <li>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    >
-                                        Detail
-                                    </a>
+                                    <VendorTableBodyLink
+                                        route={"#"}
+                                        title={"Detail"}
+                                    />
                                 </li>
                                 <li>
-                                    <a
-                                        href={route(
+                                    <VendorTableBodyLink
+                                        route={route(
                                             "admin.vendor.edit",
                                             vendor.user.id
                                         )}
-                                        className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    >
-                                        Edit
-                                    </a>
+                                        title="Edit"
+                                    />
                                 </li>
                                 <li>
-                                    <a
-                                        href="#"
-                                        data-id={vendor.user.id}
-                                        className="btn-delete block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    >
-                                        Hapus
-                                    </a>
+                                    <VendorTableBodyLink
+                                        route="#"
+                                        title="Hapus"
+                                        onClick={(e) =>
+                                            handleDelete(e, vendor.user.id)
+                                        }
+                                    />
                                 </li>
                             </ul>
                         </div>

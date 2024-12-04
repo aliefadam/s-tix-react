@@ -1,4 +1,5 @@
 import "../css/app.css";
+import "../../public/css/style.css";
 import "./bootstrap";
 import "flowbite";
 import "animate.css";

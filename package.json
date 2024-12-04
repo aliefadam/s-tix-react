@@ -4,7 +4,7 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "migrate": "php artisan migrate:fresh --seed"
+        "mg": "php artisan migrate:fresh --seed"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "animate.css": "^4.1.1",
+        "ckeditor5": "^44.0.0",
         "datatables.net-dt": "^2.1.8",
         "sweetalert2": "^11.14.5"
     }
