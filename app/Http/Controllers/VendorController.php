@@ -65,10 +65,6 @@ class VendorController extends Controller
                     "password" => $password,
                 ],
             ]);
-            // return redirect()->route("admin.vendor.index")->with("credential", [
-            //     "email" => $request->email,
-            //     "password" => $password,
-            // ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(["message" => $e->getMessage()]);
@@ -77,9 +73,14 @@ class VendorController extends Controller
 
     public function edit($id)
     {
-        return view("backend.vendor.edit", [
-            "title" => "Tambah Vendor",
-            "vendor" => Vendor::firstWhere("user_id", $id),
+        $vendor = Vendor::firstWhere("user_id", $id);
+        return Inertia::render("backend/Vendor/Edit", [
+            "title" => "Edit Vendor",
+            "vendor" => [
+                "id" => $vendor->id,
+                "created_at" => $vendor->created_at->translatedFormat("l, d F Y"),
+                "user" => $vendor->user,
+            ],
         ]);
     }
 
@@ -87,23 +88,21 @@ class VendorController extends Controller
     {
         $validate = $request->validate([
             "name" => "required",
-            "email" => "required|email|unique:users,email,$id",
-            "category" => "required",
         ], [
             "name.required" => "Nama harus diisi",
-            "email.required" => "Email harus diisi",
-            "email.email" => "Email tidak valid",
-            "email.unique" => "Email sudah terdaftar",
-            "category.required" => "Pilih kategori vendor",
         ]);
 
         DB::beginTransaction();
         try {
-            $newVendor = User::find($id)->update([
+            $vendor = Vendor::find($id);
+            $vendor->user->update([
                 "name" => $request->name,
             ]);
-            Vendor::firstWhere("user_id", $id)->update([
-                "category" => $request->category,
+            DB::commit();
+            return redirect()->route("admin.vendor.index")->with("notification", [
+                "title" => "Berhasil",
+                "text" => "Vendor diupdate",
+                "icon" => "success",
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -113,19 +112,13 @@ class VendorController extends Controller
                 "icon" => "error",
             ]);
         }
-        DB::commit();
-        return redirect()->route("admin.vendor.index")->with("notification", [
-            "title" => "Berhasil",
-            "text" => "Vendor diupdate",
-            "icon" => "success",
-        ]);
     }
 
     public function destroy($id)
     {
-        User::find($id)->delete();
-        Vendor::firstWhere("user_id", $id)->delete();
-
+        $vendor = Vendor::firstWhere("user_id", $id);
+        $vendor->user->delete();
+        $vendor->delete();
         return redirect()->back()->with("notification", [
             "title" => "Berhasil",
             "text" => "Vendor dihapus",

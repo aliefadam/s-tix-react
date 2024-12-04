@@ -3,7 +3,9 @@ import VendorCredentialsModal from "@/Components/Modal/Vendor/VendorCredentialsM
 import VendorTable from "@/Components/Vendor/Table/VendorTable";
 import VendorTableTitle from "@/Components/Vendor/Table/VendorTableTitle";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { usePage } from "@inertiajs/react";
+import Notification from "@/utils/notification";
+import showConfirmationDelete from "@/utils/showConfirmationDelete";
+import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 
 function Index({ title, vendors }) {
@@ -11,16 +13,37 @@ function Index({ title, vendors }) {
         active: title,
     };
 
+    const { credentials } = usePage().props.notification || {};
     const { notification } = usePage().props;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [vendorID, setVendorID] = useState("");
 
     useEffect(() => {
-        if (notification) {
-            setEmail(notification.credentials.email);
-            setPassword(notification.credentials.password);
+        if (credentials) {
+            setEmail(credentials.email);
+            setPassword(credentials.password);
         }
-    }, [notification]);
+
+        if (notification && credentials == null) {
+            Notification(notification);
+        }
+    }, [credentials, notification]);
+
+    const form = useForm({
+        vendorID: vendorID,
+    });
+
+    const handleDelete = (e, id) => {
+        e.preventDefault();
+        setVendorID(id);
+        showConfirmationDelete({
+            title: "Apakah kamu yakin?",
+            onConfirm: () => {
+                form.delete(route("admin.vendor.delete", id));
+            },
+        });
+    };
 
     return (
         <AdminLayout title={title}>
@@ -28,10 +51,10 @@ function Index({ title, vendors }) {
 
             <div className="mt-5 bg-white shadow-md rounded-md overflow-hiddens">
                 <VendorTableTitle />
-                <VendorTable vendors={vendors} />
+                <VendorTable vendors={vendors} handleDelete={handleDelete} />
             </div>
 
-            {notification && (
+            {credentials && (
                 <VendorCredentialsModal email={email} password={password} />
             )}
         </AdminLayout>
