@@ -4,7 +4,7 @@ import VendorTable from "@/Components/Vendor/Table/VendorTable";
 import VendorTableTitle from "@/Components/Vendor/Table/VendorTableTitle";
 import AdminLayout from "@/Layouts/AdminLayout";
 import Notification from "@/utils/notification";
-import showConfirmationDelete from "@/utils/showConfirmationDelete";
+import showConfirmation from "@/utils/showConfirmation";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 
@@ -37,8 +37,9 @@ function Index({ title, vendors }) {
     const handleDelete = (e, id) => {
         e.preventDefault();
         setVendorID(id);
-        showConfirmationDelete({
+        showConfirmation({
             title: "Apakah kamu yakin?",
+            text: "Anda tidak dapat mengembalikan data ini!",
             onConfirm: () => {
                 form.delete(route("admin.vendor.delete", id));
             },
