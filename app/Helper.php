@@ -223,12 +223,15 @@ if (!function_exists("mappingEvent")) {
             "description" => $event->description,
             "date" => $event->start_date->translatedFormat('l, d F Y'),
             "time" => $event->start_time->format('H:i'),
+            "date_end" => $event->end_date->translatedFormat('l, d F Y'),
+            "time_end" => $event->end_time->format('H:i'),
             "building_name" => $event->building_name,
             "address" => $event->address,
             "price" => formatMoney($event->ticket()->min('price')),
             "banner" => upload_asset($event->banner),
             "talents" => $event->talent->map(function ($talent) {
                 return [
+                    "id" => $talent->id,
                     "name" => $talent->name,
                     "image" => upload_asset($talent->image),
                 ];
@@ -239,8 +242,11 @@ if (!function_exists("mappingEvent")) {
                     "name" => $ticket->name,
                     "format_price" => formatMoney($ticket->price),
                     "price" => $ticket->price,
+                    "sold" => $ticket->sold,
+                    "target" => $ticket->target,
                 ];
             }),
+            "user" => $event->vendor->user,
             "maps_link" => $event->maps_link,
             "url" => url("/event/{$event->slug}"),
             "created_by" => $event->vendor->user->name,

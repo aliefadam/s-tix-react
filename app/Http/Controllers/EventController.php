@@ -44,7 +44,7 @@ class EventController extends Controller
             "building_name" => "required",
             "address" => "required",
             "maps_link" => "nullable",
-            "banner" => "required",
+            "banner" => "required|image",
         ], [
             "name.required" => "Nama event harus diisi.",
             "tax.required" => "Pajak harus diisi.",
@@ -62,6 +62,7 @@ class EventController extends Controller
             "building_name.required" => "Nama tempat harus diisi.",
             "address.required" => "Alamat harus diisi.",
             "banner.required" => "Banner harus diisi.",
+            "banner.image" => "Banner harus berformat .jpg, .jpeg, atau .png.",
         ]);
 
         $validator->after(function ($validator) use ($request) {
@@ -90,7 +91,13 @@ class EventController extends Controller
 
             $newEvent["vendor_id"] = Auth::user()->vendor->id;
             $newEvent["slug"] = str()->slug($newEvent["name"]);
-            Event::create($newEvent);
+            $event = Event::create($newEvent);
+            DB::commit();
+            return redirect()->route("admin.event.detail", $event->id)->with("notification", [
+                "title" => "Event Sukses Ditambah",
+                "text" => "Silahkan isi data ticket dan talent untuk event ini.",
+                "icon" => "success",
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors([
@@ -102,12 +109,6 @@ class EventController extends Controller
             //     "icon" => "error",
             // ]);
         }
-        DB::commit();
-        return redirect()->route("admin.event.index")->with("notification", [
-            "title" => "Berhasil",
-            "text" => "Menambahkan Event",
-            "icon" => "success",
-        ]);
     }
 
     public function show($id)
@@ -191,12 +192,12 @@ class EventController extends Controller
 
     public function eventDetail($id)
     {
-        $event = Event::find($id);
-        return view("backend.event.detail", [
-            "title" => $event->name,
+        $event = mappingEvent(Event::find($id));
+        return Inertia::render("backend/Event/Detail", [
+            "title" => $event["name"],
             "event" => $event,
-            "tickets" => $event->ticket,
-            "talents" => $event->talent,
+            "tickets" => $event["tickets"],
+            "talents" => $event["talents"],
         ]);
     }
 
