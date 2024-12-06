@@ -65,12 +65,11 @@ class TalentController extends Controller
             "name.required" => "Nama Talent harus diisi",
         ]);
 
-        $talent_id = $request->id;
 
         if ($request->hasFile("image")) {
             $image = $request->file("image");
             $imageName = "talents/talent-" . str()->slug($validate["name"]) . "." . $image->extension();
-            $oldImage = Talent::find($talent_id)->image;
+            $oldImage = Talent::find($id)->image;
             if ($oldImage) {
                 Storage::delete("public/" . $oldImage);
             }
@@ -81,7 +80,7 @@ class TalentController extends Controller
 
         try {
             DB::beginTransaction();
-            Talent::find($talent_id)->update($validate);
+            Talent::find($id)->update($validate);
             DB::commit();
             return redirect()->back()->with("notification", [
                 "title" => "Sukses",

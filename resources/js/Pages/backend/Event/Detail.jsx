@@ -1,4 +1,7 @@
 import BreadCrumb from "@/Components/BreadCrumb";
+import EventShowDetail from "@/Components/Event/EventShowDetail";
+import EventShowTalent from "@/Components/Event/EventShowTalent";
+import EventShowTicket from "@/Components/Event/EventShowTicket";
 import TalentModal from "@/Components/Modal/Talent/TalentModal";
 import TicketModal from "@/Components/Modal/Ticket/TicketModal";
 import AdminLayout from "@/Layouts/AdminLayout";
@@ -128,17 +131,11 @@ function Detail({ title, event, tickets, talents }) {
 
     const handleEditTalent = (e) => {
         e.preventDefault();
-        putEditTalent(route("admin.talent.update", event.id), {
-            onStart: () => {
-                console.log(dataEditTalent);
-            },
+        putEditTalent(route("admin.talent.update", dataEditTalent.id), {
             onSuccess: () => {
                 document.getElementById("close-edit-talent-modal").click();
                 document.getElementById("image").value = "";
                 resetEditTalent();
-            },
-            onError: (er) => {
-                console.log(er);
             },
         });
     };
@@ -191,227 +188,18 @@ function Detail({ title, event, tickets, talents }) {
             <BreadCrumb breadCrumbData={breadCrumData} />
 
             <div className="mt-5 grid grid-cols-12 gap-5">
-                <div className="h-fit col-span-7 flex flex-col gap-5">
-                    <div className="bg-white shadow-md rounded-md">
-                        <div className="flex flex-col p-5 border-b">
-                            <h1 className="text-xl poppins-semibold">
-                                {event.name}
-                            </h1>
-                            <span className="text-sm">
-                                by {event.user.name}
-                            </span>
-                        </div>
-                        <div className="p-5">
-                            <div className="">
-                                <img
-                                    className="rounded-md"
-                                    src={event.banner}
-                                />
-                            </div>
-                            <div
-                                className="mt-3 ckeditor"
-                                dangerouslySetInnerHTML={{
-                                    __html: event.description,
-                                }}
-                            ></div>
-                        </div>
-                    </div>
-                    <div className="bg-white shadow-md rounded-md">
-                        <div className="grid grid-cols-2 gap-5 p-5 border-b">
-                            <div className="flex flex-col gap-1.5">
-                                <h1 className="flex items-center">
-                                    <i className="fa-solid fa-circle mr-1.5 text-xs text-green-700" />{" "}
-                                    Mulai
-                                </h1>
-                                <span className="text-sm">
-                                    {event.date} | {event.time}
-                                </span>
-                            </div>
-                            <div className="flex flex-col gap-1.5">
-                                <h1 className="flex items-center">
-                                    <i className="fa-solid fa-circle mr-1.5 text-xs text-red-700" />
-                                    Selesai
-                                </h1>
-                                <span className="text-sm">
-                                    {event.date_end} | {event.time_end}
-                                </span>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-5 p-5 border-b">
-                            <div className="">
-                                <h1 className="poppins-medium text-lg">
-                                    Lokasi
-                                </h1>
-                                <div className="mt-5 flex gap-1 items-center">
-                                    <p className="leading-5">
-                                        <span className="poppins-medium">
-                                            {event.building_name}
-                                        </span>{" "}
-                                        | {event.address}
-                                    </p>
-                                </div>
-                                <a
-                                    target="_blank"
-                                    href={event.maps_link}
-                                    className="mt-2 block text-sm text-blue-500 hover:text-blue-600"
-                                >
-                                    Buka di Google Maps
-                                </a>
-                            </div>
-                            <div className="">
-                                <div id="map" className="border h-[250px]" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <EventShowDetail event={event} />
                 <div className="h-fit col-span-5 flex flex-col gap-5">
-                    <div className="p-5 bg-white shadow-md rounded-md">
-                        <div className="flex justify-between items-center">
-                            <h1 className="text-lg poppins-semibold">
-                                Kategori Tiket
-                            </h1>
-                            <button
-                                data-modal-target="add-ticket-modal"
-                                data-modal-toggle="add-ticket-modal"
-                                className="bg-teal-700 shadow-sm text-white size-10 rounded-full focus:ring-4 focus:ring-teal-300 hover:bg-teal-800 duration-200"
-                            >
-                                <i className="fa-solid fa-plus" />
-                            </button>
-                        </div>
-                        <div className="mt-5 flex flex-col gap-6">
-                            {tickets.map((ticket, i) => (
-                                <div
-                                    key={i}
-                                    className="border rounded-md px-5 py-3 relative overflow-hiddens"
-                                >
-                                    <div className="absolute rounded-s-md top-0 left-0 bottom-0 w-[5px] bg-red-700" />
-                                    <div className="absolute -top-[15px] left-0 flex justify-center w-full gap-2">
-                                        <button
-                                            onClick={() => setTicket(ticket.id)}
-                                            data-modal-target="edit-ticket-modal"
-                                            data-modal-toggle="edit-ticket-modal"
-                                            className="btn-edit-ticket border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white duration-200 bg-white rounded-md p-2"
-                                        >
-                                            <i
-                                                className="fa-regular fa-pen-to-square"
-                                                onClick={() =>
-                                                    setTicket(ticket.id)
-                                                }
-                                            />
-                                        </button>
-                                        <button
-                                            onClick={(e) =>
-                                                handleDeleteTicket(e, ticket.id)
-                                            }
-                                            className="btn-delete-ticket border border-red-600 text-red-600 hover:bg-red-600 hover:text-white duration-200 bg-white rounded-md p-2"
-                                        >
-                                            <i
-                                                className="fa-regular fa-trash"
-                                                onClick={(e) =>
-                                                    handleDeleteTicket(
-                                                        e,
-                                                        ticket.id
-                                                    )
-                                                }
-                                            />
-                                        </button>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex flex-col">
-                                            <h1 className="text-sm text-gray-600">
-                                                {ticket.name}
-                                            </h1>
-                                            <span className="text-sm poppins-medium">
-                                                {ticket.format_price}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <h1 className="text-sm text-right text-gray-600">
-                                                Target
-                                            </h1>
-                                            <span className="text-sm text-right poppins-medium">
-                                                <span className="text-gray-600">
-                                                    {ticket.sold}
-                                                </span>
-                                                /<span>{ticket.target}</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="p-5 bg-white shadow-md rounded-md">
-                        <div className="flex justify-between items-center">
-                            <h1 className="text-lg poppins-semibold">
-                                Talents
-                            </h1>
-                            <button
-                                data-modal-target="add-talent-modal"
-                                data-modal-toggle="add-talent-modal"
-                                className="bg-teal-700 shadow-sm text-white size-10 rounded-full focus:ring-4 focus:ring-teal-300 hover:bg-teal-800 duration-200"
-                            >
-                                <i className="fa-solid fa-plus" />
-                            </button>
-                        </div>
-                        <div className="mt-5 flex flex-col gap-3">
-                            {talents.map((talent, i) => (
-                                <div
-                                    key={i}
-                                    className="border rounded-md px-5 py-3 relative overflow-hiddens"
-                                >
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                className="w-[50px] h-[50px] rounded-full object-cover"
-                                                src={talent.image}
-                                                alt=""
-                                            />
-                                            <span className="text-sm poppins-medium">
-                                                {talent.name}
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-center gap-2">
-                                            <button
-                                                onClick={() =>
-                                                    setTalent(talent.id)
-                                                }
-                                                data-modal-target="edit-talent-modal"
-                                                data-modal-toggle="edit-talent-modal"
-                                                className="btn-edit-talent border border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white duration-200 bg-white rounded-md p-2"
-                                            >
-                                                <i
-                                                    className="fa-regular fa-pen-to-square"
-                                                    onClick={() =>
-                                                        setTalent(talent.id)
-                                                    }
-                                                />
-                                            </button>
-                                            <button
-                                                onClick={(e) =>
-                                                    handleDeleteTalent(
-                                                        e,
-                                                        talent.id
-                                                    )
-                                                }
-                                                className="btn-delete-talent border border-red-600 text-red-600 hover:bg-red-600 hover:text-white duration-200 bg-white rounded-md p-2"
-                                            >
-                                                <i
-                                                    className="fa-regular fa-trash"
-                                                    onClick={(e) =>
-                                                        handleDeleteTalent(
-                                                            e,
-                                                            talent.id
-                                                        )
-                                                    }
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <EventShowTicket
+                        tickets={tickets}
+                        setTicket={setTicket}
+                        handleDeleteTicket={handleDeleteTicket}
+                    />
+                    <EventShowTalent
+                        talents={talents}
+                        setTalent={setTalent}
+                        handleDeleteTalent={handleDeleteTalent}
+                    />
                 </div>
             </div>
 

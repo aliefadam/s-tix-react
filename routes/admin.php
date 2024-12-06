@@ -6,6 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\TalentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AdminRoleMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +52,15 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::get("/{id}", [TalentController::class, "show"])->name("admin.talent.show");
             Route::put("/{id}", [TalentController::class, "update"])->name("admin.talent.update");
             Route::delete("/{id}", [TalentController::class, "destroy"])->name("admin.talent.delete");
+        });
+
+        Route::prefix("voucher")->group(function () {
+            Route::get("/", [VoucherController::class, "index"])->name("admin.voucher.index");
+            Route::get("/create", [VoucherController::class, "create"])->name("admin.voucher.create");
+            Route::post("/", [VoucherController::class, "store"])->name("admin.voucher.store");
+            Route::get("/{id}", [VoucherController::class, "show"])->name("admin.voucher.show");
+            Route::put("/{id}", [VoucherController::class, "update"])->name("admin.voucher.update");
+            Route::delete("/{id}", [VoucherController::class, "destroy"])->name("admin.voucher.delete");
         });
     });
 });
