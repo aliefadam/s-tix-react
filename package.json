@@ -4,7 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "mg": "php artisan migrate:fresh --seed"
+        "mg": "php artisan migrate:fresh --seed",
+        "push": "node ./resources/js/push.js"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
