@@ -3,8 +3,7 @@ import EventItem from "@/Components/Event/EventItem";
 import AdminLayout from "@/Layouts/AdminLayout";
 import Notification from "@/utils/notification";
 import showConfirmation from "@/utils/showConfirmation";
-import { Inertia } from "@inertiajs/inertia";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import React, { useEffect } from "react";
 
 function Index({ title, events }) {
@@ -20,6 +19,17 @@ function Index({ title, events }) {
         }
     }, [notification]);
 
+    const form = useForm();
+    const handleDeleteEvent = (event_id) => {
+        showConfirmation({
+            title: "Apakah kamu yakin?",
+            text: "Anda tidak dapat mengembalikan data ini!",
+            onConfirm: () => {
+                form.delete(route("admin.event.delete", event_id));
+            },
+        });
+    };
+
     return (
         <AdminLayout title={title}>
             <div className="flex justify-between">
@@ -34,7 +44,10 @@ function Index({ title, events }) {
 
             <div className="mt-5">
                 <div className="grid grid-cols-3 gap-5">
-                    <EventItem events={events} />
+                    <EventItem
+                        events={events}
+                        handleDeleteEvent={handleDeleteEvent}
+                    />
                 </div>
             </div>
         </AdminLayout>

@@ -51,6 +51,14 @@ class MenuSeeder extends Seeder
                 "role" => json_encode(["vendor"]),
             ],
             [
+                "type" => "link",
+                "name" => "voucher",
+                "url" => "admin.voucher.index",
+                "icon" => "fa-regular fa-ticket",
+                "slug_id" => "event",
+                "role" => json_encode(["vendor"]),
+            ],
+            [
                 "type" => "title",
                 "name" => "Umum",
                 "slug" => "umum",

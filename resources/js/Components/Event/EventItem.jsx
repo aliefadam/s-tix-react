@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-function EventItem({ events }) {
+function EventItem({ events, handleDeleteEvent }) {
     return (
         <>
             {events.map((event, i) => (
@@ -48,8 +48,8 @@ function EventItem({ events }) {
                             </span>
                         </Link>
                         <Link
+                            onClick={() => handleDeleteEvent(event.id)}
                             href="#"
-                            data-id={event.id}
                             className="btn-delete-event flex justify-center items-center gap-1 text-red-600 hover:text-red-700 duration-200"
                         >
                             <i className="fa-regular fa-trash" />
