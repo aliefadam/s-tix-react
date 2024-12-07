@@ -82,7 +82,7 @@ function EventTicket({ event }) {
                 confirmButtonText: "Login",
                 cancelButtonText: "Batal",
                 onConfirm: () => {
-                    console.log("TES");
+                    window.location.href = route("login");
                 },
             });
         } else {
