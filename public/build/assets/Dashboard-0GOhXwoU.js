@@ -1,1 +1,0 @@
-import{j as o}from"./react-CvdimOb_.js";import{B as t}from"./BreadCrumb-BM_g8UbZ.js";import{A as m}from"./AdminLayout-D2prnyar.js";import"./vendor-WcNsT5NC.js";import"./lodash-C5IC_buG.js";function u({title:r}){const a={active:r};return o.jsx(m,{title:r,children:o.jsx(t,{breadCrumbData:a})})}export{u as default};
