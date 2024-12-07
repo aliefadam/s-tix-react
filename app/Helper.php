@@ -273,4 +273,21 @@ if (!function_exists("mappingVoucher")) {
     }
 }
 
+if (!function_exists("getExpiredSession")) {
+    function getExpiredSession()
+    {
+        $lastActivity = session()->get('data_ticket.last_activity');
+        $currentTime = now()->timestamp;
+        $sessionLifetime = config('session.lifetime') * 60;
+        $remainingTime = $sessionLifetime - ($currentTime - $lastActivity);
+        return gmdate("H:i:s", $remainingTime);
+
+        // if ($remainingTime > 0) {
+        //     return "Sisa waktu sesi: " . gmdate("H:i:s", $remainingTime);
+        // } else {
+        //     return "Sesi telah kedaluwarsa.";
+        // }
+    }
+}
+
 function payment($invoice) {}

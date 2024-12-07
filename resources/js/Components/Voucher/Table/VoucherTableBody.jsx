@@ -1,7 +1,12 @@
 import React from "react";
 import VoucherTableBodyLink from "./VoucherTableBodyLink";
 
-function VoucherTableBody({ vouchers, handleDelete }) {
+function VoucherTableBody({
+    vouchers,
+    handleDelete,
+    handleActiveVoucher,
+    handleDeactiveVoucher,
+}) {
     return (
         <tbody>
             {vouchers.map((voucher, i) => (
@@ -17,12 +22,12 @@ function VoucherTableBody({ vouchers, handleDelete }) {
                     <td className="px-6 py-5">{voucher.maximal_used}</td>
                     <td className="px-6 py-5">
                         {voucher.active ? (
-                            <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                            <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
                                 Aktif
                             </span>
                         ) : (
-                            <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
-                                Tidak Aktif
+                            <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                                Nonaktif
                             </span>
                         )}
                     </td>
@@ -59,6 +64,31 @@ function VoucherTableBody({ vouchers, handleDelete }) {
                                             handleDelete(e, voucher.id)
                                         }
                                     />
+                                </li>
+                                <li>
+                                    {voucher.active ? (
+                                        <VoucherTableBodyLink
+                                            onClick={(e) =>
+                                                handleDeactiveVoucher(
+                                                    e,
+                                                    voucher.id
+                                                )
+                                            }
+                                            route="#"
+                                            title="Nonaktifkan"
+                                        />
+                                    ) : (
+                                        <VoucherTableBodyLink
+                                            onClick={(e) =>
+                                                handleActiveVoucher(
+                                                    e,
+                                                    voucher.id
+                                                )
+                                            }
+                                            route="#"
+                                            title="Aktifkan"
+                                        />
+                                    )}
                                 </li>
                             </ul>
                         </div>

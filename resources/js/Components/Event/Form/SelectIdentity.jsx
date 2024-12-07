@@ -7,12 +7,32 @@ function SelectIdentity({
     userType,
     index = null,
     ticketID = null,
+    error = {
+        identity_type: null,
+        identity_number: null,
+    },
 }) {
     const onChange = (e) => {
         if (userType === "pembeli") {
             handleChange(e, "data_pembeli");
         } else {
             handleChange(e, "data_pengunjung", index, ticketID);
+        }
+    };
+
+    const identityTypeErrorClass = () => {
+        if (error.identity_type) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
+        }
+    };
+
+    const identityNumberErrorClass = () => {
+        if (error.identity_number) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
     };
 
@@ -24,13 +44,13 @@ function SelectIdentity({
             >
                 Nomor Identitas
             </label>
-            <div className="flex">
+            <div className="flex mb-2">
                 <select
                     id="identity-type"
                     name="identity_type"
                     value={identity_type}
                     onChange={(e) => onChange(e)}
-                    className="poppins-medium bg-gray-100 rounded-s-lg border border-gray-300 text-gray-900 text-sm focus:ring-teal-500 focus:border-teal-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                    className={`poppins-medium bg-gray-100 rounded-s-lg text-gray-900 text-sm block p-2.5 ${identityTypeErrorClass()}`}
                 >
                     <option value="">Pilih Identitas</option>
                     <option value="KTP">KTP</option>
@@ -44,9 +64,17 @@ function SelectIdentity({
                     name="identity_number"
                     value={identity_number}
                     onChange={(e) => onChange(e)}
-                    className="bg-gray-50 rounded-e-lg border border-gray-300 text-gray-900 text-sm focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                    className={`poppins-medium bg-gray-50 w-full text-gray-900 text-sm block p-2.5 ${identityNumberErrorClass()}`}
                 />
             </div>
+
+            {error.identity_number && (
+                <p className="text-sm text-red-600">{error.identity_number}</p>
+            )}
+
+            {error.identity_type && (
+                <p className="text-sm text-red-600">{error.identity_type}</p>
+            )}
         </div>
     );
 }

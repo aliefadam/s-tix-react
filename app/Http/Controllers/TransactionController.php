@@ -83,7 +83,7 @@ class TransactionController extends Controller
             DB::rollBack();
             return redirect()->back()->with("notification", [
                 "title" => "Error",
-                "message" => $e->getMessage(),
+                "text" => $e->getMessage(),
                 "icon" => "error",
             ]);
         }

@@ -35,6 +35,36 @@ function Index({ title, vouchers }) {
         });
     };
 
+    const handleDeactiveVoucher = (e, id) => {
+        e.preventDefault();
+        showConfirmation({
+            title: "Hapus Voucher",
+            text: "Apakah anda yakin menonaktifkan voucher ini ?",
+            onConfirm: () => {
+                form.put(route("admin.voucher.deactivate", id), {
+                    onStart: () => {
+                        showLoading();
+                    },
+                });
+            },
+        });
+    };
+
+    const handleActiveVoucher = (e, id) => {
+        e.preventDefault();
+        showConfirmation({
+            title: "Hapus Voucher",
+            text: "Apakah anda yakin mengaktifkan voucher ini ?",
+            onConfirm: () => {
+                form.put(route("admin.voucher.activate", id), {
+                    onStart: () => {
+                        showLoading();
+                    },
+                });
+            },
+        });
+    };
+
     return (
         <AdminLayout title={title}>
             <BreadCrumb breadCrumbData={breadCrumbData} />
@@ -44,6 +74,8 @@ function Index({ title, vouchers }) {
                 <VoucherTable
                     vouchers={vouchers}
                     handleDeleteVoucher={handleDeleteVoucher}
+                    handleActiveVoucher={handleActiveVoucher}
+                    handleDeactiveVoucher={handleDeactiveVoucher}
                 />
             </div>
         </AdminLayout>

@@ -10,12 +10,21 @@ function InputGroup({
     userType,
     index = null,
     ticketID = null,
+    error = null,
 }) {
     const onChange = (e) => {
         if (userType === "pembeli") {
             handleChange(e, "data_pembeli");
         } else {
             handleChange(e, "data_pengunjung", index, ticketID);
+        }
+    };
+
+    const errorClass = () => {
+        if (error) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
     };
 
@@ -33,11 +42,16 @@ function InputGroup({
                 name={name}
                 value={value}
                 onChange={(e) => onChange(e)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                className={`${errorClass()} text-gray-900 text-sm rounded-lg block w-full p-2.5`}
             />
             {type === "email" && id === "email" && (
                 <span className="text-xs poppins-medium text-teal-700 mt-2 block">
                     Email ini digunakan untuk mengirim E-Ticket
+                </span>
+            )}
+            {error && (
+                <span className="text-sm poppins-medium text-red-600 mt-2 block">
+                    {error}
                 </span>
             )}
         </div>

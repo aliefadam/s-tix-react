@@ -3,8 +3,10 @@ import EventDetailPanel from "@/Components/Event/EventDetailPanel";
 import EventTicketList from "@/Components/Event/EventTicketList";
 import UserLayout from "@/Layouts/UserLayout";
 import { formatMoney } from "@/utils/formatMoney";
-import { useForm } from "@inertiajs/react";
-import React from "react";
+import Notification from "@/utils/notification";
+import showConfirmation from "@/utils/showConfirmation";
+import { useForm, usePage } from "@inertiajs/react";
+import React, { useEffect } from "react";
 
 function EventTicket({ event }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -68,22 +70,38 @@ function EventTicket({ event }) {
         document.getElementById("total").innerHTML = formatMoney(total);
     };
 
+    const { auth } = usePage().props;
+
     const handleCheckout = (e) => {
         e.preventDefault();
-
-        post(route("event.data-diri", event.slug));
+        if (!auth) {
+            showConfirmation({
+                title: "Konfirmasi",
+                text: "Anda belum login, silahkan login untuk membeli ticket",
+                icon: "warning",
+                confirmButtonText: "Login",
+                cancelButtonText: "Batal",
+                onConfirm: () => {
+                    console.log("TES");
+                },
+            });
+        }
+        post(route("event.save-tickets", event.slug));
     };
+
+    const { notification } = usePage().props;
+    useEffect(() => {
+        if (notification) {
+            Notification(notification);
+        }
+    }, [notification]);
 
     return (
         <UserLayout title={"Detail Event"}>
             <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <div className="mt-10 min-h-[50vh]">
-                <form
-                    onSubmit={handleCheckout}
-                    action={route("event.data-diri", event.slug)}
-                    method="POST"
-                >
+                <form onSubmit={handleCheckout} method="POST">
                     <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
                         <div className="col-span-8 h-fit">
                             <div className="border p-5 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-md">
