@@ -3,6 +3,7 @@ import React from "react";
 function InputGroup({
     id,
     label,
+    moreLabel = null,
     value,
     onChange,
     type,
@@ -32,7 +33,7 @@ function InputGroup({
                 htmlFor={id}
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
-                {label}
+                {label} {moreLabel}
             </label>
             <input
                 type={type}
