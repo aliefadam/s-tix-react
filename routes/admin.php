@@ -60,6 +60,8 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::post("/", [VoucherController::class, "store"])->name("admin.voucher.store");
             Route::get("/{id}", [VoucherController::class, "edit"])->name("admin.voucher.edit");
             Route::put("/{id}", [VoucherController::class, "update"])->name("admin.voucher.update");
+            Route::put("/activate/{id}", [VoucherController::class, "activate"])->name("admin.voucher.activate");
+            Route::put("/deactivate/{id}", [VoucherController::class, "deactivate"])->name("admin.voucher.deactivate");
             Route::delete("/{id}", [VoucherController::class, "destroy"])->name("admin.voucher.delete");
         });
     });

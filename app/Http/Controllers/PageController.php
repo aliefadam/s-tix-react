@@ -56,8 +56,27 @@ class PageController extends Controller
         ]);
     }
 
-    public function eventDataDiri(Request $request, $slug)
+    public function saveTickets(Request $request, $slug)
     {
+        if (!Auth::check()) {
+            session()->put("redirect", [
+                "route" => route("event.tickets", $slug),
+            ]);
+            return redirect()->route("login");
+        }
+
+        if (session("redirect")) {
+            session()->forget("redirect");
+        }
+
+        if (empty($request->count)) {
+            return back()->with("notification", [
+                "title" => "Gagal",
+                "text" => "Tambahkan minimal 1 tiket",
+                "icon" => "error",
+            ]);
+        }
+
         $data_ticket = [];
         foreach ($request->count as $count) {
             if ($count != null) {
@@ -76,33 +95,55 @@ class PageController extends Controller
         $taxAmount = $sub_total * $tax / 100;
         $total = $sub_total + $taxAmount;
 
-        if (!Auth::check()) {
-            session()->put("redirect", [
-                "route" => route("event.tickets", $slug),
-            ]);
-            return redirect()->route("login");
-        }
+        $data = [
+            "tickets" => $data_ticket,
+            "sub_total" => $sub_total,
+            "tax" => $tax,
+            "tax_amount" => $taxAmount,
+            "total" => $total,
+            "expiration_time" => now()->addHour(),
+        ];
 
-        if (session("redirect")) {
-            session()->forget("redirect");
-        }
+        session()->put([
+            "data_ticket" => $data,
+        ]);
 
+        return redirect()->route("event.data-diri", $slug);
+    }
+
+    public function eventDataDiri($slug)
+    {
+        $data = session("data_ticket");
         return Inertia::render("frontend/Event/EventDataDiri", [
             "title" => "Data Diri",
             "profile" => Auth::user(),
             "event" => mappingEvent(Event::firstWhere("slug", $slug)),
-            "data_ticket" => [
-                "tickets" => $data_ticket,
-                "sub_total" => $sub_total,
-                "tax" => $tax,
-                "tax_amount" => $taxAmount,
-                "total" => $total,
-            ],
+            "data_ticket" => $data,
         ]);
     }
 
-    public function eventPembayaran(Request $request, $slug)
+    public function saveDataDiri(Request $request, $slug)
     {
+        $request->validate([
+            'data_pembeli.name' => 'required|string',
+            'data_pembeli.email' => 'required|email',
+            'data_pembeli.year' => 'required',
+            'data_pembeli.month' => 'required',
+            'data_pembeli.date' => 'required',
+            'data_pembeli.gender' => 'required',
+            'data_pembeli.identity_type' => 'required',
+            'data_pembeli.identity_number' => 'required',
+        ], [
+            'data_pembeli.name.required' => 'Nama wajib diisi',
+            'data_pembeli.email.required' => 'Email wajib diisi',
+            'data_pembeli.year.required' => 'Tahun wajib diisi',
+            'data_pembeli.month.required' => 'Bulan wajib diisi',
+            'data_pembeli.date.required' => 'Tanggal wajib diisi',
+            'data_pembeli.gender.required' => 'Jenis kelamin wajib diisi',
+            'data_pembeli.identity_type.required' => 'Tipe identitas wajib diisi',
+            'data_pembeli.identity_number.required' => 'Nomor identitas wajib diisi',
+        ]);
+
         $data_pengunjung = [];
         foreach ($request->data_pengunjung as $key => $pengunjung) {
             array_push($data_pengunjung, [
@@ -130,8 +171,16 @@ class PageController extends Controller
             "tax" => $request["tax"],
             "tax_amount" => $request["tax_amount"],
             "total" => $request["total"],
+            "expiration_time" => session("data_ticket.expiration_time"),
         ];
 
+        session()->put("data_ticket", $data_ticket);
+        return redirect()->route("event.pembayaran", $slug);
+    }
+
+    public function eventPembayaran($slug)
+    {
+        $data_ticket = session("data_ticket");
         return Inertia::render("frontend/Event/EventPayment", [
             "title" => "Data Diri",
             "event" => mappingEvent(Event::firstWhere("slug", $slug)),
@@ -145,6 +194,7 @@ class PageController extends Controller
 
     public function eventPaymentWaiting($slug, $invoice)
     {
+        session()->forget("data_ticket");
         $transaction = Transaction::firstWhere("invoice", $invoice);
         return Inertia::render("frontend/Event/EventPaymentWaiting", [
             "title" => "Menunggu Pembayaran",

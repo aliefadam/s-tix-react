@@ -7,7 +7,7 @@ function EventItem({ events, handleDeleteEvent }) {
             {events.map((event, i) => (
                 <div
                     key={i}
-                    className="border border-teal-700 rounded-xl overflow-hidden shadow-md"
+                    className="border border-teal-700 rounded-md overflow-hidden shadow-md"
                 >
                     <img
                         src={event.banner}

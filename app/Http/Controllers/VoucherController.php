@@ -122,6 +122,32 @@ class VoucherController extends Controller
         }
     }
 
+    public function activate($id)
+    {
+        $voucher = Voucher::find($id);
+        $voucher->update([
+            "active" => true,
+        ]);
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Voucher diaktifkan",
+            "icon" => "success",
+        ]);
+    }
+
+    public function deactivate($id)
+    {
+        $voucher = Voucher::find($id);
+        $voucher->update([
+            "active" => false,
+        ]);
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Voucher dinonaktifkan",
+            "icon" => "success",
+        ]);
+    }
+
     public function destroy($id)
     {
         Voucher::find($id)->delete();

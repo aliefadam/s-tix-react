@@ -3,7 +3,12 @@ import React, { useEffect } from "react";
 import VoucherTableHead from "./VoucherTableHead";
 import VoucherTableBody from "./VoucherTableBody";
 
-function VoucherTable({ vouchers, handleDeleteVoucher }) {
+function VoucherTable({
+    vouchers,
+    handleDeleteVoucher,
+    handleActiveVoucher,
+    handleDeactiveVoucher,
+}) {
     useEffect(() => {
         initDataTable();
     }, []);
@@ -16,6 +21,8 @@ function VoucherTable({ vouchers, handleDeleteVoucher }) {
             >
                 <VoucherTableHead />
                 <VoucherTableBody
+                    handleActiveVoucher={handleActiveVoucher}
+                    handleDeactiveVoucher={handleDeactiveVoucher}
                     vouchers={vouchers}
                     handleDelete={handleDeleteVoucher}
                 />

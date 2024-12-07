@@ -8,7 +8,7 @@ function EventList({ events }) {
                 <Link
                     key={i}
                     href={route("event", event.slug)}
-                    className="border border-teal-700 rounded-xl overflow-hidden shadow-md hover:-translate-y-1 duration-200"
+                    className="border border-teal-700 rounded-md overflow-hidden shadow-md hover:-translate-y-1 duration-200"
                 >
                     <img
                         src={event.banner}

@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
                 "menu_link" => $this->getMenu()['menu_link'],
             ],
             "today" => today()->translatedFormat("l, d F Y") . " - " . date('H:i:s'),
+            "data_ticket" => $request->session()->get("data_ticket"),
         ];
     }
 

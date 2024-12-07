@@ -8,12 +8,41 @@ function SelectBirthDate({
     userType,
     index = null,
     ticketID = null,
+    error = {
+        date: null,
+        month: null,
+        year: null,
+    },
 }) {
     const onChange = (e) => {
         if (userType === "pembeli") {
-            onChange(e);
+            handleChange(e, "data_pembeli");
         } else {
             handleChange(e, "data_pengunjung", index, ticketID);
+        }
+    };
+
+    const dateErrorClass = () => {
+        if (error.date) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
+        }
+    };
+
+    const monthErrorClass = () => {
+        if (error.month) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
+        }
+    };
+
+    const yearErrorClass = () => {
+        if (error.year) {
+            return "border border-red-500 focus:border-red-500 focus:ring-0";
+        } else {
+            return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
     };
 
@@ -26,50 +55,71 @@ function SelectBirthDate({
                 Tanggal Lahir
             </label>
             <div className="grid grid-cols-3 gap-5">
-                <select
-                    id="date"
-                    name="date"
-                    value={date}
-                    onChange={(e) => onChange(e)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                >
-                    <option value="">Tanggal</option>
-                    {Array.from({ length: 31 }, (_, i) => (
-                        <option key={i} value={String(i + 1).padStart(2, "0")}>
-                            {String(i + 1).padStart(2, "0")}
-                        </option>
-                    ))}
-                </select>
+                <div className="flex flex-col gap-2">
+                    <select
+                        id="date"
+                        name="date"
+                        value={date}
+                        onChange={(e) => onChange(e)}
+                        className={`bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 ${dateErrorClass()}`}
+                    >
+                        <option value="">Tanggal</option>
+                        {Array.from({ length: 31 }, (_, i) => (
+                            <option
+                                key={i}
+                                value={String(i + 1).padStart(2, "0")}
+                            >
+                                {String(i + 1).padStart(2, "0")}
+                            </option>
+                        ))}
+                    </select>
+                    {error.date && (
+                        <p className="text-red-600 text-sm">{error.date}</p>
+                    )}
+                </div>
 
-                <select
-                    id="month"
-                    name="month"
-                    value={month}
-                    onChange={(e) => onChange(e)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                >
-                    <option value="">Bulan</option>
-                    {Array.from({ length: 12 }, (_, i) => (
-                        <option key={i} value={String(i + 1).padStart(2, "0")}>
-                            {String(i + 1).padStart(2, "0")}
-                        </option>
-                    ))}
-                </select>
+                <div className="flex flex-col gap-2">
+                    <select
+                        id="month"
+                        name="month"
+                        value={month}
+                        onChange={(e) => onChange(e)}
+                        className={`h-fit bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 ${monthErrorClass()}`}
+                    >
+                        <option value="">Bulan</option>
+                        {Array.from({ length: 12 }, (_, i) => (
+                            <option
+                                key={i}
+                                value={String(i + 1).padStart(2, "0")}
+                            >
+                                {String(i + 1).padStart(2, "0")}
+                            </option>
+                        ))}
+                    </select>
+                    {error.month && (
+                        <p className="text-red-600 text-sm">{error.month}</p>
+                    )}
+                </div>
 
-                <select
-                    id="year"
-                    name="year"
-                    value={year}
-                    onChange={(e) => onChange(e)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                >
-                    <option value="">Tahun</option>
-                    {Array.from({ length: 100 }, (_, i) => (
-                        <option key={i} value={String(2024 - i)}>
-                            {2024 - i}
-                        </option>
-                    ))}
-                </select>
+                <div className="flex flex-col gap-2">
+                    <select
+                        id="year"
+                        name="year"
+                        value={year}
+                        onChange={(e) => onChange(e)}
+                        className={`h-fit bg-gray-50 text-gray-900 text-sm rounded-lg  block w-full p-2.5 ${yearErrorClass()}`}
+                    >
+                        <option value="">Tahun</option>
+                        {Array.from({ length: 100 }, (_, i) => (
+                            <option key={i} value={String(2024 - i)}>
+                                {2024 - i}
+                            </option>
+                        ))}
+                    </select>
+                    {error.year && (
+                        <p className="text-red-600 text-sm">{error.year}</p>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,26 +1,12 @@
+import getDistance from "@/utils/getDistance";
 import React, { useEffect, useState } from "react";
 
 function PaymentHeader({ transaction }) {
     const { expiration_date, expiration_time, expiration_date_raw } =
         transaction.payment;
 
-    const getDistace = () => {
-        const now = new Date().getTime();
-        const expired = new Date(expiration_date_raw).getTime();
-        const distance = expired - now;
-
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        return `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    };
-
     const countdown = () => {
-        const distance = getDistace();
+        const distance = getDistance({ expiration_date: expiration_date_raw });
 
         if (distance < 0) {
             window.location.reload();
@@ -30,7 +16,9 @@ function PaymentHeader({ transaction }) {
         setDueDate(distance);
     };
 
-    const [dueDate, setDueDate] = useState(getDistace);
+    const [dueDate, setDueDate] = useState(
+        getDistance({ expiration_date: expiration_date_raw })
+    );
     useEffect(() => {
         setInterval(countdown, 1000);
     }, []);

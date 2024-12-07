@@ -9,12 +9,21 @@ function SelectGender({
     name,
     idFemale,
     idMale,
+    error = null,
 }) {
     const onChange = (e) => {
         if (userType === "pembeli") {
             handleChange(e, "data_pembeli");
         } else {
             handleChange(e, "data_pengunjung", index, ticketID);
+        }
+    };
+
+    const errorClass = () => {
+        if (error) {
+            return "border border-red-500";
+        } else {
+            return "border border-gray-300";
         }
     };
 
@@ -31,7 +40,9 @@ function SelectGender({
                 Jenis Kelamin
             </label>
             <div className="grid grid-cols-2 gap-5">
-                <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                <div
+                    className={`flex items-center ps-4 rounded ${errorClass()}`}
+                >
                     <input
                         id={idMale}
                         type="radio"
@@ -49,7 +60,9 @@ function SelectGender({
                     </label>
                 </div>
 
-                <div className="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                <div
+                    className={`flex items-center ps-4 rounded ${errorClass()}`}
+                >
                     <input
                         id={idFemale}
                         type="radio"
@@ -67,6 +80,9 @@ function SelectGender({
                     </label>
                 </div>
             </div>
+            {error && (
+                <span className="text-sm text-red-600 block mt-2">{error}</span>
+            )}
         </div>
     );
 }

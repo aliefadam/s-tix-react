@@ -1,0 +1,1 @@
+const c=({expiration_date:o})=>{const e=new Date().getTime(),t=new Date(o).getTime()-e,n=Math.floor(t%(1e3*60*60*24)/(1e3*60*60)),r=Math.floor(t%(1e3*60*60)/(1e3*60)),a=Math.floor(t%(1e3*60)/1e3);return`${n.toString().padStart(2,"0")}:${r.toString().padStart(2,"0")}:${a.toString().padStart(2,"0")}`};export{c as g};
