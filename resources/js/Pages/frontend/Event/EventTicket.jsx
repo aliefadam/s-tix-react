@@ -85,8 +85,9 @@ function EventTicket({ event }) {
                     console.log("TES");
                 },
             });
+        } else {
+            post(route("event.save-tickets", event.slug));
         }
-        post(route("event.save-tickets", event.slug));
     };
 
     const { notification } = usePage().props;
