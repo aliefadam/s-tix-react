@@ -9,4 +9,5 @@ class Voucher extends Model
 {
     /** @use HasFactory<\Database\Factories\VoucherFactory> */
     use HasFactory;
+    protected $guarded = ['id'];
 }

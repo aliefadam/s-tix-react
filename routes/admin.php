@@ -58,7 +58,7 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::get("/", [VoucherController::class, "index"])->name("admin.voucher.index");
             Route::get("/create", [VoucherController::class, "create"])->name("admin.voucher.create");
             Route::post("/", [VoucherController::class, "store"])->name("admin.voucher.store");
-            Route::get("/{id}", [VoucherController::class, "show"])->name("admin.voucher.show");
+            Route::get("/{id}", [VoucherController::class, "edit"])->name("admin.voucher.edit");
             Route::put("/{id}", [VoucherController::class, "update"])->name("admin.voucher.update");
             Route::delete("/{id}", [VoucherController::class, "destroy"])->name("admin.voucher.delete");
         });

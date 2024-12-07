@@ -26,7 +26,7 @@ class TalentController extends Controller
         ]);
 
         $image = $request->file("image");
-        $imageName = "talents/talent-" . str()->slug($validate["name"]) . "." . $image->extension();
+        $imageName = "talents/talent-" . str()->slug($validate["name"]) . $event_id . "." . $image->extension();
         $image->storeAs("public/", $imageName);
 
         $validate["image"] = $imageName;
@@ -65,10 +65,12 @@ class TalentController extends Controller
             "name.required" => "Nama Talent harus diisi",
         ]);
 
+        $event_id = Talent::find($id)->event_id;
+
 
         if ($request->hasFile("image")) {
             $image = $request->file("image");
-            $imageName = "talents/talent-" . str()->slug($validate["name"]) . "." . $image->extension();
+            $imageName = "talents/talent-" . str()->slug($validate["name"]) . $event_id . "." . $image->extension();
             $oldImage = Talent::find($id)->image;
             if ($oldImage) {
                 Storage::delete("public/" . $oldImage);

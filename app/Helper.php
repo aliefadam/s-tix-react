@@ -254,5 +254,23 @@ if (!function_exists("mappingEvent")) {
     }
 }
 
+if (!function_exists("mappingVoucher")) {
+    function mappingVoucher($voucher)
+    {
+        return [
+            "id" => $voucher->id,
+            "code" => $voucher->code,
+            "unit" => $voucher->unit,
+            "nominal_raw" => $voucher->nominal,
+            "nominal" => $voucher->unit == "rupiah" ? formatMoney($voucher->nominal) : $voucher->nominal . "%",
+            "minimal_transaction_raw" => $voucher->minimal_transaction,
+            "minimal_transaction" => formatMoney($voucher->minimal_transaction),
+            "maximal_used_raw" => $voucher->maximal_used,
+            "maximal_used" => $voucher->maximal_used == 0 ? "Tidak ada batasan" : $voucher->maximal_used . "x Pemakaian",
+            "active" => $voucher->active,
+            "created_at" => $voucher->created_at->translatedFormat('l, d F Y'),
+        ];
+    }
+}
 
 function payment($invoice) {}

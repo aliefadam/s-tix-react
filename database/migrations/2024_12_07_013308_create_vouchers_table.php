@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("user_id");
+            $table->string('code')->unique();
+            $table->string('unit');
+            $table->double("nominal");
+            $table->double("minimal_transaction");
+            $table->integer("maximal_used");
+            $table->boolean("active")->default(true);
             $table->timestamps();
         });
     }
