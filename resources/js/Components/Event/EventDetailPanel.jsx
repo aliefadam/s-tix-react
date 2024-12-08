@@ -11,7 +11,7 @@ function EventDetailPanel({
     processing = false,
 }) {
     return (
-        <div className="col-span-4 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
+        <>
             <h1 className="poppins-semibold text-teal-700 text-xl p-5 pb-0">
                 Detail Pesanan
             </h1>
@@ -91,7 +91,7 @@ function EventDetailPanel({
                     Checkout
                 </button>
             </div>
-        </div>
+        </>
     );
 }
 

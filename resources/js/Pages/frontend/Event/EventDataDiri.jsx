@@ -1,3 +1,4 @@
+import Alert from "@/Components/Alert";
 import BreadCrumb from "@/Components/BreadCrumb";
 import EventDataPembeliForm from "@/Components/Event/EventDataPembeliForm";
 import EventDataPengunjungForm from "@/Components/Event/EventDataPengunjungForm";
@@ -6,6 +7,7 @@ import UserLayout from "@/Layouts/UserLayout";
 import getDatePart from "@/utils/getDatePart";
 import getDistance from "@/utils/getDistance";
 import Notification from "@/utils/notification";
+import showConfirmation from "@/utils/showConfirmation";
 import timeToSeconds from "@/utils/timeToSeconds";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
@@ -64,15 +66,53 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
     };
 
     const { notification } = usePage().props;
+    const form = useForm();
     useEffect(() => {
         countdown();
         if (notification) {
-            Notification(notification);
+            if (notification.showConfirmation) {
+                showConfirmation({
+                    title: notification.title,
+                    text: notification.text,
+                    icon: notification.icon,
+                    onConfirm: () => {
+                        form.put(
+                            route(
+                                "ticket.clear-session-data-ticket",
+                                event.slug
+                            )
+                        );
+                    },
+                });
+            } else {
+                Notification({
+                    title: notification.title,
+                    text: notification.text,
+                    icon: notification.icon,
+                });
+            }
         }
-    }, [data_ticket.expiration_time, notification]);
+
+        if (data_ticket.pembeli) {
+            setData("data_pembeli", data_ticket.pembeli);
+        }
+
+        if (data_ticket.pengunjung) {
+            setData("data_pengunjung", data_ticket.pengunjung);
+        }
+    }, [data_ticket, notification]);
 
     const { data, setData, post, processing, errors } = useForm({
-        data_pengunjung: [],
+        data_pengunjung: data_ticket.tickets.map(() => ({
+            name: "",
+            email: "",
+            year: "",
+            month: "",
+            date: "",
+            gender: "",
+            identity_type: "",
+            identity_number: "",
+        })),
         data_pembeli: {
             email: profile.email,
             name: profile.name,
@@ -89,8 +129,19 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
         total: data_ticket.total,
     });
 
-    const handleChange = (e, type, index = null, ticket_id = null) => {
-        const name = e.target.name;
+    const handleChange = (
+        e,
+        type,
+        index = null,
+        ticket_id = null,
+        nameForGender = null
+    ) => {
+        let name;
+        if (nameForGender) {
+            name = nameForGender;
+        } else {
+            name = e.target.name;
+        }
         const value = e.target.value;
         if (type == "data_pembeli") {
             setData("data_pembeli", {
@@ -101,7 +152,7 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
             const newDataPengunjung = [...data.data_pengunjung];
             newDataPengunjung[index] = {
                 ...newDataPengunjung[index],
-                [`ticket_id-${index}`]: ticket_id,
+                ticket_id: ticket_id,
                 [name]: value,
             };
             setData("data_pengunjung", newDataPengunjung);
@@ -113,26 +164,26 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
         if (e.target.checked) {
             newDataPengunjung[index] = {
                 ...newDataPengunjung[index],
-                [`ticket_id-${index}`]: ticket_id,
+                ticket_id: ticket_id,
                 email: data.data_pembeli.email,
                 name: data.data_pembeli.name,
                 date: data.data_pembeli.date,
                 month: data.data_pembeli.month,
                 year: data.data_pembeli.year,
-                [`gender-${index}`]: data.data_pembeli.gender,
+                gender: data.data_pembeli.gender,
                 identity_type: data.data_pembeli.identity_type,
                 identity_number: data.data_pembeli.identity_number,
             };
         } else {
             newDataPengunjung[index] = {
                 ...newDataPengunjung[index],
-                [`ticket_id-${index}`]: null,
+                ticket_id: null,
                 email: "",
                 name: "",
                 date: "",
                 month: "",
                 year: "",
-                [`gender-${index}`]: "",
+                gender: "",
                 identity_type: "",
                 identity_number: "",
             };
@@ -142,7 +193,21 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        post(route("event.save-data-diri", event.slug));
+        post(route("event.save-data-diri", event.slug), {
+            onError: (e) => {
+                setTimeout(() => {
+                    const firstErrorField =
+                        document.querySelector(".error-field");
+
+                    if (firstErrorField) {
+                        firstErrorField.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                        });
+                    }
+                }, 100);
+            },
+        });
     };
 
     return (
@@ -153,7 +218,7 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
                 <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
                     <div className="col-span-8 h-fit flex flex-col gap-5">
                         <div
-                            className="flex items-center justify-between p-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
+                            className="flex items-center justify-between p-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 "
                             role="alert"
                         >
                             <div className="flex items-center">
@@ -190,9 +255,10 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
                             handleChange={handleChange}
                             tickets={data_ticket.tickets}
                             samakanDataPembeli={samakanDataPembeli}
+                            errors={errors}
                         />
                     </div>
-                    <div className="col-span-4 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
+                    <div className="col-span-4 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
                         <EventDetailPanel
                             processing={processing}
                             event={event}

@@ -82,7 +82,7 @@ function EventTicket({ event }) {
                 confirmButtonText: "Login",
                 cancelButtonText: "Batal",
                 onConfirm: () => {
-                    window.location.href = route("login");
+                    post(route("event.save-tickets", event.slug));
                 },
             });
         } else {
@@ -117,7 +117,9 @@ function EventTicket({ event }) {
                                 />
                             </div>
                         </div>
-                        <EventDetailPanel event={event} />
+                        <div className="col-span-4 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
+                            <EventDetailPanel event={event} />
+                        </div>
                     </div>
                 </form>
             </div>

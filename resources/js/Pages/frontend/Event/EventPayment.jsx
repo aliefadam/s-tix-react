@@ -4,6 +4,7 @@ import MethodPaymentContainer from "@/Components/Event/MethodPayment/MethodPayme
 import UserLayout from "@/Layouts/UserLayout";
 import getDistance from "@/utils/getDistance";
 import Notification from "@/utils/notification";
+import showConfirmation from "@/utils/showConfirmation";
 import timeToSeconds from "@/utils/timeToSeconds";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
@@ -25,7 +26,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
             },
             {
                 url: route("event.data-diri", event.slug),
-                name: "Pengisian Data Diri",
+                name: "Data Diri",
             },
         ],
         active: title,
@@ -80,11 +81,31 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
     };
 
     const { notification } = usePage().props;
-
+    const form = useForm();
     useEffect(() => {
         countdown();
         if (notification) {
-            Notification(notification);
+            if (notification.showConfirmation) {
+                showConfirmation({
+                    title: notification.title,
+                    text: notification.text,
+                    icon: notification.icon,
+                    onConfirm: () => {
+                        form.put(
+                            route(
+                                "ticket.clear-session-data-ticket",
+                                event.slug
+                            )
+                        );
+                    },
+                });
+            } else {
+                Notification({
+                    title: notification.title,
+                    text: notification.text,
+                    icon: notification.icon,
+                });
+            }
         }
     }, [data_ticket.expiration_time, notification]);
 
@@ -133,15 +154,17 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                             setData={setData}
                         />
                     </div>
-                    <EventDetailPanel
-                        ticketCount={data_ticket.pengunjung.length}
-                        event={event}
-                        subTotal={data_ticket.sub_total}
-                        tax={data_ticket.tax}
-                        taxAmount={data_ticket.tax_amount}
-                        total={data_ticket.total}
-                        processing={processing}
-                    />
+                    <div className="col-span-4 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
+                        <EventDetailPanel
+                            ticketCount={data_ticket.pengunjung.length}
+                            event={event}
+                            subTotal={data_ticket.sub_total}
+                            tax={data_ticket.tax}
+                            taxAmount={data_ticket.tax_amount}
+                            total={data_ticket.total}
+                            processing={processing}
+                        />
+                    </div>
                 </div>
             </form>
         </UserLayout>

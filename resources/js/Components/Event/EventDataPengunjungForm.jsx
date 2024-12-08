@@ -12,6 +12,7 @@ function EventDataPengunjungForm({
     samakanDataPembeli,
     data_pengunjung,
     handleChange,
+    errors,
 }) {
     return (
         <>
@@ -42,16 +43,19 @@ function EventDataPengunjungForm({
                             userType={"pengunjung"}
                             index={index}
                             ticketID={ticket.id}
+                            error={errors[`data_pengunjung.${index}.email`]}
                         />
                         <InputGroup
                             id={`name-pengunjung-${index}`}
                             type={`text`}
                             name={`name`}
                             title={"Nama"}
+                            userType={"pengunjung"}
                             handleChange={handleChange}
                             value={data_pengunjung[index]?.name}
                             index={index}
                             ticketID={ticket.id}
+                            error={errors[`data_pengunjung.${index}.name`]}
                         />
                         <SelectBirthDate
                             date={data_pengunjung[index]?.date}
@@ -60,9 +64,15 @@ function EventDataPengunjungForm({
                             handleChange={handleChange}
                             index={index}
                             ticketID={ticket.id}
+                            userType={"pengunjung"}
+                            error={{
+                                date: errors[`data_pengunjung.${index}.date`],
+                                month: errors[`data_pengunjung.${index}.month`],
+                                year: errors[`data_pengunjung.${index}.year`],
+                            }}
                         />
                         <SelectGender
-                            gender={data_pengunjung[index]?.[`gender-${index}`]}
+                            gender={data_pengunjung[index]?.[`gender`]}
                             handleChange={handleChange}
                             userType={"pengunjung"}
                             index={index}
@@ -71,6 +81,7 @@ function EventDataPengunjungForm({
                             name={`gender-${index}`}
                             idMale={`gender-male-${index}`}
                             idFemale={`gender-female-${index}`}
+                            error={errors[`data_pengunjung.${index}.gender`]}
                         />
                         <SelectIdentity
                             identity_type={
@@ -83,6 +94,16 @@ function EventDataPengunjungForm({
                             userType={"pengunjung"}
                             index={index}
                             ticketID={ticket.id}
+                            error={{
+                                identity_type:
+                                    errors[
+                                        `data_pengunjung.${index}.identity_type`
+                                    ],
+                                identity_number:
+                                    errors[
+                                        `data_pengunjung.${index}.identity_number`
+                                    ],
+                            }}
                         />
                     </div>
                 </div>
