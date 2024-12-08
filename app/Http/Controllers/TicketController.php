@@ -110,4 +110,9 @@ class TicketController extends Controller
             "icon" => "success",
         ]);
     }
+
+    public function clearSessionDataTicket($slug) {
+        session()->forget("data_ticket");
+        return redirect()->route("event.tickets", $slug);
+    }
 }

@@ -24,7 +24,7 @@ function SelectBirthDate({
 
     const dateErrorClass = () => {
         if (error.date) {
-            return "border border-red-500 focus:border-red-500 focus:ring-0";
+            return "border border-red-500 focus:border-red-500 focus:ring-0 error-field";
         } else {
             return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
@@ -32,7 +32,7 @@ function SelectBirthDate({
 
     const monthErrorClass = () => {
         if (error.month) {
-            return "border border-red-500 focus:border-red-500 focus:ring-0";
+            return "border border-red-500 focus:border-red-500 focus:ring-0 error-field";
         } else {
             return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
@@ -40,7 +40,7 @@ function SelectBirthDate({
 
     const yearErrorClass = () => {
         if (error.year) {
-            return "border border-red-500 focus:border-red-500 focus:ring-0";
+            return "border border-red-500 focus:border-red-500 focus:ring-0 error-field";
         } else {
             return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }

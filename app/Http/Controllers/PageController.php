@@ -50,6 +50,14 @@ class PageController extends Controller
 
     public function eventTickets($slug)
     {
+        if (session("data_ticket")) {
+            return back()->with("notification", [
+                "title" => "Perhatian",
+                "text" => "Melakukan pembelian tiket ulang akan menghapus data tiket sebelumnya",
+                "icon" => "warning",
+                "showConfirmation" => true
+            ]);
+        }
         return Inertia::render("frontend/Event/EventTicket", [
             "title" => "Pilih Tiket",
             "event" => mappingEvent(Event::firstWhere("slug", $slug)),
@@ -101,11 +109,13 @@ class PageController extends Controller
             "tax" => $tax,
             "tax_amount" => $taxAmount,
             "total" => $total,
-            "expiration_time" => now()->addHour(),
+            "expiration_time" => now()->addMinutes(30),
         ];
 
         session()->put([
-            "data_ticket" => $data,
+            "data_ticket" => [
+                "for_page_data_diri" => $data,
+            ],
         ]);
 
         return redirect()->route("event.data-diri", $slug);
@@ -113,7 +123,7 @@ class PageController extends Controller
 
     public function eventDataDiri($slug)
     {
-        $data = session("data_ticket");
+        $data = session("data_ticket.for_page_data_diri");
         return Inertia::render("frontend/Event/EventDataDiri", [
             "title" => "Data Diri",
             "profile" => Auth::user(),
@@ -133,6 +143,15 @@ class PageController extends Controller
             'data_pembeli.gender' => 'required',
             'data_pembeli.identity_type' => 'required',
             'data_pembeli.identity_number' => 'required',
+
+            'data_pengunjung.*.name' => 'required|string',
+            'data_pengunjung.*.email' => 'required|email',
+            'data_pengunjung.*.year' => 'required',
+            'data_pengunjung.*.month' => 'required',
+            'data_pengunjung.*.date' => 'required',
+            'data_pengunjung.*.gender' => 'required',
+            'data_pengunjung.*.identity_type' => 'required',
+            'data_pengunjung.*.identity_number' => 'required',
         ], [
             'data_pembeli.name.required' => 'Nama wajib diisi',
             'data_pembeli.email.required' => 'Email wajib diisi',
@@ -142,18 +161,30 @@ class PageController extends Controller
             'data_pembeli.gender.required' => 'Jenis kelamin wajib diisi',
             'data_pembeli.identity_type.required' => 'Tipe identitas wajib diisi',
             'data_pembeli.identity_number.required' => 'Nomor identitas wajib diisi',
+
+            'data_pengunjung.*.name.required' => 'Nama wajib diisi',
+            'data_pengunjung.*.email.required' => 'Email wajib diisi',
+            'data_pengunjung.*.year.required' => 'Tahun wajib diisi',
+            'data_pengunjung.*.month.required' => 'Bulan wajib diisi',
+            'data_pengunjung.*.date.required' => 'Tanggal wajib diisi',
+            'data_pengunjung.*.gender.required' => 'Jenis kelamin wajib diisi',
+            'data_pengunjung.*.identity_type.required' => 'Tipe identitas wajib diisi',
+            'data_pengunjung.*.identity_number.required' => 'Nomor identitas wajib diisi',
         ]);
 
         $data_pengunjung = [];
         foreach ($request->data_pengunjung as $key => $pengunjung) {
             array_push($data_pengunjung, [
-                "ticket_id" => $pengunjung["ticket_id-{$key}"],
+                "ticket_id" => $pengunjung["ticket_id"],
                 "name" => $pengunjung["name"],
                 "email" => $pengunjung["email"],
                 "tanggal_lahir" => $pengunjung["year"] . "-" . $pengunjung["month"] . "-" . $pengunjung["date"],
-                "jenis_kelamin" => $pengunjung["gender-{$key}"],
-                "tipe_identitas" => $pengunjung["identity_type"],
-                "nomor_identitas" => $pengunjung["identity_number"],
+                "date" => $pengunjung["date"],
+                "month" => $pengunjung["month"],
+                "year" => $pengunjung["year"],
+                "gender" => $pengunjung["gender"],
+                "identity_type" => $pengunjung["identity_type"],
+                "identity_number" => $pengunjung["identity_number"],
             ]);
         }
 
@@ -162,27 +193,51 @@ class PageController extends Controller
                 "name" => $request->data_pembeli["name"],
                 "email" => $request->data_pembeli["email"],
                 "tanggal_lahir" => $request->data_pembeli["year"] . "-" . $request->data_pembeli["month"] . "-" . $request->data_pembeli["date"],
-                "jenis_kelamin" => $request->data_pembeli["gender"],
-                "tipe_identitas" => $request->data_pembeli["identity_type"],
-                "nomor_identitas" => $request->data_pembeli["identity_number"],
+                "date" => $request->data_pembeli["date"],
+                "month" => $request->data_pembeli["month"],
+                "year" => $request->data_pembeli["year"],
+                "gender" => $request->data_pembeli["gender"],
+                "identity_type" => $request->data_pembeli["identity_type"],
+                "identity_number" => $request->data_pembeli["identity_number"],
             ],
             "pengunjung" => $data_pengunjung,
             "sub_total" => $request["sub_total"],
             "tax" => $request["tax"],
             "tax_amount" => $request["tax_amount"],
             "total" => $request["total"],
-            "expiration_time" => session("data_ticket.expiration_time"),
+            "expiration_time" => session("data_ticket.for_page_data_diri.expiration_time"),
         ];
 
-        session()->put("data_ticket", $data_ticket);
+        $data_ticket_for_page_data_diri = session("data_ticket.for_page_data_diri");
+        session()->put("data_ticket", [
+            "for_page_data_diri" => $data_ticket_for_page_data_diri,
+            "for_page_payment" => $data_ticket,
+        ]);
         return redirect()->route("event.pembayaran", $slug);
     }
 
     public function eventPembayaran($slug)
     {
-        $data_ticket = session("data_ticket");
+        if (!session("data_ticket.for_page_payment")) {
+            return back();
+        }
+
+        $data_ticket = session("data_ticket.for_page_payment");
+        foreach ($data_ticket["pengunjung"] as $pengunjung) {
+            if (empty($pengunjung["name"]) || empty($pengunjung["email"]) || empty($pengunjung["tanggal_lahir"]) || empty($pengunjung["gender"]) || empty($pengunjung["identity_type"]) || empty($pengunjung["identity_number"])) {
+                return redirect()->back()->withErrors(["data_pengunjung" => "Data salah satu pengunjung masih ada yang kosong"]);
+            }
+        }
+        $data_ticket_data_diri_back_from_payment = session("data_ticket.for_page_data_diri");
+        $data_ticket_data_diri_back_from_payment["pembeli"] = $data_ticket["pembeli"];
+        $data_ticket_data_diri_back_from_payment["pengunjung"] = $data_ticket["pengunjung"];
+        session()->put("data_ticket", [
+            "for_page_data_diri" => $data_ticket_data_diri_back_from_payment,
+            "for_page_payment" => $data_ticket,
+        ]);
+
         return Inertia::render("frontend/Event/EventPayment", [
-            "title" => "Data Diri",
+            "title" => "Pilih Metode Pembayaran",
             "event" => mappingEvent(Event::firstWhere("slug", $slug)),
             "data_ticket" => $data_ticket,
             "method_payment" => [
@@ -192,7 +247,7 @@ class PageController extends Controller
         ]);
     }
 
-    public function eventPaymentWaiting($slug, $invoice)
+    public function eventPaymentWaiting($invoice)
     {
         session()->forget("data_ticket");
         $transaction = Transaction::firstWhere("invoice", $invoice);
@@ -235,7 +290,7 @@ class PageController extends Controller
     public function transaction()
     {
         $transactions = [];
-        foreach (Transaction::where("user_id", Auth::user()->id)->get() as $transaction) {
+        foreach (Transaction::where("user_id", Auth::user()->id)->orderBy('created_at', 'desc')->get() as $transaction) {
             array_push($transactions, [
                 "id" => $transaction->id,
                 "invoice" => $transaction->invoice,

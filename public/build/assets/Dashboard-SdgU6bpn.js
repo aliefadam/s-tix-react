@@ -1,0 +1,1 @@
+import{j as a}from"./app-Bgn0t0R-.js";import{B as t}from"./BreadCrumb-x5KN-Bdz.js";import{A as m}from"./AdminLayout-CcuRCNgJ.js";function n({title:r}){const o={active:r};return a.jsx(m,{title:r,children:a.jsx(t,{breadCrumbData:o})})}export{n as default};

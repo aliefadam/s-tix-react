@@ -15,13 +15,13 @@ function SelectGender({
         if (userType === "pembeli") {
             handleChange(e, "data_pembeli");
         } else {
-            handleChange(e, "data_pengunjung", index, ticketID);
+            handleChange(e, "data_pengunjung", index, ticketID, "gender");
         }
     };
 
     const errorClass = () => {
         if (error) {
-            return "border border-red-500";
+            return "border border-red-500 error-field";
         } else {
             return "border border-gray-300";
         }

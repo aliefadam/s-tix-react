@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\TicketController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -52,6 +53,7 @@ Route::middleware("auth")->group(function () {
     });
 
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");
+    Route::put("/clear-session-data-ticket/{slug}", [TicketController::class, "clearSessionDataTicket"])->name("ticket.clear-session-data-ticket");
 
     include __DIR__ . '/api.php';
     require __DIR__ . '/admin.php';
@@ -65,5 +67,5 @@ Route::prefix("event")->group(function () {
     Route::post("/{slug}/save-data-diri", [PageController::class, "saveDataDiri"])->name("event.save-data-diri");
     Route::get("/{slug}/pembayaran", [PageController::class, "eventPembayaran"])->name("event.pembayaran");
     Route::post("/{slug}/payment", [TransactionController::class, "store"])->name("event.payment");
-    Route::get("/{slug}/payment-waiting/{invoice}", [PageController::class, "eventPaymentWaiting"])->name("event.payment-waiting");
+    Route::get("/payment-waiting/{invoice}", [PageController::class, "eventPaymentWaiting"])->name("event.payment-waiting");
 });

@@ -22,7 +22,7 @@ function SelectIdentity({
 
     const identityTypeErrorClass = () => {
         if (error.identity_type) {
-            return "border border-red-500 focus:border-red-500 focus:ring-0";
+            return "border border-red-500 focus:border-red-500 focus:ring-0 error-field";
         } else {
             return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }
@@ -30,7 +30,7 @@ function SelectIdentity({
 
     const identityNumberErrorClass = () => {
         if (error.identity_number) {
-            return "border border-red-500 focus:border-red-500 focus:ring-0";
+            return "border border-red-500 focus:border-red-500 focus:ring-0 error-field";
         } else {
             return "border border-gray-300 focus:ring-teal-500 focus:border-teal-500";
         }

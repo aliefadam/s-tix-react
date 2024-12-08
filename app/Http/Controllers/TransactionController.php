@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MethodPayment;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,9 @@ class TransactionController extends Controller
     public function store(Request $request, $slug)
     {
         try {
+            if (!$request->payment_method) {
+                throw new Exception("Silahkan pilih metode pembayaran");
+            }
             DB::beginTransaction();
             $data_ticket = $request->data_ticket;
             $internetFee = 0;
@@ -42,7 +46,7 @@ class TransactionController extends Controller
                 "promo_amount" => $request->promo_amount ?? null,
                 "total" => $data_ticket["sub_total"] + $data_ticket["tax_amount"] + $internetFee,
                 "payment" => json_encode([
-                    "method" => $request["payment_method"],
+                    "method" => $request->payment_method,
                     "data" => "123123123",
                     "expiration_date" => now()->addDays(1),
                 ]),
@@ -57,9 +61,9 @@ class TransactionController extends Controller
                 "name" => $pembeli["name"],
                 "email" => $pembeli["email"],
                 "date_of_birth" => $pembeli["tanggal_lahir"],
-                "gender" => $pembeli["jenis_kelamin"],
-                "identity_type" => $pembeli["tipe_identitas"],
-                "identity_number" => $pembeli["nomor_identitas"],
+                "gender" => $pembeli["gender"],
+                "identity_type" => $pembeli["identity_type"],
+                "identity_number" => $pembeli["identity_number"],
                 "e_ticket" => null,
             ]);
 
@@ -71,15 +75,15 @@ class TransactionController extends Controller
                     "name" => $pengunjung["name"],
                     "email" => $pengunjung["email"],
                     "date_of_birth" => $pengunjung["tanggal_lahir"],
-                    "gender" => $pengunjung["jenis_kelamin"],
-                    "identity_type" => $pengunjung["tipe_identitas"],
-                    "identity_number" => $pengunjung["nomor_identitas"],
+                    "gender" => $pengunjung["gender"],
+                    "identity_type" => $pengunjung["identity_type"],
+                    "identity_number" => $pengunjung["identity_number"],
                     "e_ticket" => "E-TICKET-" . Str::upper(Str::random(10)) . Auth::user()->id . "-" . date("Ymd"),
                 ]);
             }
             DB::commit();
-            return redirect()->route("event.payment-waiting", [$slug, $transaction->invoice]);
-        } catch (\Exception $e) {
+            return redirect()->route("event.payment-waiting", [$transaction->invoice]);
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->back()->with("notification", [
                 "title" => "Error",
