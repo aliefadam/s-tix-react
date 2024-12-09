@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double('tax_amount');
             $table->double('internet_fee');
             $table->string('promo_code')->nullable();
-            $table->double('promo_percent')->nullable();
             $table->double('promo_amount')->nullable();
             $table->double('total');
             $table->string('payment')->nullable();

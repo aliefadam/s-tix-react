@@ -8,7 +8,7 @@ import showConfirmation from "@/utils/showConfirmation";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect } from "react";
 
-function EventTicket({ event }) {
+function EventTicket({ title, event }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         count: [],
     });
@@ -24,7 +24,7 @@ function EventTicket({ event }) {
                 name: event.name,
             },
         ],
-        active: "Pilih Tiket",
+        active: title,
     };
 
     const setCounter = (type, countElement, id) => {
@@ -98,7 +98,7 @@ function EventTicket({ event }) {
     }, [notification]);
 
     return (
-        <UserLayout title={"Detail Event"}>
+        <UserLayout title={title}>
             <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <div className="mt-10 min-h-[50vh]">

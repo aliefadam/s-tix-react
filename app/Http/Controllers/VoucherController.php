@@ -148,6 +148,55 @@ class VoucherController extends Controller
         ]);
     }
 
+    public function cekPromo(Request $request)
+    {
+        $voucher = Voucher::where("code", $request->promo)->first();
+        $total = session("data_ticket.for_page_payment.total");
+        if ($voucher) {
+            $minimalTransaction = $voucher->minimal_transaction;
+            $minimalTransactionFormatted = formatMoney($minimalTransaction);
+            $active = $voucher->active;
+            $unit = $voucher->unit;
+            $nominal = $voucher->nominal;
+
+            if (!$active) {
+                return back()->withErrors(["promo" => "Voucher tidak aktif atau sudah digunakan"]);
+            }
+
+            if ($total < $minimalTransaction) {
+                return back()->withErrors(["promo" => "Minimal Transaksi untuk kode ini adalah {$minimalTransactionFormatted}"]);
+            }
+
+            $data_ticket = session("data_ticket");
+            $data_ticket_updated = [
+                "for_page_data_diri" => $data_ticket["for_page_data_diri"],
+                "for_page_payment" => $data_ticket["for_page_payment"],
+            ];
+            $data_ticket_updated["for_page_payment"]["voucher"] = $voucher;
+            if ($unit == "percent") {
+                $discount = $total * $nominal / 100;
+                $data_ticket_updated["for_page_payment"]["total_after_discount"] = $total - $discount;
+                $discountFormatted = formatMoney($discount);
+                $discount_label = "{$nominal}% (-{$discountFormatted})";
+            } else {
+                $data_ticket_updated["for_page_payment"]["total_after_discount"] = $total - $nominal;
+                $discountFormatted = formatMoney($nominal);
+                $discount_label = "-{$discountFormatted}";
+            }
+
+            $data_ticket_updated["for_page_payment"]["discount_label"] = $discount_label;
+            session()->put("data_ticket", $data_ticket_updated);
+
+            return back()->with("notification", [
+                "title" => "Sukses",
+                "text" => "Promo Digunakan",
+                "icon" => "success",
+            ]);
+        } else {
+            return back()->withErrors(["promo" => "Kode promo tidak ditemukan"]);
+        }
+    }
+
     public function destroy($id)
     {
         Voucher::find($id)->delete();
