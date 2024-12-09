@@ -5,7 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- Description --}}
+    <meta name="description"
+        content="Beli tiket konser artis favorit Anda di S-TIX. Dapatkan pengalaman musik terbaik dengan penawaran harga terbaik dan tiket resmi!">
+    <meta name="keywords"
+        content="tiket konser, beli tiket konser online, konser musik terbaru, tiket konser murah, konser artis terkenal, jadwal konser, tiket konser resmi, konser musik Indonesia, konser internasional, beli tiket online">
+
+    {{-- Title --}}
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
+
+    {{-- Icon --}}
+    <link rel="icon" type="image/x-icon" href="{{ asset('imgs/icon.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
