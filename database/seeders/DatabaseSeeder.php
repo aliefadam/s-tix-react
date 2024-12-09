@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             TalentSeeder::class,
             TicketSeeder::class,
-            MethodPaymentSeeder::class
+            MethodPaymentSeeder::class,
+            VoucherSeeder::class,
         ]);
     }
 }

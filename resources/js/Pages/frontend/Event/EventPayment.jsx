@@ -1,12 +1,14 @@
 import BreadCrumb from "@/Components/BreadCrumb";
 import EventDetailPanel from "@/Components/Event/EventDetailPanel";
 import MethodPaymentContainer from "@/Components/Event/MethodPayment/MethodPaymentContainer";
+import PromoModal from "@/Components/Modal/Promo/PromoModal";
 import UserLayout from "@/Layouts/UserLayout";
 import getDistance from "@/utils/getDistance";
 import Notification from "@/utils/notification";
 import showConfirmation from "@/utils/showConfirmation";
 import timeToSeconds from "@/utils/timeToSeconds";
 import { useForm, usePage } from "@inertiajs/react";
+import { initFlowbite, initModals } from "flowbite";
 import React, { useEffect, useState } from "react";
 
 function EventPayment({ title, event, data_ticket, method_payment }) {
@@ -35,9 +37,6 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
     const { data, setData, post, processing } = useForm({
         data_ticket: data_ticket,
         event_id: event.id,
-        promo_code: "",
-        promo_percent: "",
-        promo_amount: "",
         payment_method: "",
     });
 
@@ -52,6 +51,8 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
         })
     );
 
+    const formSessionExpired = useForm();
+    const formRedirect = useForm();
     const countdown = () => {
         const interval = setInterval(() => {
             const distance = getDistance({
@@ -65,9 +66,18 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                     icon: "warning",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = route(
-                            "event.tickets",
-                            event.slug
+                        formSessionExpired.put(
+                            route(
+                                "ticket.clear-session-data-ticket",
+                                event.slug
+                            ),
+                            {
+                                onSuccess: () => {
+                                    formRedirect.get(
+                                        route("event.tickets", event.slug)
+                                    );
+                                },
+                            }
                         );
                     }
                 });
@@ -107,7 +117,38 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                 });
             }
         }
+
+        if (data_ticket.voucher) {
+            setDiscountLabel(data_ticket.discount_label);
+        }
     }, [data_ticket.expiration_time, notification]);
+
+    const {
+        data: dataPromo,
+        setData: setDataPromo,
+        errors: errorsPromo,
+        processing: processingPromo,
+        post: postPromo,
+    } = useForm({
+        promo: "",
+    });
+
+    console.log(data_ticket);
+
+    const [discountLabel, setDiscountLabel] = useState("");
+    const handleCekPromo = (e) => {
+        e.preventDefault();
+        postPromo(route("event.cek-promo"), {
+            onSuccess: () => {
+                document.getElementById("btn-close-modal-show-promo").click();
+                setDiscountLabel(data_ticket.discount_label);
+                setData((prevData) => ({
+                    ...prevData,
+                    data_ticket: data_ticket,
+                }));
+            },
+        });
+    };
 
     return (
         <UserLayout title={"Pilih Pembayaran"}>
@@ -162,9 +203,22 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                             tax={data_ticket.tax}
                             taxAmount={data_ticket.tax_amount}
                             total={data_ticket.total}
+                            total_after_discount={
+                                data_ticket.total_after_discount
+                            }
                             processing={processing}
+                            showPromo={true}
+                            discountLabel={discountLabel}
                         />
                     </div>
+
+                    <PromoModal
+                        data={dataPromo}
+                        setData={setDataPromo}
+                        errors={errorsPromo}
+                        processing={processingPromo}
+                        handleCekPromo={handleCekPromo}
+                    />
                 </div>
             </form>
         </UserLayout>

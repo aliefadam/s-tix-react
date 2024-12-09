@@ -9,6 +9,9 @@ function EventDetailPanel({
     taxAmount,
     total,
     processing = false,
+    showPromo = false,
+    discountLabel = "",
+    total_after_discount = 0,
 }) {
     return (
         <>
@@ -68,28 +71,59 @@ function EventDetailPanel({
                 <div className="p-4 flex justify-between border-b border-teal-700">
                     <span className="text-sm">Pajak</span>
                     <span className="text-sm poppins-semibold">
-                        {tax}% ({formatMoney(taxAmount)})
+                        {tax}% (+{formatMoney(taxAmount)})
                     </span>
                 </div>
             )}
             {total && (
                 <div className="p-4 flex justify-between border-b border-teal-700">
-                    <span className="text-base">Total</span>
+                    <span className="text-base poppins-medium">Total</span>
                     <span className="text-sm poppins-semibold">
                         {formatMoney(total)}
                     </span>
                 </div>
             )}
-            <div className="p-4 flex justify-center">
-                <button
-                    disabled={processing}
-                    type="submit"
-                    className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 w-full ${
-                        processing ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                >
-                    Checkout
-                </button>
+            {discountLabel !== "" && (
+                <div className="p-4 flex justify-between border-b border-teal-700 text-teal-700">
+                    <span className="text-sm">Diskon Kode Promo</span>
+                    <span className="text-sm poppins-semibold">
+                        {discountLabel}
+                    </span>
+                </div>
+            )}
+            {total_after_discount !== 0 && (
+                <div className="p-4 flex justify-between border-b border-teal-700">
+                    <span className="text-base poppins-medium">Total</span>
+                    <span className="text-sm poppins-semibold">
+                        {formatMoney(total_after_discount)}
+                    </span>
+                </div>
+            )}
+            <div className="p-4 flex flex-col gap-4">
+                {showPromo && discountLabel === "" && (
+                    <div className="flex items-center justify-between text-sm">
+                        <span className="">Punya Kode Promo?</span>
+                        <button
+                            data-modal-target="show-promo-modal"
+                            data-modal-toggle="show-promo-modal"
+                            className="poppins-medium text-teal-700 hover:text-teal-800"
+                            type="button"
+                        >
+                            Masukkan Kode
+                        </button>
+                    </div>
+                )}
+                <div className="flex justify-center">
+                    <button
+                        disabled={processing}
+                        type="submit"
+                        className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 w-full ${
+                            processing ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
+                    >
+                        Checkout
+                    </button>
+                </div>
             </div>
         </>
     );

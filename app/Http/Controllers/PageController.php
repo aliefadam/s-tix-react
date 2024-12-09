@@ -218,6 +218,7 @@ class PageController extends Controller
 
     public function eventPembayaran($slug)
     {
+        // return session("data_ticket.for_page_payment");
         if (!session("data_ticket.for_page_payment")) {
             return back();
         }

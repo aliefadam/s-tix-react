@@ -30,8 +30,23 @@ class TransactionController extends Controller
                 throw new Exception("Silahkan pilih metode pembayaran");
             }
             DB::beginTransaction();
-            $data_ticket = $request->data_ticket;
+            $data_ticket = session("data_ticket.for_page_payment");
+            // $data_ticket = $request->data_ticket;
             $internetFee = 0;
+            if ($data_ticket["voucher"]) {
+                $total = $data_ticket["total_after_discount"] + $internetFee;
+                $promo_code = $data_ticket["voucher"]["code"];
+                if ($data_ticket["voucher"]["unit"] == "percent") {
+                    $nominal = $data_ticket["voucher"]["nominal"];
+                    $promo_amount = $data_ticket["total"] * $nominal / 100;
+                } else {
+                    $promo_amount = $data_ticket["voucher"]["nominal"];
+                }
+            } else {
+                $total = $data_ticket["total"] + $internetFee;
+                $promo_code = null;
+                $promo_amount = null;
+            }
             $transaction = Transaction::create([
                 "id" => "1",
                 "invoice" => "INV-" . Str::upper(Str::random(10)) . "-" . date("Ymd"),
@@ -41,10 +56,10 @@ class TransactionController extends Controller
                 "tax_percent" => $data_ticket["tax"],
                 "tax_amount" => $data_ticket["tax_amount"],
                 "internet_fee" => $internetFee,
-                "promo_code" => $request->promo_code ?? null,
-                "promo_percent" => $request->promo_percent ?? null,
-                "promo_amount" => $request->promo_amount ?? null,
-                "total" => $data_ticket["sub_total"] + $data_ticket["tax_amount"] + $internetFee,
+                "promo_code" => $promo_code,
+                "promo_amount" => $promo_amount,
+                "total" => $total,
+                // "total" => $data_ticket["sub_total"] + $data_ticket["tax_amount"] + $internetFee,
                 "payment" => json_encode([
                     "method" => $request->payment_method,
                     "data" => "123123123",

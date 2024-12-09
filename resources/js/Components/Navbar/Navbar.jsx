@@ -5,7 +5,7 @@ import NavbarMenu from "./NavbarMenu";
 
 function Navbar() {
     return (
-        <nav className="fixed top-0 z-20 w-full bg-white h-[80px] px-10 flex justify-between items-center shadow-md">
+        <nav className="fixed top-0 z-10 w-full bg-white h-[80px] px-10 flex justify-between items-center shadow-md">
             <div className="flex gap-5 items-center">
                 <NavbarBrand />
                 <NavbarSearch />

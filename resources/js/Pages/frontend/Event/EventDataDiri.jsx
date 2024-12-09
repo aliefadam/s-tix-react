@@ -37,6 +37,8 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
         })
     );
 
+    const formSessionExpired = useForm();
+    const formRedirect = useForm();
     const countdown = () => {
         const interval = setInterval(() => {
             const distance = getDistance({
@@ -50,9 +52,18 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
                     icon: "warning",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = route(
-                            "event.tickets",
-                            event.slug
+                        formSessionExpired.put(
+                            route(
+                                "ticket.clear-session-data-ticket",
+                                event.slug
+                            ),
+                            {
+                                onSuccess: () => {
+                                    formRedirect.get(
+                                        route("event.tickets", event.slug)
+                                    );
+                                },
+                            }
                         );
                     }
                 });
