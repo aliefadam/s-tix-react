@@ -84,6 +84,9 @@ class AuthController extends Controller
         $user = User::firstWhere("email", $google_user->email);
         Auth::login($user);
 
+        if (session("redirect")) {
+            return redirect(session("redirect")["route"]);
+        }
         return redirect()->route("home");
     }
 
