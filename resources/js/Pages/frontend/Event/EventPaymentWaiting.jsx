@@ -11,7 +11,7 @@ import React from "react";
 function EventPaymentWaiting({ title, transaction }) {
     return (
         <UserLayout title={title}>
-            <div className="flex flex-col items-center w-full justify-center min-h-[50vh]">
+            <div className="flex flex-col items-center w-full justify-center min-h-[50vh] mt-10">
                 <PaymentHeader transaction={transaction} />
                 {/* {"{"}
                     {"{"}-- Kalau metode pembayaran QR --{"}"}

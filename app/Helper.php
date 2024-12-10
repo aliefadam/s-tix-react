@@ -293,4 +293,34 @@ if (!function_exists("generateInvoice")) {
     }
 }
 
-function payment($invoice) {}
+function payment($invoice)
+{
+    $transaction = Transaction::firstWhere("invoice", $invoice);
+    if ($transaction) {
+        $expiration_date = json_decode($transaction->payment)->expiration_date;
+        $status = $transaction->status;
+        $detailTransaction = $transaction->transaction_detail;
+
+        if ($status != "Menunggu Pembayaran") {
+            throw new Exception("Pembayaran untuk invoice ini sudah dibayarkan");
+        }
+        if (time() > $expiration_date) {
+            throw new Exception("Pembayaran sudah kadaluarsa");
+        }
+
+        $transaction->update([
+            "status" => "Pembayaran Berhasil",
+        ]);
+
+        foreach ($detailTransaction as $detail) {
+            if ($detail->ticket_id != null) {
+                $ticket = $detail->ticket;
+                $ticket->update([
+                    "sold" => $ticket->sold + 1,
+                ]);
+            }
+        }
+    } else {
+        throw new Exception("Invoice tidak ditemukan");
+    }
+}
