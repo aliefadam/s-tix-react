@@ -8,7 +8,6 @@ import Notification from "@/utils/notification";
 import showConfirmation from "@/utils/showConfirmation";
 import timeToSeconds from "@/utils/timeToSeconds";
 import { useForm, usePage } from "@inertiajs/react";
-import { initFlowbite, initModals } from "flowbite";
 import React, { useEffect, useState } from "react";
 
 function EventPayment({ title, event, data_ticket, method_payment }) {
@@ -129,11 +128,10 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
         errors: errorsPromo,
         processing: processingPromo,
         post: postPromo,
+        reset: resetPromo,
     } = useForm({
         promo: "",
     });
-
-    console.log(data_ticket);
 
     const [discountLabel, setDiscountLabel] = useState("");
     const handleCekPromo = (e) => {
@@ -142,10 +140,23 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
             onSuccess: () => {
                 document.getElementById("btn-close-modal-show-promo").click();
                 setDiscountLabel(data_ticket.discount_label);
-                setData((prevData) => ({
-                    ...prevData,
-                    data_ticket: data_ticket,
-                }));
+                resetPromo();
+            },
+        });
+    };
+
+    const formDeletePromo = useForm();
+    const handleDeletePromo = () => {
+        showConfirmation({
+            title: "Hapus Promo",
+            text: "Apakah anda yakin ingin menghapus promo ini?",
+            icon: "warning",
+            onConfirm: () => {
+                formDeletePromo.delete(route("event.delete-promo"), {
+                    onSuccess: () => {
+                        setDiscountLabel("");
+                    },
+                });
             },
         });
     };
@@ -197,6 +208,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                     </div>
                     <div className="col-span-4 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
                         <EventDetailPanel
+                            handleDeletePromo={handleDeletePromo}
                             ticketCount={data_ticket.pengunjung.length}
                             event={event}
                             subTotal={data_ticket.sub_total}

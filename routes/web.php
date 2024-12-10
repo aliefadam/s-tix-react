@@ -56,6 +56,7 @@ Route::middleware("auth")->group(function () {
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");
     Route::put("/clear-session-data-ticket/{slug}", [TicketController::class, "clearSessionDataTicket"])->name("ticket.clear-session-data-ticket");
     Route::post("/cek-promo", [VoucherController::class, "cekPromo"])->name("event.cek-promo");
+    Route::delete("/delete-promo", [VoucherController::class, "deletePromo"])->name("event.delete-promo");
 
     include __DIR__ . '/api.php';
     require __DIR__ . '/admin.php';

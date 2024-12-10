@@ -12,6 +12,7 @@ function EventDetailPanel({
     showPromo = false,
     discountLabel = "",
     total_after_discount = 0,
+    handleDeletePromo = () => {},
 }) {
     return (
         <>
@@ -84,11 +85,19 @@ function EventDetailPanel({
                 </div>
             )}
             {discountLabel !== "" && (
-                <div className="p-4 flex justify-between border-b border-teal-700 text-teal-700">
-                    <span className="text-sm">Diskon Kode Promo</span>
-                    <span className="text-sm poppins-semibold">
-                        {discountLabel}
+                <div className="p-4 flex justify-between border-b border-teal-700">
+                    <span className="text-sm text-teal-700">
+                        Diskon Kode Promo
                     </span>
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-teal-700 poppins-semibold">
+                            {discountLabel}
+                        </span>
+                        <i
+                            onClick={handleDeletePromo}
+                            className="fa-solid fa-trash text-red-600 text-sm hover:scale-105 hover:text-red-700 duration-200 cursor-pointer"
+                        ></i>
+                    </div>
                 </div>
             )}
             {total_after_discount !== 0 && (
@@ -100,7 +109,22 @@ function EventDetailPanel({
                 </div>
             )}
             <div className="p-4 flex flex-col gap-4">
-                {showPromo && discountLabel === "" && (
+                <div
+                    className={`flex items-center justify-between text-sm ${
+                        showPromo && discountLabel === "" ? "" : "hidden"
+                    }`}
+                >
+                    <span className="">Punya Kode Promo?</span>
+                    <button
+                        data-modal-target="show-promo-modal"
+                        data-modal-toggle="show-promo-modal"
+                        className="poppins-medium text-teal-700 hover:text-teal-800"
+                        type="button"
+                    >
+                        Masukkan Kode
+                    </button>
+                </div>
+                {/* {showPromo && discountLabel === "" && (
                     <div className="flex items-center justify-between text-sm">
                         <span className="">Punya Kode Promo?</span>
                         <button
@@ -112,12 +136,12 @@ function EventDetailPanel({
                             Masukkan Kode
                         </button>
                     </div>
-                )}
+                )} */}
                 <div className="flex justify-center">
                     <button
                         disabled={processing}
                         type="submit"
-                        className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 w-full ${
+                        className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center w-full ${
                             processing ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >

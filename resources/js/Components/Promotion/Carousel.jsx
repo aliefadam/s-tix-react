@@ -4,7 +4,7 @@ function Carousel({ carousel }) {
     return (
         <div
             id="default-carousel"
-            className="relative z-10 w-full col-span-7"
+            className="relative z-0 w-full col-span-7"
             data-carousel="slide"
         >
             {/* Carousel wrapper */}

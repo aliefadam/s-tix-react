@@ -13,7 +13,7 @@ class VoucherController extends Controller
     public function index()
     {
         $vouchers = [];
-        foreach (Voucher::all() as $voucher) {
+        foreach (Voucher::where("user_id", Auth::user()->id)->get() as $voucher) {
             array_push($vouchers, mappingVoucher($voucher));
         }
         return Inertia::render("backend/Voucher/Index", [
@@ -195,6 +195,24 @@ class VoucherController extends Controller
         } else {
             return back()->withErrors(["promo" => "Kode promo tidak ditemukan"]);
         }
+    }
+
+    public function deletePromo()
+    {
+        $data_ticket = session("data_ticket");
+        $data_ticket_updated = [
+            "for_page_data_diri" => $data_ticket["for_page_data_diri"],
+            "for_page_payment" => $data_ticket["for_page_payment"],
+        ];
+        $data_ticket_updated["for_page_payment"]["voucher"] = null;
+        $data_ticket_updated["for_page_payment"]["total_after_discount"] = 0;
+        $data_ticket_updated["for_page_payment"]["discount_label"] = "";
+        session()->put("data_ticket", $data_ticket_updated);
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Promo Dihapus",
+            "icon" => "success",
+        ]);
     }
 
     public function destroy($id)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MethodPayment;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
+use App\Models\Voucher;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,9 @@ class TransactionController extends Controller
             }
             DB::beginTransaction();
             $data_ticket = session("data_ticket.for_page_payment");
-            // $data_ticket = $request->data_ticket;
+            $isUseVoucher = isset($data_ticket["voucher"]);
             $internetFee = 0;
-            if ($data_ticket["voucher"]) {
+            if ($isUseVoucher) {
                 $total = $data_ticket["total_after_discount"] + $internetFee;
                 $promo_code = $data_ticket["voucher"]["code"];
                 if ($data_ticket["voucher"]["unit"] == "percent") {
@@ -49,7 +50,7 @@ class TransactionController extends Controller
             }
             $transaction = Transaction::create([
                 "id" => "1",
-                "invoice" => "INV-" . Str::upper(Str::random(10)) . "-" . date("Ymd"),
+                "invoice" => generateInvoice(),
                 "user_id" => Auth::user()->id,
                 "event_id" => $request->event_id,
                 "sub_total" => $data_ticket["sub_total"],
@@ -59,7 +60,6 @@ class TransactionController extends Controller
                 "promo_code" => $promo_code,
                 "promo_amount" => $promo_amount,
                 "total" => $total,
-                // "total" => $data_ticket["sub_total"] + $data_ticket["tax_amount"] + $internetFee,
                 "payment" => json_encode([
                     "method" => $request->payment_method,
                     "data" => "123123123",
@@ -94,6 +94,14 @@ class TransactionController extends Controller
                     "identity_type" => $pengunjung["identity_type"],
                     "identity_number" => $pengunjung["identity_number"],
                     "e_ticket" => "E-TICKET-" . Str::upper(Str::random(10)) . Auth::user()->id . "-" . date("Ymd"),
+                ]);
+            }
+
+            if ($isUseVoucher) {
+                $voucherID = $data_ticket["voucher"]["id"];
+                $voucher = Voucher::find($voucherID);
+                $voucher->update([
+                    "used" => $voucher->used + 1,
                 ]);
             }
             DB::commit();
@@ -131,6 +139,8 @@ class TransactionController extends Controller
                 "tax_amount" => formatMoney($transaction->tax_amount),
                 "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
                 "total" => formatMoney($transaction->total),
+                "promo_code" => $transaction->promo_code,
+                "promo_amount" => formatMoney($transaction->promo_amount),
                 "created_at" => formatDate($transaction->created_at),
                 "created_at_time" => formatTime($transaction->created_at),
             ],
