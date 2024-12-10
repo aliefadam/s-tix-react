@@ -20,6 +20,7 @@ function VoucherTableBody({
                     <td className="px-6 py-5">{voucher.nominal}</td>
                     <td className="px-6 py-5">{voucher.minimal_transaction}</td>
                     <td className="px-6 py-5">{voucher.maximal_used}</td>
+                    <td className="px-6 py-5">{voucher.used}</td>
                     <td className="px-6 py-5">
                         {voucher.active ? (
                             <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">

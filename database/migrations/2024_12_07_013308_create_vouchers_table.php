@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double("nominal");
             $table->double("minimal_transaction");
             $table->integer("maximal_used");
+            $table->integer("used")->default(0);
             $table->boolean("active")->default(true);
             $table->timestamps();
         });

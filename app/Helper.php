@@ -8,7 +8,8 @@ use App\Models\TransactionDetail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
+use Illuminate\Support\Str;
+
 
 if (!function_exists("generateQR")) {
     function generateQR($code, $size = 200)
@@ -267,6 +268,7 @@ if (!function_exists("mappingVoucher")) {
             "minimal_transaction" => formatMoney($voucher->minimal_transaction),
             "maximal_used_raw" => $voucher->maximal_used,
             "maximal_used" => $voucher->maximal_used == 0 ? "Tidak ada batasan" : $voucher->maximal_used . "x Pemakaian",
+            "used" => $voucher->used,
             "active" => $voucher->active,
             "created_at" => $voucher->created_at->translatedFormat('l, d F Y'),
         ];
@@ -281,12 +283,13 @@ if (!function_exists("getExpiredSession")) {
         $sessionLifetime = config('session.lifetime') * 60;
         $remainingTime = $sessionLifetime - ($currentTime - $lastActivity);
         return gmdate("H:i:s", $remainingTime);
+    }
+}
 
-        // if ($remainingTime > 0) {
-        //     return "Sisa waktu sesi: " . gmdate("H:i:s", $remainingTime);
-        // } else {
-        //     return "Sesi telah kedaluwarsa.";
-        // }
+if (!function_exists("generateInvoice")) {
+    function generateInvoice()
+    {
+        return "INV-" . Str::upper(Str::random(10)) . "-" . date("Ymd");
     }
 }
 

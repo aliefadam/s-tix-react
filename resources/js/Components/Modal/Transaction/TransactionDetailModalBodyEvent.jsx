@@ -50,15 +50,15 @@ function TransactionDetailModalBodyEvent({ transaction, tickets, event }) {
                             </span>
                         </div>
                     </div>
-                    <div className="mt-3 flex justify-end">
-                        <a
-                            target="_blank"
-                            href={transaction.event.url}
-                            className="px-3 py-2 text-xs font-medium text-center text-white bg-teal-700 rounded-lg hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                        >
-                            Lihat Detail Event
-                        </a>
-                    </div>
+                </div>
+                <div className="flex justify-end">
+                    <a
+                        target="_blank"
+                        href={transaction.event.url}
+                        className="px-3 py-2 text-xs font-medium text-center text-white bg-teal-700 rounded-lg hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+                    >
+                        Lihat Detail Event
+                    </a>
                 </div>
             </div>
         </div>

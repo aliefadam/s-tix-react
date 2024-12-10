@@ -208,6 +208,12 @@ class PageController extends Controller
             "expiration_time" => session("data_ticket.for_page_data_diri.expiration_time"),
         ];
 
+        if (session("data_ticket.for_page_payment.voucher")) {
+            $data_ticket["voucher"] = session("data_ticket.for_page_payment.voucher");
+            $data_ticket["total_after_discount"] = session("data_ticket.for_page_payment.total_after_discount");
+            $data_ticket["discount_label"] = session("data_ticket.for_page_payment.discount_label");
+        }
+
         $data_ticket_for_page_data_diri = session("data_ticket.for_page_data_diri");
         session()->put("data_ticket", [
             "for_page_data_diri" => $data_ticket_for_page_data_diri,
@@ -218,7 +224,6 @@ class PageController extends Controller
 
     public function eventPembayaran($slug)
     {
-        // return session("data_ticket.for_page_payment");
         if (!session("data_ticket.for_page_payment")) {
             return back();
         }
@@ -274,6 +279,8 @@ class PageController extends Controller
                 "tax_amount" => formatMoney($transaction->tax_amount),
                 "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
                 "total" => formatMoney($transaction->total),
+                "promo_code" => $transaction->promo_code,
+                "promo_amount" => formatMoney($transaction->promo_amount),
                 "created_at" => formatDate($transaction->created_at),
                 "created_at_time" => formatTime($transaction->created_at),
             ],
@@ -313,6 +320,8 @@ class PageController extends Controller
                 "tax_amount" => formatMoney($transaction->tax_amount),
                 "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
                 "total" => formatMoney($transaction->total),
+                "promo_code" => $transaction->promo_code,
+                "promo_amount" => formatMoney($transaction->promo_amount),
                 "created_at_date" => formatDate($transaction->created_at),
                 "created_at_time" => $transaction->created_at->format("H:i"),
             ]);
