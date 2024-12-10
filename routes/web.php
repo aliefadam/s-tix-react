@@ -72,3 +72,6 @@ Route::prefix("event")->group(function () {
     Route::post("/{slug}/payment", [TransactionController::class, "store"])->name("event.payment");
     Route::get("/payment-waiting/{invoice}", [PageController::class, "eventPaymentWaiting"])->name("event.payment-waiting");
 });
+
+Route::get("/simulate-payment", [TransactionController::class, "simulatePaymentPage"])->name("simulate-payment.page");
+Route::post("/simulate-payment", [TransactionController::class, "simulatePaymentPost"])->name("simulate-payment.post");

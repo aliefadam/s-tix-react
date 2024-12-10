@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class TransactionController extends Controller
 {
@@ -160,5 +161,37 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         // TODO: Implement destroy() method.
+    }
+
+    public function simulatePaymentPage()
+    {
+        return Inertia::render("Simulate/Payment", [
+            "title" => "Simulasi Pembayaran",
+        ]);
+    }
+
+    public function simulatePaymentPost(Request $request)
+    {
+        $request->validate([
+            "invoice" => "required",
+        ], [
+            "invoice.required" => "Invoice harus diisi",
+        ]);
+
+        DB::beginTransaction();
+        try {
+            payment($request->invoice);
+            DB::commit();
+            return back()->with("notification", [
+                "title" => "Sukses",
+                "text" => "Simulasi pembayaran berhasil",
+                "icon" => "success",
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors([
+                "invoice" => $e->getMessage()
+            ]);
+        }
     }
 }
