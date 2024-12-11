@@ -335,15 +335,37 @@ class PageController extends Controller
 
     public function ticket()
     {
-        return view("frontend.ticket.ticket", [
+        $transactions = Transaction::where("user_id", Auth::user()->id)
+            ->where("status", "Pembayaran Berhasil")
+            ->get();
+
+        $ticketCommings = [];
+        $ticketPasts = [];
+
+        foreach ($transactions as $transaction) {
+            if ($transaction->event->start_date < now()) {
+                array_push($ticketCommings, mappingTransaction($transaction));
+            } else {
+                array_push($ticketPasts, mappingTransaction($transaction));
+            }
+        }
+
+        return Inertia::render("frontend/Ticket/Ticket", [
             "title" => "Tiket",
+            "tickets" => [
+                "ticketCommings" => $ticketCommings,
+                "ticketPasts" => $ticketPasts,
+            ],
         ]);
     }
 
-    public function ticketDetail($id)
+    public function ticketDetail($invoice)
     {
-        return view("frontend.ticket.ticket-detail", [
+        $invoiceConcatenate = "INV-{$invoice}";
+        $transaction = Transaction::firstWhere("invoice", $invoiceConcatenate);
+        return Inertia::render("frontend/Ticket/TicketDetail", [
             "title" => "Tiket Detail",
+            "transaction" => mappingTransaction($transaction),
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 use App\Models\Event;
 use App\Models\Menu;
+use App\Models\MethodPayment;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -14,7 +15,11 @@ use Illuminate\Support\Str;
 if (!function_exists("generateQR")) {
     function generateQR($code, $size = 200)
     {
-        return QrCode::size($size)->generate($code);
+        // return QrCode::size($size)->generate($code);
+        // return base64_encode(QrCode::size($size)->generate($code));
+        $qr = base64_encode(QrCode::size($size)->generate($code));
+        $src = "data:image/svg+xml;base64,{$qr}";
+        return $src;
     }
 }
 
@@ -136,6 +141,14 @@ if (!function_exists("getTotalTicket")) {
         }
 
         return $total;
+    }
+}
+
+if (!function_exists("getTicketCount")) {
+    function getTicketCount($transactionID)
+    {
+        $transaction = Transaction::find($transactionID);
+        return $transaction->transaction_detail->where('ticket_id', '!=', null)->count();
     }
 }
 
@@ -272,6 +285,43 @@ if (!function_exists("mappingVoucher")) {
             "active" => $voucher->active,
             "created_at" => $voucher->created_at->translatedFormat('l, d F Y'),
         ];
+    }
+}
+
+if (!function_exists("mappingTransaction")) {
+    function mappingTransaction($transaction)
+    {
+        $data = [
+            "id" => $transaction->id,
+            "invoice" => $transaction->invoice,
+            "status" => $transaction->status,
+            "event" => mappingEvent($transaction->event),
+            "buyer" => getDataPembeli($transaction->id),
+            "visitor" => getDataPengunjung($transaction->id),
+            "tickets" => getGroupingTicket($transaction->id),
+            "ticket_count" => getTicketCount($transaction->id),
+            "payment" => [
+                "method" => json_decode($transaction->payment)->method,
+                "data" => json_decode($transaction->payment)->data,
+                "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
+                "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
+                "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
+            ],
+            "internet_fee" => formatMoney($transaction->internet_fee),
+            "tax_percent" => $transaction->tax_percent,
+            "tax_amount" => formatMoney($transaction->tax_amount),
+            "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
+            "total" => formatMoney($transaction->total),
+            "promo_code" => $transaction->promo_code,
+            "promo_amount" => formatMoney($transaction->promo_amount),
+            "created_at" => formatDate($transaction->created_at),
+            "created_at_time" => formatTime($transaction->created_at),
+        ];
+
+        if ($transaction->status == "Pembayaran Berhasil") {
+            $data["e_ticket"] = generateQR($data["invoice"]);
+        }
+        return $data;
     }
 }
 

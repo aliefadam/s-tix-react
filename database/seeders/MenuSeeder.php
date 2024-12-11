@@ -60,6 +60,20 @@ class MenuSeeder extends Seeder
             ],
             [
                 "type" => "title",
+                "name" => "Transaction",
+                "slug" => "transaction",
+                "role" => json_encode(["vendor", "super-admin"]),
+            ],
+            [
+                "type" => "link",
+                "name" => "transaction",
+                "url" => "admin.transaction.index",
+                "icon" => "fa-regular fa-cart-shopping",
+                "slug_id" => "transaction",
+                "role" => json_encode(["vendor", "super-admin"]),
+            ],
+            [
+                "type" => "title",
                 "name" => "Umum",
                 "slug" => "umum",
                 "role" => json_encode(["super-admin"]),

@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TalentController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Middleware\AdminRoleMiddleware;
@@ -63,6 +64,13 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::put("/activate/{id}", [VoucherController::class, "activate"])->name("admin.voucher.activate");
             Route::put("/deactivate/{id}", [VoucherController::class, "deactivate"])->name("admin.voucher.deactivate");
             Route::delete("/{id}", [VoucherController::class, "destroy"])->name("admin.voucher.delete");
+        });
+
+        Route::prefix("transaction")->group(function () {
+            Route::get("/", [TransactionController::class, "index"])->name("admin.transaction.index");
+            Route::get("/{id}", [TransactionController::class, "show"])->name("admin.transaction.show");
+            Route::put("/{id}", [TransactionController::class, "update"])->name("admin.transaction.update");
+            Route::delete("/{id}", [TransactionController::class, "destroy"])->name("admin.transaction.delete");
         });
     });
 });

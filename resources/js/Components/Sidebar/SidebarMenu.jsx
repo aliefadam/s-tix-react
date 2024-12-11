@@ -6,7 +6,7 @@ function SidebarMenu({ menu_title, menu_link }) {
         <>
             {menu_title.map((menu, i) => (
                 <div key={i} className="flex flex-col gap-1.5">
-                    <span className="text-sm text-gray-700 poppins-medium block mb-1">
+                    <span className="text-sm text-gray-600 poppins-medium block mb-1">
                         {menu.name}
                     </span>
                     {menu_link

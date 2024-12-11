@@ -17,7 +17,27 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        return view("backend.transaction.index");
+        $transactions = Transaction::whereHas("event", function ($query) {
+            $query->whereHas("vendor", function ($query) {
+                $query->whereHas("user", function ($query) {
+                    $query->where("id", Auth::user()->id);
+                });
+            });
+        })->orderBy("created_at", "desc")->get();
+
+        if (Auth::user()->role == "super-admin") {
+            $transactions = Transaction::all();
+        }
+
+        $data = [];
+        foreach ($transactions as $transaction) {
+            array_push($data, mappingTransaction($transaction));
+        }
+
+        return Inertia::render("backend/Transaction/Index", [
+            "title" => "Transaksi",
+            "transactions" => $data,
+        ]);
     }
 
     public function create()
