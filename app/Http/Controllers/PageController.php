@@ -393,25 +393,30 @@ class PageController extends Controller
 
     public function dashboard()
     {
-        // $transaction_count_vendor = [];
-        // $event = Event::where("vendor_id", Auth::user()->vendor->id)->get();
-        // foreach ($event as $e) {
-        //     array_push($transaction_count_vendor, Transaction::where("event_id", $e->id)->first());
-        // }
-        $transaction_count_vendor = Event::where("vendor_id", Auth::user()->vendor->id)
-            ->get()
-            ->map(function ($event) {
-                return Transaction::where("event_id", $event->id)->first();
-            })
-            ->filter()
-            ->count();
+        $dashboard_vendor = [];
 
-        $revenue = 0;
-        $vendorEvents = Vendor::firstWhere("user_id", Auth::user()->id)->events;
-        foreach ($vendorEvents as $event) {
-            foreach (Transaction::where("event_id", $event->id)->where("status", "Pembayaran Berhasil")->get() as $transaction) {
-                $revenue += $transaction->total;
+        if (Auth::user()->role == "vendor") {
+            $transaction_count_vendor = Event::where("vendor_id", Auth::user()->vendor->id)
+                ->get()
+                ->map(function ($event) {
+                    return Transaction::where("event_id", $event->id)->first();
+                })
+                ->filter()
+                ->count();
+
+            $revenue = 0;
+            $vendorEvents = Vendor::firstWhere("user_id", Auth::user()->id)->events;
+            foreach ($vendorEvents as $event) {
+                foreach (Transaction::where("event_id", $event->id)->where("status", "Pembayaran Berhasil")->get() as $transaction) {
+                    $revenue += $transaction->total;
+                }
             }
+            $dashboard_vendor = [
+                "event_count" => Event::where("vendor_id", Auth::user()->vendor->id)->count(),
+                "promo_count" => Voucher::where("user_id", Auth::user()->id)->count(),
+                "transaction_count" => $transaction_count_vendor,
+                "revenue" => formatMoney($revenue),
+            ];
         }
 
         return Inertia::render("backend/Dashboard", [
@@ -423,12 +428,7 @@ class PageController extends Controller
                     "vendor_count" => Vendor::count(),
                     "transaction_count" => Transaction::count(),
                 ],
-                "dashboard_vendor" => [
-                    "event_count" => Event::where("vendor_id", Auth::user()->vendor->id)->count(),
-                    "promo_count" => Voucher::where("user_id", Auth::user()->id)->count(),
-                    "transaction_count" => $transaction_count_vendor,
-                    "revenue" => formatMoney($revenue),
-                ],
+                "dashboard_vendor" => $dashboard_vendor,
             ],
         ]);
     }
