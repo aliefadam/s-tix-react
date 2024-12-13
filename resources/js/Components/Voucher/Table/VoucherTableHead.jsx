@@ -23,7 +23,7 @@ function VoucherTableHead() {
                     Maksimal Pemakaian
                 </th>
                 <th scope="col" className="px-6 py-5">
-                    Jumlah Pemakaian
+                    Telah Dipakai
                 </th>
                 <th scope="col" className="px-6 py-5">
                     Status

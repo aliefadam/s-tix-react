@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\MethodPayment;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -54,7 +55,8 @@ class TransactionController extends Controller
                 throw new Exception("Silahkan pilih metode pembayaran");
             }
             DB::beginTransaction();
-            $data_ticket = session("data_ticket.for_page_payment");
+            $event_slug = Event::firstWhere("slug", $slug)->slug;
+            $data_ticket = session("data_ticket_event_{$event_slug}.for_page_payment");
             $isUseVoucher = isset($data_ticket["voucher"]);
             $internetFee = Setting::first()->internet_fee;
             if ($isUseVoucher) {
@@ -85,7 +87,7 @@ class TransactionController extends Controller
                 "total" => $total,
                 "payment" => json_encode([
                     "method" => $request->payment_method,
-                    "data" => "123123123",
+                    "data" => "909090909090909",
                     "expiration_date" => now()->addDays(1),
                 ]),
                 "status" => "Menunggu Pembayaran",
@@ -133,6 +135,11 @@ class TransactionController extends Controller
                     "user_email" => $pembeli["email"],
                     "used_at" => now(),
                 ]);
+                if ($voucher->maximal_used != 0 && $voucher->used == $voucher->maximal_used) {
+                    $voucher->update([
+                        "active" => false,
+                    ]);
+                }
             }
             DB::commit();
             return redirect()->route("event.payment-waiting", [$transaction->invoice]);

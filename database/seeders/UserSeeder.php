@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 'name' => 'Adam',
                 'email' => 'aliefadam21@gmail.com',
                 "password" => bcrypt("123"),
-                'date_of_birth' => "2003-07-21",
+                // 'date_of_birth' => "2003-07-21",
                 'gender' => 'Laki-laki',
                 'whatsapp' => '895364711840',
                 'identity_type' => 'KTP',

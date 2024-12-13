@@ -21,6 +21,7 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
         Route::get("/change-password", [PageController::class, "changePassword"])->name("admin.changePassword");
         Route::post("/change-password", [AuthController::class, "changePasswordPost"])->name("admin.changePasswordPost");
 
+        Route::get("/users", [PageController::class, "users"])->name("admin.users.index");
         Route::prefix("vendor")->group(function () {
             Route::get("/", [VendorController::class, "index"])->name("admin.vendor.index");
             Route::get("/create", [VendorController::class, "create"])->name("admin.vendor.create");

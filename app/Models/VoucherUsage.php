@@ -16,4 +16,8 @@ class VoucherUsage extends Model
         return $this->belongsTo(Voucher::class);
     }
 
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
 }

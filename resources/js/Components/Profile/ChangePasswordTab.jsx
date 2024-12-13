@@ -12,7 +12,10 @@ function ChangePasswordTab() {
     const changePassword = (e) => {
         e.preventDefault();
         put(route("profile.change-password"), {
-            onSuccess: () => reset(),
+            onSuccess: () => {
+                reset();
+                document.activeElement.blur();
+            },
         });
     };
     return (
@@ -35,6 +38,7 @@ function ChangePasswordTab() {
                     type={"password"}
                     value={data.old_password}
                     onChange={(e) => setData("old_password", e.target.value)}
+                    error={errors.old_password}
                 />
                 <InputGroup
                     id={"kata_sandi_baru"}
@@ -42,6 +46,7 @@ function ChangePasswordTab() {
                     type={"password"}
                     value={data.password}
                     onChange={(e) => setData("password", e.target.value)}
+                    error={errors.password}
                 />
                 <InputGroup
                     id={"konfirmasi_kata_sandi_baru"}
@@ -51,6 +56,7 @@ function ChangePasswordTab() {
                     onChange={(e) =>
                         setData("password_confirmation", e.target.value)
                     }
+                    error={errors.password_confirmation}
                 />
                 <div className="flex justify-center items-center mt-8 col-span-2">
                     <button

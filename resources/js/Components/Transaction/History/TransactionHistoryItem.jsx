@@ -6,6 +6,13 @@ import TransactionHistoryDetail from "./TransactionHistoryDetail";
 function TransactionHistoryItem({ transactions, openModal }) {
     return (
         <div id="history-container" className="lg:mt-5 flex flex-col gap-5">
+            {transactions.length === 0 && (
+                <div className="mt-5">
+                    <p className="text-center text-lg text-gray-500">
+                        Anda belum memiliki transaksi
+                    </p>
+                </div>
+            )}
             {transactions.map((transaction, i) => (
                 <div
                     key={i}

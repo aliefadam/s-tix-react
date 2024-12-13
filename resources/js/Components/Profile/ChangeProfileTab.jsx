@@ -11,12 +11,12 @@ import SelectGroup from "./SelectGroup";
 import ButtonChangeProfile from "./ButtonChangeProfile";
 
 function ChangeProfileTab({ profile }) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, put, processing, errors, reset } = useForm({
         name: profile.name,
         email: profile.email,
-        date: getDatePart(profile.date_of_birth, "day"),
-        month: getDatePart(profile.date_of_birth, "month"),
-        year: getDatePart(profile.date_of_birth, "year"),
+        // date: getDatePart(profile.date_of_birth, "day"),
+        // month: getDatePart(profile.date_of_birth, "month"),
+        // year: getDatePart(profile.date_of_birth, "year"),
         whatsapp: profile.whatsapp,
         gender: profile.gender,
         identity_type: profile.identity_type,
@@ -31,7 +31,7 @@ function ChangeProfileTab({ profile }) {
 
     const changeProfile = (e) => {
         e.preventDefault();
-        put(route("profile.update"));
+        put(route("profile.update"), {});
     };
 
     return (
@@ -58,6 +58,7 @@ function ChangeProfileTab({ profile }) {
                         label={"Nama Lengkap"}
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
+                        error={errors.name}
                     />
                     <InputGroup
                         type={"email"}
@@ -67,12 +68,12 @@ function ChangeProfileTab({ profile }) {
                         value={data.email}
                         onChange={(e) => setData("email", e.target.value)}
                     />
-                    <SelectBirthDate
+                    {/* <SelectBirthDate
                         date={data.date}
                         month={data.month}
                         year={data.year}
                         onChange={(e) => setData(e.target.name, e.target.value)}
-                    />
+                    /> */}
                     <InputGroupPrefix
                         id={"whatsapp"}
                         label={"Nomor Whatsapp"}
@@ -90,8 +91,6 @@ function ChangeProfileTab({ profile }) {
                         gender={data.gender}
                         onChange={(e) => setData("gender", e.target.value)}
                     />
-                </div>
-                <div className="">
                     <InputGroup
                         type={"text"}
                         id={"works"}
@@ -99,6 +98,8 @@ function ChangeProfileTab({ profile }) {
                         value={data.works}
                         onChange={(e) => setData("works", e.target.value)}
                     />
+                </div>
+                <div className="">
                     <InputGroup
                         type={"number"}
                         id={"height"}

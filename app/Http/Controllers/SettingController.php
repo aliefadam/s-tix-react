@@ -22,9 +22,12 @@ class SettingController extends Controller
     {
         $request->validate([
             "internet_fee" => "required|numeric",
+            "limit_entry_data" => "required|numeric",
         ], [
             "internet_fee.required" => "Internet Fee harus diisi",
             "internet_fee.numeric" => "Internet Fee harus berupa angka",
+            "limit_entry_data.required" => "Limit Entry Data harus diisi",
+            "limit_entry_data.numeric" => "Limit Entry Data harus berupa angka",
         ]);
 
         DB::beginTransaction();

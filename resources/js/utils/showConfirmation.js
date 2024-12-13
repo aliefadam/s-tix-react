@@ -8,6 +8,7 @@ const showConfirmation = ({
     onCancel = () => {},
     confirmButtonText = "Ya, yakin!",
     cancelButtonText = "Batal",
+    showDenyButton = false,
 }) => {
     return Swal.fire({
         title: title,
@@ -18,6 +19,9 @@ const showConfirmation = ({
         cancelButtonColor: "#d33",
         confirmButtonText: confirmButtonText,
         cancelButtonText: cancelButtonText,
+        showDenyButton: showDenyButton,
+        denyButtonText: "Batal",
+        denyButtonColor: "#808080",
     }).then((result) => {
         if (result.isConfirmed) {
             onConfirm();

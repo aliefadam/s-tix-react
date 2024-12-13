@@ -7,6 +7,10 @@ use App\Models\MethodPayment;
 use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\Transaction;
+use App\Models\User;
+use App\Models\Vendor;
+use App\Models\Visitor;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -43,15 +47,19 @@ class PageController extends Controller
 
     public function event($slug)
     {
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
+        $isSession = session("data_ticket_event_{$event_slug}") ?? [];
         return Inertia::render("frontend/Event/EventDetail", [
             "title" => "Event",
             "event" => mappingEvent(Event::firstWhere("slug", $slug)),
+            "is_session" => $isSession
         ]);
     }
 
     public function eventTickets($slug)
     {
-        if (session("data_ticket")) {
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
+        if (session("data_ticket_event_{$event_slug}")) {
             return back()->with("notification", [
                 "title" => "Perhatian",
                 "text" => "Melakukan pembelian tiket ulang akan menghapus data tiket sebelumnya",
@@ -111,11 +119,12 @@ class PageController extends Controller
             "tax_amount" => $taxAmount,
             "internet_fee" => Setting::first()->internet_fee,
             "total" => $total + Setting::first()->internet_fee,
-            "expiration_time" => now()->addMinutes(30),
+            "expiration_time" => now()->addMinutes(Setting::first()->limit_entry_data),
         ];
 
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
         session()->put([
-            "data_ticket" => [
+            "data_ticket_event_{$event_slug}" => [
                 "for_page_data_diri" => $data,
             ],
         ]);
@@ -125,7 +134,8 @@ class PageController extends Controller
 
     public function eventDataDiri($slug)
     {
-        $data = session("data_ticket.for_page_data_diri");
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
+        $data = session("data_ticket_event_{$event_slug}.for_page_data_diri");
         return Inertia::render("frontend/Event/EventDataDiri", [
             "title" => "Data Diri",
             "profile" => Auth::user(),
@@ -139,40 +149,41 @@ class PageController extends Controller
         $request->validate([
             'data_pembeli.name' => 'required|string',
             'data_pembeli.email' => 'required|email',
-            'data_pembeli.year' => 'required',
-            'data_pembeli.month' => 'required',
-            'data_pembeli.date' => 'required',
+            // 'data_pembeli.year' => 'required',
+            // 'data_pembeli.month' => 'required',
+            // 'data_pembeli.date' => 'required',
             'data_pembeli.gender' => 'required',
             'data_pembeli.identity_type' => 'required',
             'data_pembeli.identity_number' => 'required',
 
             'data_pengunjung.*.name' => 'required|string',
             'data_pengunjung.*.email' => 'required|email',
-            'data_pengunjung.*.year' => 'required',
-            'data_pengunjung.*.month' => 'required',
-            'data_pengunjung.*.date' => 'required',
+            // 'data_pengunjung.*.year' => 'required',
+            // 'data_pengunjung.*.month' => 'required',
+            // 'data_pengunjung.*.date' => 'required',
             'data_pengunjung.*.gender' => 'required',
             'data_pengunjung.*.identity_type' => 'required',
             'data_pengunjung.*.identity_number' => 'required',
         ], [
             'data_pembeli.name.required' => 'Nama wajib diisi',
             'data_pembeli.email.required' => 'Email wajib diisi',
-            'data_pembeli.year.required' => 'Tahun wajib diisi',
-            'data_pembeli.month.required' => 'Bulan wajib diisi',
-            'data_pembeli.date.required' => 'Tanggal wajib diisi',
+            // 'data_pembeli.year.required' => 'Tahun wajib diisi',
+            // 'data_pembeli.month.required' => 'Bulan wajib diisi',
+            // 'data_pembeli.date.required' => 'Tanggal wajib diisi',
             'data_pembeli.gender.required' => 'Jenis kelamin wajib diisi',
             'data_pembeli.identity_type.required' => 'Tipe identitas wajib diisi',
             'data_pembeli.identity_number.required' => 'Nomor identitas wajib diisi',
 
             'data_pengunjung.*.name.required' => 'Nama wajib diisi',
             'data_pengunjung.*.email.required' => 'Email wajib diisi',
-            'data_pengunjung.*.year.required' => 'Tahun wajib diisi',
-            'data_pengunjung.*.month.required' => 'Bulan wajib diisi',
-            'data_pengunjung.*.date.required' => 'Tanggal wajib diisi',
+            // 'data_pengunjung.*.year.required' => 'Tahun wajib diisi',
+            // 'data_pengunjung.*.month.required' => 'Bulan wajib diisi',
+            // 'data_pengunjung.*.date.required' => 'Tanggal wajib diisi',
             'data_pengunjung.*.gender.required' => 'Jenis kelamin wajib diisi',
             'data_pengunjung.*.identity_type.required' => 'Tipe identitas wajib diisi',
             'data_pengunjung.*.identity_number.required' => 'Nomor identitas wajib diisi',
         ]);
+
 
         $data_pengunjung = [];
         foreach ($request->data_pengunjung as $key => $pengunjung) {
@@ -180,24 +191,25 @@ class PageController extends Controller
                 "ticket_id" => $pengunjung["ticket_id"],
                 "name" => $pengunjung["name"],
                 "email" => $pengunjung["email"],
-                "tanggal_lahir" => $pengunjung["year"] . "-" . $pengunjung["month"] . "-" . $pengunjung["date"],
-                "date" => $pengunjung["date"],
-                "month" => $pengunjung["month"],
-                "year" => $pengunjung["year"],
+                // "tanggal_lahir" => $pengunjung["year"] . "-" . $pengunjung["month"] . "-" . $pengunjung["date"],
+                // "date" => $pengunjung["date"],
+                // "month" => $pengunjung["month"],
+                // "year" => $pengunjung["year"],
                 "gender" => $pengunjung["gender"],
                 "identity_type" => $pengunjung["identity_type"],
                 "identity_number" => $pengunjung["identity_number"],
             ]);
         }
 
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
         $data_ticket = [
             "pembeli" => [
                 "name" => $request->data_pembeli["name"],
                 "email" => $request->data_pembeli["email"],
-                "tanggal_lahir" => $request->data_pembeli["year"] . "-" . $request->data_pembeli["month"] . "-" . $request->data_pembeli["date"],
-                "date" => $request->data_pembeli["date"],
-                "month" => $request->data_pembeli["month"],
-                "year" => $request->data_pembeli["year"],
+                // "tanggal_lahir" => $request->data_pembeli["year"] . "-" . $request->data_pembeli["month"] . "-" . $request->data_pembeli["date"],
+                // "date" => $request->data_pembeli["date"],
+                // "month" => $request->data_pembeli["month"],
+                // "year" => $request->data_pembeli["year"],
                 "gender" => $request->data_pembeli["gender"],
                 "identity_type" => $request->data_pembeli["identity_type"],
                 "identity_number" => $request->data_pembeli["identity_number"],
@@ -208,17 +220,17 @@ class PageController extends Controller
             "tax_amount" => $request["tax_amount"],
             "internet_fee" => Setting::first()->internet_fee,
             "total" => $request["total"],
-            "expiration_time" => session("data_ticket.for_page_data_diri.expiration_time"),
+            "expiration_time" => session("data_ticket_event_{$event_slug}.for_page_data_diri.expiration_time"),
         ];
 
-        if (session("data_ticket.for_page_payment.voucher")) {
-            $data_ticket["voucher"] = session("data_ticket.for_page_payment.voucher");
-            $data_ticket["total_after_discount"] = session("data_ticket.for_page_payment.total_after_discount");
-            $data_ticket["discount_label"] = session("data_ticket.for_page_payment.discount_label");
+        if (session("data_ticket_event_{$event_slug}.for_page_payment.voucher")) {
+            $data_ticket["voucher"] = session("data_ticket_event_{$event_slug}.for_page_payment.voucher");
+            $data_ticket["total_after_discount"] = session("data_ticket_event_{$event_slug}.for_page_payment.total_after_discount");
+            $data_ticket["discount_label"] = session("data_ticket_event_{$event_slug}.for_page_payment.discount_label");
         }
 
-        $data_ticket_for_page_data_diri = session("data_ticket.for_page_data_diri");
-        session()->put("data_ticket", [
+        $data_ticket_for_page_data_diri = session("data_ticket_event_{$event_slug}.for_page_data_diri");
+        session()->put("data_ticket_event_{$event_slug}", [
             "for_page_data_diri" => $data_ticket_for_page_data_diri,
             "for_page_payment" => $data_ticket,
         ]);
@@ -227,20 +239,21 @@ class PageController extends Controller
 
     public function eventPembayaran($slug)
     {
-        if (!session("data_ticket.for_page_payment")) {
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
+        if (!session("data_ticket_event_{$event_slug}.for_page_payment")) {
             return back();
         }
 
-        $data_ticket = session("data_ticket.for_page_payment");
+        $data_ticket = session("data_ticket_event_{$event_slug}.for_page_payment");
         foreach ($data_ticket["pengunjung"] as $pengunjung) {
-            if (empty($pengunjung["name"]) || empty($pengunjung["email"]) || empty($pengunjung["tanggal_lahir"]) || empty($pengunjung["gender"]) || empty($pengunjung["identity_type"]) || empty($pengunjung["identity_number"])) {
+            if (empty($pengunjung["name"]) || empty($pengunjung["email"]) || empty($pengunjung["gender"]) || empty($pengunjung["identity_type"]) || empty($pengunjung["identity_number"])) {
                 return redirect()->back()->withErrors(["data_pengunjung" => "Data salah satu pengunjung masih ada yang kosong"]);
             }
         }
-        $data_ticket_data_diri_back_from_payment = session("data_ticket.for_page_data_diri");
+        $data_ticket_data_diri_back_from_payment = session("data_ticket_event_{$event_slug}.for_page_data_diri");
         $data_ticket_data_diri_back_from_payment["pembeli"] = $data_ticket["pembeli"];
         $data_ticket_data_diri_back_from_payment["pengunjung"] = $data_ticket["pengunjung"];
-        session()->put("data_ticket", [
+        session()->put("data_ticket_event_{$event_slug}", [
             "for_page_data_diri" => $data_ticket_data_diri_back_from_payment,
             "for_page_payment" => $data_ticket,
         ]);
@@ -258,7 +271,8 @@ class PageController extends Controller
 
     public function eventPaymentWaiting($invoice)
     {
-        session()->forget("data_ticket");
+        $event_slug = Transaction::firstWhere("invoice", $invoice)->event->slug;
+        session()->forget("data_ticket_event_{$event_slug}");
         $transaction = Transaction::firstWhere("invoice", $invoice);
         return Inertia::render("frontend/Event/EventPaymentWaiting", [
             "title" => "Menunggu Pembayaran",
@@ -379,15 +393,68 @@ class PageController extends Controller
 
     public function dashboard()
     {
+        // $transaction_count_vendor = [];
+        // $event = Event::where("vendor_id", Auth::user()->vendor->id)->get();
+        // foreach ($event as $e) {
+        //     array_push($transaction_count_vendor, Transaction::where("event_id", $e->id)->first());
+        // }
+        $transaction_count_vendor = Event::where("vendor_id", Auth::user()->vendor->id)
+            ->get()
+            ->map(function ($event) {
+                return Transaction::where("event_id", $event->id)->first();
+            })
+            ->filter()
+            ->count();
+
+        $revenue = 0;
+        $vendorEvents = Vendor::firstWhere("user_id", Auth::user()->id)->events;
+        foreach ($vendorEvents as $event) {
+            foreach (Transaction::where("event_id", $event->id)->where("status", "Pembayaran Berhasil")->get() as $transaction) {
+                $revenue += $transaction->total;
+            }
+        }
+
         return Inertia::render("backend/Dashboard", [
             "title" => "Dashboard",
+            "dashboard" => [
+                "dashboard_admin" => [
+                    "visitor_count" => Visitor::count(),
+                    "user_count" => User::count(),
+                    "vendor_count" => Vendor::count(),
+                    "transaction_count" => Transaction::count(),
+                ],
+                "dashboard_vendor" => [
+                    "event_count" => Event::where("vendor_id", Auth::user()->vendor->id)->count(),
+                    "promo_count" => Voucher::where("user_id", Auth::user()->id)->count(),
+                    "transaction_count" => $transaction_count_vendor,
+                    "revenue" => formatMoney($revenue),
+                ],
+            ],
         ]);
     }
 
     public function changePassword()
     {
-        return view("backend.profile.change-password", [
-            "title" => "Ubah Password",
+        return Inertia::render("backend/Profile/ChangePassword", [
+            "title" => "Ganti Password",
+        ]);
+    }
+
+    public function users()
+    {
+        $users = [];
+        foreach (User::all() as $user) {
+            array_push($users, [
+                "id" => $user->id,
+                "name" => $user->name,
+                "email" => $user->email,
+                "role" => $user->role,
+                "created_at" => formatDate($user->created_at),
+            ]);
+        }
+        return Inertia::render("backend/User/Index", [
+            "title" => "Data Pengguna",
+            "users" => $users,
         ]);
     }
 }

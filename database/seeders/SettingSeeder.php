@@ -14,6 +14,7 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
+            "limit_entry_data" => 30,
             "internet_fee" => 2000,
         ]);
     }

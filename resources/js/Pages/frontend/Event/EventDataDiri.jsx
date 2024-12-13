@@ -1,4 +1,3 @@
-import Alert from "@/Components/Alert";
 import BreadCrumb from "@/Components/BreadCrumb";
 import EventDataPembeliForm from "@/Components/Event/EventDataPembeliForm";
 import EventDataPengunjungForm from "@/Components/Event/EventDataPengunjungForm";
@@ -117,9 +116,9 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
         data_pengunjung: data_ticket.tickets.map(() => ({
             name: "",
             email: "",
-            year: "",
-            month: "",
-            date: "",
+            // year: "",
+            // month: "",
+            // date: "",
             gender: "",
             identity_type: "",
             identity_number: "",
@@ -127,9 +126,9 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
         data_pembeli: {
             email: profile.email,
             name: profile.name,
-            date: getDatePart(profile.date_of_birth, "day"),
-            month: getDatePart(profile.date_of_birth, "month"),
-            year: getDatePart(profile.date_of_birth, "year"),
+            // date: getDatePart(profile.date_of_birth, "day"),
+            // month: getDatePart(profile.date_of_birth, "month"),
+            // year: getDatePart(profile.date_of_birth, "year"),
             gender: profile.gender,
             identity_type: profile.identity_type,
             identity_number: profile.identity_number,

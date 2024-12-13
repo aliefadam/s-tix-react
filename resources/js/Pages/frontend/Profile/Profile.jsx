@@ -3,8 +3,9 @@ import ChangePasswordTab from "@/Components/Profile/ChangePasswordTab";
 import ChangeProfileTab from "@/Components/Profile/ChangeProfileTab";
 import ProfileTab from "@/Components/Profile/ProfileTab";
 import UserLayout from "@/Layouts/UserLayout";
-import { Link } from "@inertiajs/react";
-import React from "react";
+import Notification from "@/utils/notification";
+import { Link, usePage } from "@inertiajs/react";
+import React, { useEffect } from "react";
 
 function Profile({ title, profile }) {
     const breadCrumbData = {
@@ -16,6 +17,13 @@ function Profile({ title, profile }) {
         ],
         active: title,
     };
+
+    const { notification } = usePage().props;
+    useEffect(() => {
+        if (notification) {
+            Notification(notification);
+        }
+    }, [notification]);
 
     return (
         <UserLayout title={title}>

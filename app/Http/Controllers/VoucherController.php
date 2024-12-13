@@ -19,10 +19,20 @@ class VoucherController extends Controller
         foreach (Voucher::where("user_id", Auth::user()->id)->get() as $voucher) {
             array_push($vouchers, mappingVoucher($voucher));
         }
-        foreach(VoucherUsage::whereHas("voucher", function($voucher) {
-            $voucher->where("user_id", Auth::user()->id);
-        })->get() as $voucher) {
-            array_push($usageVouchers, $voucher);
+        foreach (
+            VoucherUsage::whereHas("voucher", function ($voucher) {
+                $voucher->where("user_id", Auth::user()->id);
+            })->get() as $voucher
+        ) {
+            array_push($usageVouchers, [
+                "id" => $voucher->id,
+                "voucher_id" => $voucher->voucher_id,
+                "transaction_id" => $voucher->transaction_id,
+                "used_at" => formatDate($voucher->used_at) . " - " . formatTime($voucher->used_at),
+                "user_email" => $voucher->user_email,
+                "user_name" => $voucher->user_name,
+                "event_name" => $voucher->transaction->event->name,
+            ]);
         }
 
         return Inertia::render("backend/Voucher/Index", [
@@ -170,11 +180,15 @@ class VoucherController extends Controller
             $nominal = $voucher->nominal;
 
             if (!$active) {
-                return back()->withErrors(["promo" => "Voucher tidak aktif atau sudah digunakan"]);
+                return back()->withErrors(["promo" => "Voucher ini sedang tidak aktif"]);
             }
 
             if ($total < $minimalTransaction) {
                 return back()->withErrors(["promo" => "Minimal Transaksi untuk kode ini adalah {$minimalTransactionFormatted}"]);
+            }
+
+            if (isUseVoucher($voucher)) {
+                return back()->withErrors(["promo" => "Voucher ini sudah anda gunakan"]);
             }
 
             $data_ticket = session("data_ticket");

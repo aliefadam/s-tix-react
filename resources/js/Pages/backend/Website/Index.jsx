@@ -13,6 +13,7 @@ function Index({ title, settings }) {
 
     const { data, setData, put, processing, errors } = useForm({
         internet_fee: settings.internet_fee,
+        limit_entry_data: settings.limit_entry_data,
     });
 
     const handleSubmit = (e) => {
@@ -36,6 +37,16 @@ function Index({ title, settings }) {
                 action=""
                 className="mt-5 bg-white p-5 rounded-md shadow-md w-1/2"
             >
+                <InputGroup
+                    id={"batas_waktu"}
+                    label={"Batas Waktu Isi Data (menit)"}
+                    onChange={(e) =>
+                        setData("limit_entry_data", e.target.value)
+                    }
+                    value={data.limit_entry_data}
+                    error={errors.limit_entry_data}
+                    type={"number"}
+                />
                 <InputGroup
                     id={"internet_fee"}
                     label={"Internet Fee (Rp)"}

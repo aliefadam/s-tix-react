@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -111,8 +112,10 @@ class TicketController extends Controller
         ]);
     }
 
-    public function clearSessionDataTicket($slug) {
-        session()->forget("data_ticket");
+    public function clearSessionDataTicket($slug)
+    {
+        $event_slug = Event::firstWhere("slug", $slug)->slug;
+        session()->forget("data_ticket_event_{$event_slug}");
         return redirect()->route("event.tickets", $slug);
     }
 }

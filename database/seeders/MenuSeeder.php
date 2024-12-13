@@ -29,18 +29,26 @@ class MenuSeeder extends Seeder
                 "role" => json_encode(["super-admin", "vendor"]),
             ],
             [
-                "type" => "title",
-                "name" => "Event",
-                "slug" => "event",
-                "role" => json_encode(["super-admin", "vendor"]),
-            ],
-            [
                 "type" => "link",
                 "name" => "vendor",
                 "url" => "admin.vendor.index",
                 "icon" => "fa-regular fa-users",
-                "slug_id" => "event",
+                "slug_id" => "menu",
                 "role" => json_encode(["super-admin"]),
+            ],
+            [
+                "type" => "link",
+                "name" => "users",
+                "url" => "admin.users.index",
+                "icon" => "fa-regular fa-users",
+                "slug_id" => "menu",
+                "role" => json_encode(["super-admin"]),
+            ],
+            [
+                "type" => "title",
+                "name" => "Event",
+                "slug" => "event",
+                "role" => json_encode(["vendor"]),
             ],
             [
                 "type" => "link",
@@ -58,6 +66,12 @@ class MenuSeeder extends Seeder
                 "slug_id" => "event",
                 "role" => json_encode(["vendor"]),
             ],
+            // [
+            //     "type" => "title",
+            //     "name" => "User",
+            //     "slug" => "user",
+            //     "role" => json_encode(["super-admin"]),
+            // ],
             [
                 "type" => "title",
                 "name" => "Transaction",
@@ -78,14 +92,6 @@ class MenuSeeder extends Seeder
                 "slug" => "settings",
                 "role" => json_encode(["super-admin"]),
             ],
-            // [
-            //     "type" => "link",
-            //     "name" => "Pengaturan",
-            //     "url" => "admin.vendor.index",
-            //     "icon" => "fa-regular fa-gear",
-            //     "slug_id" => "settings",
-            //     "role" => json_encode(["super-admin"]),
-            // ],
             [
                 "type" => "link",
                 "name" => "website",

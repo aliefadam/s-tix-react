@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->double("limit_entry_data");
             $table->double("internet_fee");
             $table->timestamps();
         });

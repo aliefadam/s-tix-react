@@ -200,27 +200,32 @@ class AuthController extends Controller
 
     public function changePasswordPost(Request $request)
     {
+        $request->validate([
+            "old_password" => "required|current_password",
+            "password" => "required|min:8|confirmed",
+            "password_confirmation" => "required|min:8",
+        ], [
+            "old_password.required" => "Kata sandi lama harus diisi",
+            "old_password.current_password" => "Kata sandi lama tidak sesuai",
+            "password.required" => "Kata sandi baru harus diisi",
+            "password.min" => "Kata sandi minimal 8 karakter",
+            "password.confirmed" => "Konfirmasi kata sandi tidak sesuai",
+            "password_confirmation.required" => "Konfirmasi kata sandi harus diisi",
+            "password_confirmation.min" => "Konfirmasi kata sandi minimal 8 karakter",
+            "password_confirmation.confirmed" => "Konfirmasi kata sandi tidak sesuai",
+        ]);
+
         DB::beginTransaction();
         try {
-            $request->validate([
-                "old_password" => "required|current_password",
-                "password" => "required|min:3|confirmed",
-            ], [
-                "old_password.required" => "Kata sandi lama harus diisi",
-                "old_password.current_password" => "Kata sandi lama tidak sesuai",
-                "password.required" => "Kata sandi baru harus diisi",
-                "password.min" => "Kata sandi minimal 8 karakter",
-                "password.confirmed" => "Konfirmasi kata sandi tidak sesuai",
-            ]);
-
             $user = User::firstWhere("id", Auth::user()->id);
             $user->update([
                 "password" => bcrypt($request->password)
             ]);
             DB::commit();
-            return back()->with("notification", [
+            Auth::logout();
+            return redirect()->route("login")->with("notification", [
                 "title" => "Berhasil",
-                "text" => "Merubah Kata Sandi",
+                "text" => "Merubah Kata Sandi, silahkan login kembali",
                 "icon" => "success",
             ]);
         } catch (Exception $e) {
@@ -235,15 +240,22 @@ class AuthController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ], [
+            'name.required' => 'Nama lengkap harus diisi',
+            'name.string' => 'Nama lengkap harus berupa teks',
+            'name.max' => 'Nama lengkap tidak boleh lebih dari 255 karakter',
+        ]);
         DB::beginTransaction();
         try {
             $updatedData = [
-                "nama_lengkap" => $request->nama_lengkap,
-                "date" => $request->date,
-                "month" => $request->month,
-                "year" => $request->year,
+                "name" => $request->name,
+                // "date" => $request->date,
+                // "month" => $request->month,
+                // "year" => $request->year,
                 "gender" => $request->gender ?? null,
-                "date_of_birth" => $request->year . "-" . $request->month . "-" . $request->date,
+                // "date_of_birth" => $request->year . "-" . $request->month . "-" . $request->date,
                 "whatsapp" => $request->whatsapp,
                 "identity_type" => $request->identity_type,
                 "identity_number" => $request->identity_number,
@@ -252,7 +264,6 @@ class AuthController extends Controller
                 "weight" => $request->weight,
                 "religion" => $request->religion,
                 "region" => $request->region,
-                "blood_type" => $request->blood_type,
             ];
             User::firstWhere("id", Auth::user()->id)->update($updatedData);
             DB::commit();
@@ -263,7 +274,11 @@ class AuthController extends Controller
             ]);
         } catch (Exception $e) {
             DB::rollBack();
-            return $e->getMessage();
+            return back()->with("notification", [
+                "title" => "Gagal",
+                "text" => $e->getMessage(),
+                "icon" => "error",
+            ]);
         }
     }
 

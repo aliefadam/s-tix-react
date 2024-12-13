@@ -9,6 +9,16 @@ function TicketTabsItem({ tickets, dataTabsTarget }) {
             role="tabpanel"
             aria-labelledby={dataTabsTarget}
         >
+            {tickets.length === 0 && (
+                <div className="mt-5">
+                    <p className="text-center text-lg text-gray-500">
+                        Anda belum memiliki E-Ticket untuk event{" "}
+                        {dataTabsTarget == "ticket-commings"
+                            ? "yang sedang berlangsung"
+                            : "yang telah selesai"}
+                    </p>
+                </div>
+            )}
             <div className="grid grid-cols-4 gap-5">
                 {tickets.map((ticket, i) => (
                     <div

@@ -374,3 +374,13 @@ function payment($invoice)
         throw new Exception("Invoice tidak ditemukan");
     }
 }
+
+if (!function_exists("isUseVoucher")) {
+    function isUseVoucher($voucher)
+    {
+        $user = Auth::user();
+        return Transaction::where("user_id", $user->id)
+            ->where("promo_code", $voucher->code)
+            ->count() > 0;
+    }
+}

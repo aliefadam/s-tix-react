@@ -21,8 +21,8 @@ function VoucherTableBody({
                     <td className="px-6 py-5">{voucher.nominal}</td>
                     <td className="px-6 py-5">{voucher.minimal_transaction}</td>
                     <td className="px-6 py-5">{voucher.maximal_used}</td>
-                    <td className="px-6 py-5">
-                        <span className="poppins-semibold">
+                    <td className="px-6 py-5 flex items-center">
+                        <span className="poppins-semibold w-[30px] h-[30px] flex items-center">
                             {voucher.used}x
                         </span>
                         {voucher.used != 0 && (
@@ -32,9 +32,10 @@ function VoucherTableBody({
                                 }
                                 data-modal-target="detail-usage-voucher"
                                 data-modal-toggle="detail-usage-voucher"
-                                className="ml-3 text-sm text-blue-700 underline hover:text-blue-900 active:scale-95 duration-200"
+                                type="button"
+                                className="text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:ring-teal-300 font-medium rounded-lg text-xs px-3 py-2.5"
                             >
-                                Lihat Detail
+                                Detail
                             </button>
                         )}
                     </td>
