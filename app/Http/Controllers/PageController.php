@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\MethodPayment;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -108,7 +109,8 @@ class PageController extends Controller
             "sub_total" => $sub_total,
             "tax" => $tax,
             "tax_amount" => $taxAmount,
-            "total" => $total,
+            "internet_fee" => Setting::first()->internet_fee,
+            "total" => $total + Setting::first()->internet_fee,
             "expiration_time" => now()->addMinutes(30),
         ];
 
@@ -204,6 +206,7 @@ class PageController extends Controller
             "sub_total" => $request["sub_total"],
             "tax" => $request["tax"],
             "tax_amount" => $request["tax_amount"],
+            "internet_fee" => Setting::first()->internet_fee,
             "total" => $request["total"],
             "expiration_time" => session("data_ticket.for_page_data_diri.expiration_time"),
         ];

@@ -7,6 +7,7 @@ function EventDetailPanel({
     ticketCount,
     tax,
     taxAmount,
+    internetFee = null,
     total,
     processing = false,
     showPromo = false,
@@ -73,6 +74,14 @@ function EventDetailPanel({
                     <span className="text-sm">Pajak</span>
                     <span className="text-sm poppins-semibold">
                         {tax}% (+{formatMoney(taxAmount)})
+                    </span>
+                </div>
+            )}
+            {internetFee && (
+                <div className="p-4 flex justify-between border-b border-teal-700">
+                    <span className="text-sm">Internet Fee</span>
+                    <span className="text-sm poppins-semibold">
+                        {formatMoney(internetFee)}
                     </span>
                 </div>
             )}

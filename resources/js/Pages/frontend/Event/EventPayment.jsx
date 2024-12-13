@@ -218,6 +218,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                             total_after_discount={
                                 data_ticket.total_after_discount
                             }
+                            internetFee={data_ticket.internet_fee}
                             processing={processing}
                             showPromo={true}
                             discountLabel={discountLabel}

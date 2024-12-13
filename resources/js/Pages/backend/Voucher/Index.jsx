@@ -8,7 +8,7 @@ import showLoading from "@/utils/showLoading";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect } from "react";
 
-function Index({ title, vouchers }) {
+function Index({ title, vouchers, usage_voucher }) {
     const breadCrumbData = {
         active: title,
     };
@@ -73,6 +73,7 @@ function Index({ title, vouchers }) {
                 <VoucherTableTitle />
                 <VoucherTable
                     vouchers={vouchers}
+                    usage_voucher={usage_voucher}
                     handleDeleteVoucher={handleDeleteVoucher}
                     handleActiveVoucher={handleActiveVoucher}
                     handleDeactiveVoucher={handleDeactiveVoucher}

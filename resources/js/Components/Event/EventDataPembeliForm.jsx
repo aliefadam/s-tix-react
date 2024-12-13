@@ -31,7 +31,7 @@ function EventDataPembeliForm({ data_pembeli, handleChange, errors }) {
                     userType={"pembeli"}
                     error={errors["data_pembeli.name"]}
                 />
-                <SelectBirthDate
+                {/* <SelectBirthDate
                     date={data_pembeli.date}
                     month={data_pembeli.month}
                     year={data_pembeli.year}
@@ -42,7 +42,7 @@ function EventDataPembeliForm({ data_pembeli, handleChange, errors }) {
                         month: errors["data_pembeli.month"],
                         year: errors["data_pembeli.year"],
                     }}
-                />
+                /> */}
                 <SelectGender
                     gender={data_pembeli.gender}
                     handleChange={handleChange}

@@ -8,6 +8,11 @@ function SidebarBrand() {
                 href={route("admin.dashboard")}
                 className="text-2xl poppins-black"
             >
+                {/* <img
+                    src="/imgs/logo.png"
+                    alt=""
+                    className="w-8 rounded-md p-1 bg-teal-700"
+                /> */}
                 S-TIX
             </Link>
         </div>

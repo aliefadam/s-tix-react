@@ -29,7 +29,7 @@ function Index({ title, transactions }) {
                 />
             </div>
 
-            <TransactionDetailModal transaction={transaction} />
+            {transaction && <TransactionDetailModal transaction={transaction} />}
         </AdminLayout>
     );
 }

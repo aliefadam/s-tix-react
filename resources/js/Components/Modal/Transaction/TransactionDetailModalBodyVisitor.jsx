@@ -81,14 +81,14 @@ function TransactionDetailModalBodyVisitor({ visitor }) {
                                         {pengunjung.gender}
                                     </span>
                                 </div>
-                                <div className="flex justify-between">
+                                {/* <div className="flex justify-between">
                                     <span className="lg:text-sm text-xs flex-[3]">
                                         Tanggal Lahir
                                     </span>
                                     <span className="lg:text-sm text-xs flex-[2] text-gray-600 text-end">
                                         {pengunjung.date_of_birth}
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="flex justify-between">
                                     <span className="lg:text-sm text-xs flex-[3]">
                                         Tipe Identitas

@@ -57,7 +57,7 @@ function EventDataPengunjungForm({
                             ticketID={ticket.id}
                             error={errors[`data_pengunjung.${index}.name`]}
                         />
-                        <SelectBirthDate
+                        {/* <SelectBirthDate
                             date={data_pengunjung[index]?.date}
                             month={data_pengunjung[index]?.month}
                             year={data_pengunjung[index]?.year}
@@ -70,7 +70,7 @@ function EventDataPengunjungForm({
                                 month: errors[`data_pengunjung.${index}.month`],
                                 year: errors[`data_pengunjung.${index}.year`],
                             }}
-                        />
+                        /> */}
                         <SelectGender
                             gender={data_pengunjung[index]?.[`gender`]}
                             handleChange={handleChange}

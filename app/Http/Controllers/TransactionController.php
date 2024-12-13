@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\MethodPayment;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\Voucher;
+use App\Models\VoucherUsage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,9 +56,9 @@ class TransactionController extends Controller
             DB::beginTransaction();
             $data_ticket = session("data_ticket.for_page_payment");
             $isUseVoucher = isset($data_ticket["voucher"]);
-            $internetFee = 0;
+            $internetFee = Setting::first()->internet_fee;
             if ($isUseVoucher) {
-                $total = $data_ticket["total_after_discount"] + $internetFee;
+                $total = $data_ticket["total_after_discount"];
                 $promo_code = $data_ticket["voucher"]["code"];
                 if ($data_ticket["voucher"]["unit"] == "percent") {
                     $nominal = $data_ticket["voucher"]["nominal"];
@@ -65,7 +67,7 @@ class TransactionController extends Controller
                     $promo_amount = $data_ticket["voucher"]["nominal"];
                 }
             } else {
-                $total = $data_ticket["total"] + $internetFee;
+                $total = $data_ticket["total"];
                 $promo_code = null;
                 $promo_amount = null;
             }
@@ -96,7 +98,7 @@ class TransactionController extends Controller
                 "type" => "pembeli",
                 "name" => $pembeli["name"],
                 "email" => $pembeli["email"],
-                "date_of_birth" => $pembeli["tanggal_lahir"],
+                // "date_of_birth" => $pembeli["tanggal_lahir"],
                 "gender" => $pembeli["gender"],
                 "identity_type" => $pembeli["identity_type"],
                 "identity_number" => $pembeli["identity_number"],
@@ -110,7 +112,7 @@ class TransactionController extends Controller
                     "type" => "pengunjung",
                     "name" => $pengunjung["name"],
                     "email" => $pengunjung["email"],
-                    "date_of_birth" => $pengunjung["tanggal_lahir"],
+                    // "date_of_birth" => $pengunjung["tanggal_lahir"],
                     "gender" => $pengunjung["gender"],
                     "identity_type" => $pengunjung["identity_type"],
                     "identity_number" => $pengunjung["identity_number"],
@@ -123,6 +125,13 @@ class TransactionController extends Controller
                 $voucher = Voucher::find($voucherID);
                 $voucher->update([
                     "used" => $voucher->used + 1,
+                ]);
+                VoucherUsage::create([
+                    "voucher_id" => $voucherID,
+                    "transaction_id" => $transaction->id,
+                    "user_name" => $pembeli["name"],
+                    "user_email" => $pembeli["email"],
+                    "used_at" => now(),
                 ]);
             }
             DB::commit();

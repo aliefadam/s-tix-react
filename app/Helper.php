@@ -179,7 +179,7 @@ if (!function_exists("getDataPembeli")) {
             "name" => $pembeli->name,
             "email" => $pembeli->email,
             "gender" => $pembeli->gender,
-            "date_of_birth" => concatDate($pembeli->date, $pembeli->month, $pembeli->year),
+            // "date_of_birth" => concatDate($pembeli->date, $pembeli->month, $pembeli->year),
             "identity_type" => $pembeli->identity_type,
             "identity_number" => $pembeli->identity_number
         ];
@@ -198,7 +198,7 @@ if (!function_exists("getDataPengunjung")) {
                 "name" => $visitor->name,
                 "email" => $visitor->email,
                 "gender" => $visitor->gender,
-                "date_of_birth" => concatDate($visitor->date, $visitor->month, $visitor->year),
+                // "date_of_birth" => concatDate($visitor->date, $visitor->month, $visitor->year),
                 "identity_type" => $visitor->identity_type,
                 "identity_number" => $visitor->identity_number
             ]);

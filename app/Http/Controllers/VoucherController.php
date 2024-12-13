@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Voucher;
+use App\Models\VoucherUsage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +14,21 @@ class VoucherController extends Controller
     public function index()
     {
         $vouchers = [];
+        $usageVouchers = [];
+
         foreach (Voucher::where("user_id", Auth::user()->id)->get() as $voucher) {
             array_push($vouchers, mappingVoucher($voucher));
         }
+        foreach(VoucherUsage::whereHas("voucher", function($voucher) {
+            $voucher->where("user_id", Auth::user()->id);
+        })->get() as $voucher) {
+            array_push($usageVouchers, $voucher);
+        }
+
         return Inertia::render("backend/Voucher/Index", [
             "title" => "Voucher",
             "vouchers" => $vouchers,
+            "usage_voucher" => $usageVouchers,
         ]);
     }
 

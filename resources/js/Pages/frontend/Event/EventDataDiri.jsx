@@ -277,6 +277,7 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
                             ticketCount={data_ticket.tickets.length}
                             tax={data_ticket.tax}
                             taxAmount={data_ticket.tax_amount}
+                            internetFee={data_ticket.internet_fee}
                             total={data_ticket.total}
                         />
                     </div>

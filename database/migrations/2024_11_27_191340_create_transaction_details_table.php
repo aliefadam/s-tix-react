@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum("type", ["pembeli", "pengunjung"]);
             $table->string('name');
             $table->string('email');
-            $table->date('date_of_birth');
+            // $table->date('date_of_birth');
             $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('handphone')->nullable();
             $table->string('identity_type')->nullable();

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TalentController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransactionController;
@@ -71,6 +72,11 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::get("/{id}", [TransactionController::class, "show"])->name("admin.transaction.show");
             Route::put("/{id}", [TransactionController::class, "update"])->name("admin.transaction.update");
             Route::delete("/{id}", [TransactionController::class, "destroy"])->name("admin.transaction.delete");
+        });
+
+        Route::prefix("website")->group(function () {
+            Route::get("/", [SettingController::class, "index"])->name("admin.website.index");
+            Route::put("/", [SettingController::class, "update"])->name("admin.website.update");
         });
     });
 });

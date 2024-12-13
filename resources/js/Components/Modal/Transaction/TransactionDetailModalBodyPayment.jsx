@@ -29,17 +29,17 @@ function TransactionDetailModalBodyPayment({ payment, transaction }) {
                 </span>
             </div>
             <div className="flex justify-between">
+                <span className="lg:text-sm text-xs flex-[3]">Pajak</span>
+                <span className="lg:text-sm text-xs flex-[2] text-gray-600 text-end">
+                    {transaction.tax_percent}% {` (+${transaction.tax_amount})`}
+                </span>
+            </div>
+            <div className="flex justify-between">
                 <span className="lg:text-sm text-xs flex-[3]">
                     Internet Fee
                 </span>
                 <span className="lg:text-sm text-xs flex-[2] text-gray-600 text-end">
                     {transaction.internet_fee}
-                </span>
-            </div>
-            <div className="flex justify-between">
-                <span className="lg:text-sm text-xs flex-[3]">Pajak</span>
-                <span className="lg:text-sm text-xs flex-[2] text-gray-600 text-end">
-                    {transaction.tax_percent}% {` (+${transaction.tax_amount})`}
                 </span>
             </div>
             {transaction.promo_code && (
@@ -52,7 +52,7 @@ function TransactionDetailModalBodyPayment({ payment, transaction }) {
                     </span>
                 </div>
             )}
-            <div className="flex justify-between poppins-semibold border-t border-dashed border-teal-700 pt-5">
+            <div className="flex justify-between poppins-semibold border-t border-dashed border-teal-700 pt-5 pb-1">
                 <span className="lg:text-[15px] text-[14px] flex-[3]">
                     Total Belanja
                 </span>
