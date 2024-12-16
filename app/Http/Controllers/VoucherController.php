@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Voucher;
 use App\Models\VoucherUsage;
 use Illuminate\Http\Request;
@@ -168,10 +169,24 @@ class VoucherController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        Voucher::find($id)->delete();
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Voucher berhasil dihapus",
+            "icon" => "success",
+        ]);
+    }
+
     public function cekPromo(Request $request)
     {
-        $voucher = Voucher::where("code", $request->promo)->first();
-        $total = session("data_ticket.for_page_payment.total");
+        $event_slug = $request->event["slug"];
+        $user_id = Event::firstWhere("slug", $event_slug)->vendor->user->id;
+        $voucher = Voucher::where("code", $request->promo)
+            ->where("user_id", $user_id)
+            ->first();
+        $total = session("data_ticket_event_{$event_slug}.for_page_payment.total");
         if ($voucher) {
             $minimalTransaction = $voucher->minimal_transaction;
             $minimalTransactionFormatted = formatMoney($minimalTransaction);
@@ -191,7 +206,7 @@ class VoucherController extends Controller
                 return back()->withErrors(["promo" => "Voucher ini sudah anda gunakan"]);
             }
 
-            $data_ticket = session("data_ticket");
+            $data_ticket = session("data_ticket_event_{$event_slug}");
             $data_ticket_updated = [
                 "for_page_data_diri" => $data_ticket["for_page_data_diri"],
                 "for_page_payment" => $data_ticket["for_page_payment"],
@@ -209,7 +224,7 @@ class VoucherController extends Controller
             }
 
             $data_ticket_updated["for_page_payment"]["discount_label"] = $discount_label;
-            session()->put("data_ticket", $data_ticket_updated);
+            session()->put("data_ticket_event_{$event_slug}", $data_ticket_updated);
 
             return back()->with("notification", [
                 "title" => "Sukses",
@@ -221,9 +236,9 @@ class VoucherController extends Controller
         }
     }
 
-    public function deletePromo()
+    public function deletePromo($slug)
     {
-        $data_ticket = session("data_ticket");
+        $data_ticket = session("data_ticket_event_{$slug}");
         $data_ticket_updated = [
             "for_page_data_diri" => $data_ticket["for_page_data_diri"],
             "for_page_payment" => $data_ticket["for_page_payment"],
@@ -231,20 +246,10 @@ class VoucherController extends Controller
         $data_ticket_updated["for_page_payment"]["voucher"] = null;
         $data_ticket_updated["for_page_payment"]["total_after_discount"] = 0;
         $data_ticket_updated["for_page_payment"]["discount_label"] = "";
-        session()->put("data_ticket", $data_ticket_updated);
+        session()->put("data_ticket_event_{$slug}", $data_ticket_updated);
         return back()->with("notification", [
             "title" => "Sukses",
             "text" => "Promo Dihapus",
-            "icon" => "success",
-        ]);
-    }
-
-    public function destroy($id)
-    {
-        Voucher::find($id)->delete();
-        return back()->with("notification", [
-            "title" => "Sukses",
-            "text" => "Voucher berhasil dihapus",
             "icon" => "success",
         ]);
     }

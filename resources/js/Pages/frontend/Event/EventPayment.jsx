@@ -131,6 +131,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
         reset: resetPromo,
     } = useForm({
         promo: "",
+        event: event,
     });
 
     const [discountLabel, setDiscountLabel] = useState("");
@@ -152,11 +153,14 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
             text: "Apakah anda yakin ingin menghapus promo ini?",
             icon: "warning",
             onConfirm: () => {
-                formDeletePromo.delete(route("event.delete-promo"), {
-                    onSuccess: () => {
-                        setDiscountLabel("");
-                    },
-                });
+                formDeletePromo.delete(
+                    route("event.delete-promo", event.slug),
+                    {
+                        onSuccess: () => {
+                            setDiscountLabel("");
+                        },
+                    }
+                );
             },
         });
     };
