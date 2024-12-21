@@ -71,6 +71,7 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
    
    ```bash
    npm run dev
+   php artisan serve
    ```
 
 6. **Build untuk Produksi**
@@ -79,6 +80,31 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
    ```bash
    npm run build
    ```
+
+## Daftar Library yang Digunakan  
+
+Proyek ini menggunakan beberapa library untuk mendukung pengembangan dan memberikan pengalaman pengguna yang optimal. Berikut adalah daftar library yang digunakan beserta deskripsinya:  
+
+1. [**Animate.css**](https://animate.style/)  
+   Library CSS untuk animasi sederhana yang mudah digunakan. Digunakan untuk memberikan efek animasi pada elemen-elemen UI.  
+
+2. [**CKEditor**](https://ckeditor.com/docs/)  
+   Rich text editor yang kuat untuk pengelolaan konten. Digunakan untuk menambahkan dan mengedit teks dengan fitur lengkap seperti format, gambar, dan lainnya.  
+
+3. [**DataTables**](https://datatables.net/)  
+   Plugin jQuery untuk menampilkan data dalam tabel interaktif. Mendukung fitur pencarian, pengurutan, dan pagination secara otomatis.  
+
+4. [**SweetAlert2**](https://sweetalert2.github.io/#download)  
+   Library JavaScript untuk membuat popup yang indah dan interaktif. Digunakan untuk notifikasi, konfirmasi, dan dialog interaktif lainnya.  
+
+5. [**Tailwind CSS**](https://tailwindcss.com/)  
+   Framework CSS berbasis utility-first untuk membuat desain yang modern dan responsif dengan cepat.  
+
+6. [**Flowbite**](https://flowbite.com/)  
+   Komponen UI tambahan berbasis Tailwind CSS. Digunakan untuk mempercepat pengembangan komponen antarmuka seperti tombol, form, dan navigasi.  
+
+7. [**Inertia.js**](https://inertiajs.com/)  
+   Library untuk membangun aplikasi single-page tanpa memerlukan API tradisional. Menghubungkan backend Laravel dengan frontend React secara mulus.
 
 
 
