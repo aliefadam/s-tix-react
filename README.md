@@ -41,6 +41,7 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
    Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend:  
    ```bash
    npm install
+   ```
 
 
 
