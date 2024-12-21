@@ -38,9 +38,32 @@ Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memi
 Ikuti langkah-langkah berikut untuk menjalankan proyek ini:  
 
 1. **Install Dependencies**  
-   Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend:  
+   Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend dan backend:
+   
    ```bash
    npm install
+   composer install
+   ```
+2. **Setup Laravel**  
+   Salin File Konfigurasi
+   
+   ```bash
+   cp .env.example .env
+
+   ```
+
+   Generate Application Key
+   
+   ```bash
+   php artisan key:generate
+
+   ```
+
+   Migrasi dan Seed Database
+   
+   ```bash
+   php artisan migrate --seed
+
    ```
 
 
