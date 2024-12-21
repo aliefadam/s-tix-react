@@ -45,21 +45,21 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
    composer install
    ```
 3. **Setup Laravel**  
-   Salin File Konfigurasi
+   <p>Salin File Konfigurasi</p>
    
    ```bash
    cp .env.example .env
 
    ```
 
-   Generate Application Key
+   <p>Generate Application Key</p>
    
    ```bash
    php artisan key:generate
 
    ```
 
-   Migrasi dan Seed Database
+   <p>Migrasi dan Seed Database</p>
    
    ```bash
    php artisan migrate --seed
@@ -67,14 +67,14 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
    ```
 
 4. **Menjalankan Aplikasi dalam Mode Pengembangan**
-   Untuk menjalankan aplikasi dalam mode pengembangan, gunakan perintah:
+   <p>Untuk menjalankan aplikasi dalam mode pengembangan, gunakan perintah:</p>
    
    ```bash
    npm run dev
    ```
 
 6. **Build untuk Produksi**
-   Jika Anda ingin membangun aplikasi untuk produksi, gunakan perintah:
+   <p>Jika Anda ingin membangun aplikasi untuk produksi, gunakan perintah:</p>
 
    ```bash
    npm run build
