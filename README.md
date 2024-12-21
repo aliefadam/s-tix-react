@@ -37,14 +37,14 @@ Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memi
 
 Ikuti langkah-langkah berikut untuk menjalankan proyek ini:  
 
-1. **Install Dependencies**  
+1. **Install Dependencies**
    Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend dan backend:
    
    ```bash
    npm install
    composer install
    ```
-2. **Setup Laravel**  
+3. **Setup Laravel**  
    Salin File Konfigurasi
    
    ```bash
@@ -66,14 +66,14 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
 
    ```
 
-3. **Menjalankan Aplikasi dalam Mode Pengembangan**
+4. **Menjalankan Aplikasi dalam Mode Pengembangan**
    Untuk menjalankan aplikasi dalam mode pengembangan, gunakan perintah:
    
    ```bash
    npm run dev
    ```
 
-5. **Build untuk Produksi**
+6. **Build untuk Produksi**
    Jika Anda ingin membangun aplikasi untuk produksi, gunakan perintah:
 
    ```bash
