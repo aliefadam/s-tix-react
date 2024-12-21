@@ -17,7 +17,7 @@ Dengan menggunakan S-TIX, Anda dapat mencari dan membeli tiket untuk acara yang 
 - Fleksibilitas: Fitur yang disesuaikan untuk penyelenggara acara guna mengelola penjualan tiket, memantau kehadiran, dan mengoptimalkan operasional acara.
 
 
-### Tech Stack  
+## Tech Stack  
 
 Proyek ini menggunakan **React** pada bagian frontend dan **Laravel** pada bagian backend. Berikut penjelasannya:  
 
@@ -31,7 +31,16 @@ Proyek ini menggunakan **React** pada bagian frontend dan **Laravel** pada bagia
    - **Keunggulan**: Aman, efisien, dan mendukung pengembangan yang cepat.  
    - **Tujuan**: Menyediakan sistem yang andal untuk menangani permintaan dari frontend, mengelola data, dan memastikan integritas aplikasi.  
 
-Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memiliki kinerja optimal dan pengalaman pengguna yang maksimal.
+Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memiliki kinerja optimal dan pengalaman pengguna yang maksimal
+
+## Cara Penggunaan  
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini:  
+
+1. **Install Dependencies**  
+   Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend:  
+   ```bash
+   npm install
 
 
 
