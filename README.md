@@ -16,3 +16,23 @@ Dengan menggunakan S-TIX, Anda dapat mencari dan membeli tiket untuk acara yang 
 - Keandalan: Sistem yang tangguh untuk memastikan transaksi yang aman dan lancar.
 - Fleksibilitas: Fitur yang disesuaikan untuk penyelenggara acara guna mengelola penjualan tiket, memantau kehadiran, dan mengoptimalkan operasional acara.
 
+
+### Tech Stack  
+
+Proyek ini menggunakan **React** pada bagian frontend dan **Laravel** pada bagian backend. Berikut penjelasannya:  
+
+1. **React (Frontend)**  
+   React digunakan untuk membangun antarmuka pengguna (UI) yang interaktif dan responsif. Dengan arsitektur berbasis komponen, React memungkinkan pengembangan front-end yang modular, mudah dikelola, dan dapat diintegrasikan dengan teknologi lainnya.  
+   - **Keunggulan**: Responsif, skalabel, dan mudah digunakan.  
+   - **Tujuan**: Menyediakan pengalaman pengguna yang lancar dalam mengakses dan mengelola fitur-fitur aplikasi.  
+
+2. **Laravel (Backend)**  
+   Laravel adalah framework PHP yang digunakan untuk menangani logika server-side, API, dan pengelolaan database. Dengan fitur bawaan seperti ORM (Eloquent), sistem routing, dan autentikasi, Laravel memberikan fondasi yang kokoh untuk pengembangan backend.  
+   - **Keunggulan**: Aman, efisien, dan mendukung pengembangan yang cepat.  
+   - **Tujuan**: Menyediakan sistem yang andal untuk menangani permintaan dari frontend, mengelola data, dan memastikan integritas aplikasi.  
+
+Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memiliki kinerja optimal dan pengalaman pengguna yang maksimal.
+
+
+
+
