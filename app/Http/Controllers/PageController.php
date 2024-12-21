@@ -457,4 +457,11 @@ class PageController extends Controller
             "users" => $users,
         ]);
     }
+
+    public function scanTicket()
+    {
+        return Inertia::render("backend/Scanner/Index", [
+            "title" => "Scanner",
+        ]);
+    }
 }

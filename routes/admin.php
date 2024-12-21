@@ -79,5 +79,7 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::get("/", [SettingController::class, "index"])->name("admin.website.index");
             Route::put("/", [SettingController::class, "update"])->name("admin.website.update");
         });
+
+        Route::get("/scan-ticket", [PageController::class, "scanTicket"])->name("admin.scanTicket.index");
     });
 });

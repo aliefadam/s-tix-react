@@ -3,8 +3,6 @@ import TransactionDetailModalHeader from "./TransactionDetailModalHeader";
 import TransactionDetailModalBody from "./TransactionDetailModalBody";
 
 function TransactionDetailModal({ transaction }) {
-    console.log(transaction);
-
     return (
         <div
             id="detail-transaksi-modal"

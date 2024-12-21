@@ -88,6 +88,20 @@ class MenuSeeder extends Seeder
             ],
             [
                 "type" => "title",
+                "name" => "Scanner",
+                "slug" => "scanner",
+                "role" => json_encode(["vendor"]),
+            ],
+            [
+                "type" => "link",
+                "name" => "scan ticket",
+                "url" => "admin.scanTicket.index",
+                "icon" => "fa-regular fa-scanner",
+                "slug_id" => "scanner",
+                "role" => json_encode(["vendor"]),
+            ],
+            [
+                "type" => "title",
                 "name" => "Settings",
                 "slug" => "settings",
                 "role" => json_encode(["super-admin"]),

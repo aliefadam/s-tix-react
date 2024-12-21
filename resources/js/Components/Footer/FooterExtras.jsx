@@ -12,7 +12,8 @@ function FooterExtras() {
                         {
                             name: "Tentang Kami",
                             url: "home",
-                            type: "link",
+                            type: "button",
+                            modalId: "about-us-modal",
                         },
                         {
                             name: "Syarat dan Ketentuan",

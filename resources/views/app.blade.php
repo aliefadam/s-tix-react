@@ -45,6 +45,11 @@
 
 <body className="font-sans antialiased">
     @inertia
+
+    {{-- Instascan --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/index.js"
+        integrity="sha512-QblNATV/gin5FC8tqTM2gfCMBei2qCzTte4O6CxGp8KQ5BgC5vNNGv99uTBvzmq+AFFYFoUNhowGOOJNTIBy6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 </body>
 
 </html>

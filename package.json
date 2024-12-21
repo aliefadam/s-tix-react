@@ -28,6 +28,9 @@
         "animate.css": "^4.1.1",
         "ckeditor5": "^44.0.0",
         "datatables.net-dt": "^2.1.8",
+        "html5-qrcode": "^2.3.8",
+        "instascan": "^1.0.0",
+        "stampit": "^2.1.2",
         "sweetalert2": "^11.14.5"
     }
 }

@@ -2,6 +2,19 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 
 function SidebarMenu({ menu_title, menu_link }) {
+    const getActiveMenu = (name) => {
+        if (route().current(`admin.scanTicket.*`) && name == "scan ticket") {
+            return true;
+        }
+
+        if (
+            route().current(`admin.${name}`) ||
+            route().current(`admin.${name}.*`)
+        ) {
+            return true;
+        }
+    };
+
     return (
         <>
             {menu_title.map((menu, i) => (
@@ -16,13 +29,14 @@ function SidebarMenu({ menu_title, menu_link }) {
                                 key={i}
                                 href={route(link.url)}
                                 className={`flex gap-2 items-center p-3 rounded-md duration-200 ${
-                                    route().current(`admin.${link.name}`) ||
-                                    route().current(`admin.${link.name}.*`)
+                                    getActiveMenu(link.name)
                                         ? "text-white bg-gradient-to-r from-teal-600 to-teal-700"
                                         : "hover:shadow-md active:scale-[0.98]"
                                 }`}
                             >
-                                <i className={link.icon} />
+                                <i
+                                    className={`${link.icon} w-[20px] flex justify-center`}
+                                />
                                 <span className="text-sm capitalize">
                                     {link.name}
                                 </span>

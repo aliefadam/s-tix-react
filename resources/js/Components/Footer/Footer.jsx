@@ -3,6 +3,7 @@ import FooterItem from "./FooterItem";
 import FooterFollowUs from "./FooterFollowUs";
 import FooterExtras from "./FooterExtras";
 import TermConditionModal from "../Modal/TC/TermConditionModal";
+import AboutUsModal from "../Modal/AboutUs/AboutUsModal";
 
 function Footer() {
     return (
@@ -15,6 +16,7 @@ function Footer() {
             </div>
 
             <TermConditionModal />
+            <AboutUsModal />
         </footer>
     );
 }
