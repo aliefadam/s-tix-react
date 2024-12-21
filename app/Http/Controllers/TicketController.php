@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Ticket;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -117,5 +118,18 @@ class TicketController extends Controller
         $event_slug = Event::firstWhere("slug", $slug)->slug;
         session()->forget("data_ticket_event_{$event_slug}");
         return redirect()->route("event.tickets", $slug);
+    }
+
+    public function activateTicket(Request $request)
+    {
+        Transaction::firstWhere("invoice", $request->invoice)->update([
+            "is_activate" => true,
+        ]);
+
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Tiket berhasil diaktifkan",
+            "icon" => "success",
+        ]);
     }
 }

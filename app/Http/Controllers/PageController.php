@@ -460,8 +460,21 @@ class PageController extends Controller
 
     public function scanTicket()
     {
+        $transactions = Transaction::whereHas("event", function ($query) {
+            $query->whereHas("vendor", function ($query) {
+                $query->whereHas("user", function ($query) {
+                    $query->where("id", Auth::user()->id);
+                });
+            });
+        })->where("status", "Pembayaran Berhasil")->where("is_activate", false)->orderBy("created_at", "desc")->get();
+        $data = [];
+        foreach ($transactions as $transaction) {
+            array_push($data, mappingTransaction($transaction));
+        }
+
         return Inertia::render("backend/Scanner/Index", [
             "title" => "Scanner",
+            "transactions" => $data,
         ]);
     }
 }

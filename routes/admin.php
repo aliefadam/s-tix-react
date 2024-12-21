@@ -81,5 +81,6 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
         });
 
         Route::get("/scan-ticket", [PageController::class, "scanTicket"])->name("admin.scanTicket.index");
+        Route::post("/activate-ticket", [TicketController::class, "activateTicket"])->name("admin.activateTicket");
     });
 });

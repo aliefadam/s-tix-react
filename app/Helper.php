@@ -384,3 +384,10 @@ if (!function_exists("isUseVoucher")) {
             ->count() > 0;
     }
 }
+
+if (!function_exists("getTransactionByVendor")) {
+    function getTransactionByVendor()
+    {
+        return 0;
+    }
+}

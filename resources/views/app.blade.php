@@ -46,10 +46,24 @@
 <body className="font-sans antialiased">
     @inertia
 
-    {{-- Instascan --}}
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/index.js"
-        integrity="sha512-QblNATV/gin5FC8tqTM2gfCMBei2qCzTte4O6CxGp8KQ5BgC5vNNGv99uTBvzmq+AFFYFoUNhowGOOJNTIBy6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    {{-- <script type="text/javascript">
+        let scanner = new Instascan.Scanner({
+            video: document.getElementById('preview')
+        });
+        scanner.addListener('scan', function(content) {
+            console.log(content);
+        });
+        Instascan.Camera.getCameras().then(function(cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function(e) {
+            console.error(e);
+        });
+    </script> --}}
 </body>
 
 </html>
