@@ -66,6 +66,20 @@ Ikuti langkah-langkah berikut untuk menjalankan proyek ini:
 
    ```
 
+3. **Menjalankan Aplikasi dalam Mode Pengembangan**
+   Untuk menjalankan aplikasi dalam mode pengembangan, gunakan perintah:
+   
+   ```bash
+   npm run dev
+   ```
+
+5. **Build untuk Produksi**
+   Jika Anda ingin membangun aplikasi untuk produksi, gunakan perintah:
+
+   ```bash
+   npm run build
+   ```
+
 
 
 
