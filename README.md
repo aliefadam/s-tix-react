@@ -1,4 +1,4 @@
-<p align="center">
+<p align="center" style="display: flex; align-items: center; gap: 20px">
   <a href="https://react.dev" target="_blank">
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" width="100" alt="React Logo">
   </a>
