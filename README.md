@@ -7,9 +7,10 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Tentang S-TIX
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+S-TIX adalah platform penjualan tiket online yang memungkinkan pengguna untuk membeli tiket berbagai acara secara daring. Melalui situs webnya, S-TIX menyediakan layanan pembelian tiket yang mudah dan cepat.
+Dengan menggunakan S-TIX, Anda dapat mencari dan membeli tiket untuk acara yang Anda minati tanpa harus datang langsung ke lokasi penjualan. Platform ini dirancang untuk memudahkan proses pembelian tiket secara online, memberikan kemudahan bagi pengguna dalam mengakses berbagai acara.
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
