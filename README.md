@@ -38,7 +38,7 @@ Tech stack ini dirancang untuk bekerja secara sinergis, memastikan aplikasi memi
 Ikuti langkah-langkah berikut untuk menjalankan proyek ini:  
 
 1. **Install Dependencies**
-   Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend dan backend:
+   <p>Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan pada bagian frontend dan backend:</p>
    
    ```bash
    npm install
