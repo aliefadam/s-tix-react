@@ -3,7 +3,7 @@ import TransactionHistoryAction from "./TransactionHistoryAction";
 import TransactionHistoryInfo from "./TransactionHistoryInfo";
 import TransactionHistoryDetail from "./TransactionHistoryDetail";
 
-function TransactionHistoryItem({ transactions, openModal }) {
+function TransactionHistoryItem({ transactions, openModal, setData = null }) {
     return (
         <div id="history-container" className="lg:mt-5 flex flex-col gap-5">
             {transactions.length === 0 && (
@@ -30,6 +30,7 @@ function TransactionHistoryItem({ transactions, openModal }) {
                         total={transaction.total}
                     />
                     <TransactionHistoryAction
+                        setData={setData}
                         id={transaction.id}
                         openModal={openModal}
                         status={transaction.status}

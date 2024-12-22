@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('payment')->nullable();
             $table->string('status');
             $table->boolean('is_activate')->default(false);
+            $table->string("cancel_reason")->nullable();
             $table->timestamps();
         });
     }

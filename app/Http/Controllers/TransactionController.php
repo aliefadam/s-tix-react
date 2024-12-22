@@ -157,30 +157,7 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::firstWhere("id", $id);
         return response()->json([
-            "transaction" => [
-                "invoice" => $transaction->invoice,
-                "status" => $transaction->status,
-                "event" => mappingEvent($transaction->event),
-                "buyer" => getDataPembeli($transaction->id),
-                "visitor" => getDataPengunjung($transaction->id),
-                "tickets" => getGroupingTicket($transaction->id),
-                "payment" => [
-                    "method" => json_decode($transaction->payment)->method,
-                    "data" => json_decode($transaction->payment)->data,
-                    "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
-                    "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
-                    "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
-                ],
-                "internet_fee" => formatMoney($transaction->internet_fee),
-                "tax_percent" => $transaction->tax_percent,
-                "tax_amount" => formatMoney($transaction->tax_amount),
-                "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
-                "total" => formatMoney($transaction->total),
-                "promo_code" => $transaction->promo_code,
-                "promo_amount" => formatMoney($transaction->promo_amount),
-                "created_at" => formatDate($transaction->created_at),
-                "created_at_time" => formatTime($transaction->created_at),
-            ],
+            "transaction" => mappingTransaction($transaction),
         ]);
     }
 
@@ -266,5 +243,20 @@ class TransactionController extends Controller
                 "invoice" => $e->getMessage()
             ]);
         }
+    }
+
+    public function cancel(Request $request)
+    {
+        $transaction = Transaction::find($request->id);
+        $transaction->update([
+            "status" => "Pemesanan Dibatalkan",
+            "cancel_reason" => $request->cancel_reason,
+        ]);
+
+        return back()->with("notification", [
+            "title" => "Sukses",
+            "text" => "Pemesanan berhasil dibatalkan",
+            "icon" => "success",
+        ]);
     }
 }

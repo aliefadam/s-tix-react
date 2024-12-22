@@ -1,4 +1,4 @@
-const initGoogleMaps = ({ setData }) => {
+const initGoogleMaps = ({ setData, locationFromDatabase = null }) => {
     let map;
     let markers = [];
     let searchBox;
@@ -9,7 +9,9 @@ const initGoogleMaps = ({ setData }) => {
             lng: 106.816666,
         }; // Jakarta, Indonesia
 
-        const center = defaultLocation;
+        const center =
+            (await getCoordinatesFromUrl(locationFromDatabase)) ||
+            defaultLocation;
         const { Map } = await google.maps.importLibrary("maps");
         map = new Map(document.getElementById("map"), {
             center: center,
@@ -123,6 +125,51 @@ const initGoogleMaps = ({ setData }) => {
             }
 
             placeMarker(clickedLocation);
+        });
+
+        if (center !== defaultLocation) {
+            placeMarker(center);
+        }
+    }
+
+    async function getCoordinatesFromUrl(url) {
+        if (!url) return null;
+
+        const placeIdMatch = url.match(/place_id:([^&]+)/);
+        if (placeIdMatch) {
+            const placeId = placeIdMatch[1];
+            return getCoordinatesFromPlaceId(placeId);
+        }
+
+        const latLngMatch = url.match(/query=(-?\d+\.\d+),(-?\d+\.\d+)/);
+        if (latLngMatch) {
+            return {
+                lat: parseFloat(latLngMatch[1]),
+                lng: parseFloat(latLngMatch[2]),
+            };
+        }
+
+        return null;
+    }
+
+    async function getCoordinatesFromPlaceId(placeId) {
+        const geocoder = new google.maps.Geocoder();
+        return new Promise((resolve) => {
+            geocoder.geocode(
+                {
+                    placeId: placeId,
+                },
+                function (results, status) {
+                    if (status === "OK" && results[0].geometry.location) {
+                        resolve({
+                            lat: results[0].geometry.location.lat(),
+                            lng: results[0].geometry.location.lng(),
+                        });
+                    } else {
+                        resolve(null);
+                    }
+                }
+            );
         });
     }
 

@@ -46,6 +46,7 @@ Route::middleware("auth")->group(function () {
 
     Route::prefix("/transaction")->group(function () {
         Route::get("/", [PageController::class, "transaction"])->name("transaction");
+        Route::post("/cancel", [TransactionController::class, "cancel"])->name("transaction.cancel");
     });
 
     Route::prefix("/ticket")->group(function () {

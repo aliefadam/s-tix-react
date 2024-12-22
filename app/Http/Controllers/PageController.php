@@ -316,32 +316,34 @@ class PageController extends Controller
     {
         $transactions = [];
         foreach (Transaction::where("user_id", Auth::user()->id)->orderBy('created_at', 'desc')->get() as $transaction) {
-            array_push($transactions, [
-                "id" => $transaction->id,
-                "invoice" => $transaction->invoice,
-                "status" => $transaction->status,
-                "event" => mappingEvent($transaction->event),
-                "buyer" => getDataPembeli($transaction->id),
-                "visitor" => getDataPengunjung($transaction->id),
-                "tickets" => getGroupingTicket($transaction->id),
-                "payment" => [
-                    "method" => json_decode($transaction->payment)->method,
-                    "data" => json_decode($transaction->payment)->data,
-                    "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
-                    "expiration_time" => formatTime(json_decode($transaction->payment)->expiration_date, 7),
-                    "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
-                    "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
-                ],
-                "internet_fee" => formatMoney($transaction->internet_fee),
-                "tax_percent" => $transaction->tax_percent,
-                "tax_amount" => formatMoney($transaction->tax_amount),
-                "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
-                "total" => formatMoney($transaction->total),
-                "promo_code" => $transaction->promo_code,
-                "promo_amount" => formatMoney($transaction->promo_amount),
-                "created_at_date" => formatDate($transaction->created_at),
-                "created_at_time" => $transaction->created_at->format("H:i"),
-            ]);
+            // array_push($transactions, [
+            //     "id" => $transaction->id,
+            //     "invoice" => $transaction->invoice,
+            //     "status" => $transaction->status,
+            //     "event" => mappingEvent($transaction->event),
+            //     "buyer" => getDataPembeli($transaction->id),
+            //     "visitor" => getDataPengunjung($transaction->id),
+            //     "tickets" => getGroupingTicket($transaction->id),
+            //     "payment" => [
+            //         "method" => json_decode($transaction->payment)->method,
+            //         "data" => json_decode($transaction->payment)->data,
+            //         "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
+            //         "expiration_time" => formatTime(json_decode($transaction->payment)->expiration_date, 7),
+            //         "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
+            //         "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
+            //     ],
+            //     "internet_fee" => formatMoney($transaction->internet_fee),
+            //     "tax_percent" => $transaction->tax_percent,
+            //     "tax_amount" => formatMoney($transaction->tax_amount),
+            //     "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
+            //     "total" => formatMoney($transaction->total),
+            //     "promo_code" => $transaction->promo_code,
+            //     "promo_amount" => formatMoney($transaction->promo_amount),
+            //     "created_at_date" => formatDate($transaction->created_at),
+            //     "created_at_time" => $transaction->created_at->format("H:i"),
+            // ]);
+
+            array_push($transactions, mappingTransaction($transaction));
         }
 
         return Inertia::render("frontend/Transaction/TransactionHistory", [

@@ -38,7 +38,7 @@ import {
     TableCellProperties,
 } from "ckeditor5";
 
-const InitEditor = ({ id, setData }) => {
+const InitEditor = ({ id, setData, defaultValue = "" }) => {
     ClassicEditor.create(document.querySelector(`#${id}`), {
         licenseKey: "GPL",
         plugins: [
@@ -174,6 +174,7 @@ const InitEditor = ({ id, setData }) => {
         },
     })
         .then((editor) => {
+            editor.setData(defaultValue);
             editor.model.document.on("change:data", () => {
                 const content = editor.getData();
                 setData((prevData) => {

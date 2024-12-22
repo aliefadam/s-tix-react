@@ -1,6 +1,6 @@
 import React from "react";
 
-function InputBanner({ onChange, errors }) {
+function InputBanner({ onChange, errors, oldBanner = null }) {
     const errorClass = () => {
         if (errors.banner) {
             return "border border-red-500 focus:border-red-500 focus:ring-0";
@@ -34,7 +34,9 @@ function InputBanner({ onChange, errors }) {
             <div className="flex flex-col gap-2">
                 <span className="text-sm poppins-medium">Preview Image</span>
                 <img
-                    src="https://via.placeholder.com/1600x900"
+                    src={
+                        `${oldBanner}` ?? "https://via.placeholder.com/1600x900"
+                    }
                     alt="Placeholder Image"
                     className="rounded-lg shadow-md w-full h-[259px] object-cover"
                     id="banner-preview"

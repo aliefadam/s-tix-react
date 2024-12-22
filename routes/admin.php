@@ -35,7 +35,7 @@ Route::middleware(AdminRoleMiddleware::class)->group(function () {
             Route::get("/", [EventController::class, "index"])->name("admin.event.index");
             Route::get("/create", [EventController::class, "create"])->name("admin.event.create");
             Route::post("/", [EventController::class, "store"])->name("admin.event.store");
-            Route::get("/{id}/show", [EventController::class, "show"])->name("admin.event.show");
+            Route::get("/{id}/edit", [EventController::class, "edit"])->name("admin.event.edit");
             Route::put("/{id}", [EventController::class, "update"])->name("admin.event.update");
             Route::delete("/{id}", [EventController::class, "destroy"])->name("admin.event.delete");
             Route::get("/{id}/detail", [EventController::class, "eventDetail"])->name("admin.event.detail");

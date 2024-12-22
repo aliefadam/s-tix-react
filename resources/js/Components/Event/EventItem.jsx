@@ -32,7 +32,7 @@ function EventItem({ events, handleDeleteEvent }) {
                     </div>
                     <div className="p-3.5 grid grid-cols-3 gap-3 items-center bg-white">
                         <Link
-                            href={route("admin.event.show", event.id)}
+                            href={route("admin.event.edit", event.id)}
                             className="flex justify-center items-center gap-1 text-yellow-600 hover:text-yellow-700 duration-200"
                         >
                             <i className="fa-regular fa-pen-to-square" />

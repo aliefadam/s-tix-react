@@ -7,10 +7,21 @@ import TransactionDetailModalBodyPayment from "./TransactionDetailModalBodyPayme
 
 function TransactionDetailModalBody({ transaction }) {
     const { tickets, buyer, visitor, payment, event } = transaction;
+    console.log(transaction);
 
     return (
         <div id="detail-transaksi-body">
             <div className="modal-transaction-detail p-4 md:p-5 space-y-4 h-[500px] overflow-y-auto scrollbar">
+                {transaction.status == "Pemesanan Dibatalkan" && (
+                    <div
+                        className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert"
+                    >
+                        <span className="font-medium">
+                            Dibatalkan dengan alasan {transaction.cancel_reason}
+                        </span>
+                    </div>
+                )}
                 <TransactionDetailModalBodyInfo transaction={transaction} />
                 <hr />
                 <TransactionDetailModalBodyEvent

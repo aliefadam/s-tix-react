@@ -19,7 +19,7 @@ const ShowPaymentStatus = ({ status, withBackground = false }) => {
                 {status}
             </span>
         );
-    } else if (status == "Pembayaran Dibatalkan") {
+    } else if (status == "Pemesanan Dibatalkan") {
         return (
             <span
                 className={`${

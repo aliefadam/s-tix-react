@@ -235,6 +235,11 @@ if (!function_exists("mappingEvent")) {
             "name" => $event->name,
             "slug" => $event->slug,
             "description" => $event->description,
+            "tax" => $event->tax,
+            "date_start_raw" => $event->start_date->format('Y-m-d'),
+            "time_start_raw" => $event->start_time->format('H:i'),
+            "date_end_raw" => $event->end_date->format('Y-m-d'),
+            "time_end_raw" => $event->end_time->format('H:i'),
             "date" => $event->start_date->translatedFormat('l, d F Y'),
             "time" => $event->start_time->format('H:i'),
             "date_end" => $event->end_date->translatedFormat('l, d F Y'),
@@ -316,6 +321,7 @@ if (!function_exists("mappingTransaction")) {
             "promo_amount" => formatMoney($transaction->promo_amount),
             "created_at" => formatDate($transaction->created_at),
             "created_at_time" => formatTime($transaction->created_at),
+            "cancel_reason" => $transaction->cancel_reason ?? "",
         ];
 
         if ($transaction->status == "Pembayaran Berhasil") {

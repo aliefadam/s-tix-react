@@ -84,7 +84,9 @@ class EventController extends Controller
         try {
             if ($request->hasFile("banner")) {
                 $file = $request->file("banner");
-                $fileName = "banners/banner-" . Str::slug($request->name) . "." . $file->extension();
+                // $fileName = "banners/banner-" . Str::slug($request->name) . "." . $file->extension();
+                // $fileName = "banners/banner-" . Str::slug($request->name) . date("Y-m-d") .  "." . $file->extension();
+                $fileName = "banners/banner-" . Str::slug($request->name) . "-" . date("Y-m-d-H-i-s") .  "." . $file->extension();
                 $file->storeAs("public/", $fileName);
                 $newEvent["banner"] = $fileName;
             }
@@ -103,19 +105,14 @@ class EventController extends Controller
             return redirect()->back()->withErrors([
                 "message" => $e->getMessage(),
             ]);
-            // return redirect()->back()->with("notification", [
-            //     "title" => "Error",
-            //     "text" => $e->getMessage(),
-            //     "icon" => "error",
-            // ]);
         }
     }
 
-    public function show($id)
+    public function edit($id)
     {
-        return view("backend.event.edit", [
-            "title" => "Edit Event",
-            "event" => Event::find($id),
+        return Inertia::render("backend/Event/Edit", [
+            "title" => "Edit Event : " . Event::find($id)->name,
+            "event" => mappingEvent(Event::find($id)),
         ]);
     }
 
@@ -163,14 +160,15 @@ class EventController extends Controller
         try {
             if ($request->hasFile("banner")) {
                 $file = $request->file("banner");
-                $fileName = "banners/banner-" . Str::slug($request->name) . "." . $file->extension();
+                $fileName = "banners/banner-" . Str::slug($request->name) . "-" . date("Y-m-d-H-i-s") .  "." . $file->extension();
                 Storage::delete("public/" . Event::firstWhere("id", $id)->banner);
                 $file->storeAs("public/", $fileName);
                 $updatedEvent["banner"] = $fileName;
+            } else {
+                $updatedEvent["banner"] = Event::firstWhere("id", $id)->banner;
             }
 
             $updatedEvent["vendor_id"] = Auth::user()->vendor->id;
-            $updatedEvent["banner"] = Event::firstWhere("id", $id)->banner;
             $updatedEvent["slug"] = str()->slug($updatedEvent["name"]);
 
             Event::firstWhere("id", $id)->update($updatedEvent);
