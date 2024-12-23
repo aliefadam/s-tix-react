@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Vendor;
 use App\Models\Visitor;
 use App\Models\Voucher;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -316,33 +318,6 @@ class PageController extends Controller
     {
         $transactions = [];
         foreach (Transaction::where("user_id", Auth::user()->id)->orderBy('created_at', 'desc')->get() as $transaction) {
-            // array_push($transactions, [
-            //     "id" => $transaction->id,
-            //     "invoice" => $transaction->invoice,
-            //     "status" => $transaction->status,
-            //     "event" => mappingEvent($transaction->event),
-            //     "buyer" => getDataPembeli($transaction->id),
-            //     "visitor" => getDataPengunjung($transaction->id),
-            //     "tickets" => getGroupingTicket($transaction->id),
-            //     "payment" => [
-            //         "method" => json_decode($transaction->payment)->method,
-            //         "data" => json_decode($transaction->payment)->data,
-            //         "expiration_date" => formatDate(json_decode($transaction->payment)->expiration_date),
-            //         "expiration_time" => formatTime(json_decode($transaction->payment)->expiration_date, 7),
-            //         "expiration_date_raw" => json_decode($transaction->payment)->expiration_date,
-            //         "image" => MethodPayment::firstWhere("name", json_decode($transaction->payment)->method)->image
-            //     ],
-            //     "internet_fee" => formatMoney($transaction->internet_fee),
-            //     "tax_percent" => $transaction->tax_percent,
-            //     "tax_amount" => formatMoney($transaction->tax_amount),
-            //     "total_ticket_price" => formatMoney(getTotalTicket($transaction->id)),
-            //     "total" => formatMoney($transaction->total),
-            //     "promo_code" => $transaction->promo_code,
-            //     "promo_amount" => formatMoney($transaction->promo_amount),
-            //     "created_at_date" => formatDate($transaction->created_at),
-            //     "created_at_time" => $transaction->created_at->format("H:i"),
-            // ]);
-
             array_push($transactions, mappingTransaction($transaction));
         }
 
@@ -478,5 +453,24 @@ class PageController extends Controller
             "title" => "Scanner",
             "transactions" => $data,
         ]);
+    }
+
+    public function ticketPrint($invoice)
+    {
+        // $data = [
+        //     'train_code' => 'Dummy Train',
+        //     'passenger_name' => 'Dummy Name',
+        //     'nik' => '1234567890',
+        //     'origin' => 'Dummy Origin',
+        //     'origin_code' => 'DUM',
+        //     'destination' => 'Dummy Destination',
+        //     'destination_code' => 'DST',
+        //     'departure_time' => '2022-01-01 12:00:00',
+        //     'arrival_time' => '2022-01-01 13:00:00',
+        //     'qr_data' => 'Dummy QR Data', // Data yang akan digunakan untuk QR Code
+        // ];
+
+        // $pdf = PDF::loadView("e-ticket.ticket", $data);
+        // return $pdf->download('boarding-pass.pdf');
     }
 }

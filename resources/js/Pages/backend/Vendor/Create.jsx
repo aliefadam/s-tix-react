@@ -2,8 +2,9 @@ import BreadCrumb from "@/Components/BreadCrumb";
 import Button from "@/Components/Global/Button";
 import InputGroup from "@/Components/Profile/InputGroup";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { useForm } from "@inertiajs/react";
-import React from "react";
+import Notification from "@/utils/notification";
+import { useForm, usePage } from "@inertiajs/react";
+import React, { useEffect } from "react";
 
 function Create({ title }) {
     const breadCrumbData = {
@@ -25,6 +26,13 @@ function Create({ title }) {
         e.preventDefault();
         post(route("admin.vendor.store"));
     };
+
+    const { notification } = usePage().props;
+    useEffect(() => {
+        if (notification) {
+            Notification(notification);
+        }
+    }, [notification]);
 
     return (
         <AdminLayout title={title}>

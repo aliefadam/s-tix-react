@@ -52,6 +52,7 @@ Route::middleware("auth")->group(function () {
     Route::prefix("/ticket")->group(function () {
         Route::get("/", [PageController::class, "ticket"])->name("ticket");
         Route::get("/{invoice}", [PageController::class, "ticketDetail"])->name("ticket.detail");
+        Route::get("/{invoice}/print", [PageController::class, "ticketPrint"])->name("ticket.print");
     });
 
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");

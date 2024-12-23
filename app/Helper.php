@@ -357,9 +357,14 @@ function payment($invoice)
         $status = $transaction->status;
         $detailTransaction = $transaction->transaction_detail;
 
-        if ($status != "Menunggu Pembayaran") {
+        if ($status == "Pembayaran Berhasil") {
             throw new Exception("Pembayaran untuk invoice ini sudah dibayarkan");
         }
+
+        if ($status == "Pemesanan Dibatalkan") {
+            throw new Exception("Pemesanan untuk invoice ini sudah dibatalkan");
+        }
+
         if (time() > $expiration_date) {
             throw new Exception("Pembayaran sudah kadaluarsa");
         }

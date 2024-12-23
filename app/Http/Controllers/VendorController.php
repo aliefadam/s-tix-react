@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendVendorCredentials;
 use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -48,16 +50,21 @@ class VendorController extends Controller
         DB::beginTransaction();
         try {
             $password = Str::random(10);
+            $hash_password = bcrypt($password);
             $newVendor = User::create([
                 "name" => $request->name,
                 "email" => $request->email,
-                "password" => bcrypt($password),
+                "password" => $hash_password,
                 "role" => "vendor",
             ]);
             Vendor::create([
                 "user_id" => $newVendor->id,
                 "category" => "Full Service",
             ]);
+            Mail::to($request->email)->queue(new SendVendorCredentials([
+                "email" => $request->email,
+                "password" => $password,
+            ]));
             DB::commit();
             return redirect()->route("admin.vendor.index")->with("notification", [
                 "credentials" => [
@@ -67,7 +74,12 @@ class VendorController extends Controller
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(["message" => $e->getMessage()]);
+            // return back()->withErrors(["message" => $e->getMessage()]);
+            return back()->with("notification", [
+                "title" => "Error",
+                "text" => $e->getMessage(),
+                "icon" => "error",
+            ]);
         }
     }
 

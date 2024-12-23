@@ -52,7 +52,7 @@ function Payment({ title }) {
                             autoComplete="off"
                             value={data.invoice}
                             onChange={(e) => setData("invoice", e.target.value)}
-                            className={`${errorClass()} text-gray-900 text-sm rounded-lg block w-full p-2.5`}
+                            className={`${errorClass()} text-center text-gray-900 text-sm rounded-lg block w-full p-2.5`}
                         />
 
                         {errors.invoice && (

@@ -117,7 +117,7 @@ function TicketDetail({ title, transaction }) {
                 aria-hidden="true"
                 className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[99999] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
             >
-                <div className="relative p-4 w-full max-w-2xl max-h-full">
+                <div className="relative p-4 w-[550px]">
                     {/* Modal content */}
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 overflow-hidden">
                         {/* Modal header */}
@@ -150,11 +150,64 @@ function TicketDetail({ title, transaction }) {
                         </div>
                         {/* Modal body */}
                         <div id="detail-transaksi-body">
-                            <div className="p-4 md:p-5 h-[500px] overflow-y-auto scrollbar">
-                                <div className="flex justify-center items-center mt-5">
+                            <div className="h-[80vh]s overflow-y-auto scrollbar">
+                                <div className="flex flex-col gap-5 justify-center items-center mt-5">
+                                    <span>
+                                        Pindai kode ini saat mengambil tiket
+                                    </span>
                                     <img src={transaction.e_ticket} alt="" />
                                 </div>
-                                <div className="flex flex-col mt-10">
+                                <div className="flex flex-col items-center gap-1 p-3 border-b border-t w-full mt-10">
+                                    <span className="text-xl poppins-semibold text-teal-700">
+                                        {transaction.event.name}
+                                    </span>
+                                </div>
+                                <div className="p-5 grid grid-cols-2 border-b">
+                                    <div className="flex flex-col gap-5">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm text-gray-600">
+                                                Nama Pembeli
+                                            </span>
+                                            <span className="">
+                                                {transaction.buyer.name}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm text-gray-600">
+                                                Tanggal Transaksi
+                                            </span>
+                                            <span className="">
+                                                {transaction.created_at}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="text-right flex flex-col gap-5">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm text-gray-600">
+                                                Total Transaksi
+                                            </span>
+                                            <span className="">
+                                                {transaction.total}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm text-gray-600">
+                                                Jumlah Pengunjung
+                                            </span>
+                                            <span className="">
+                                                {transaction.visitor.length}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-5">
+                                    <p className="text-center text-red-600 leading-normal text-sm poppins-medium">
+                                        Harap jaga baik-baik kode tiket ini!.
+                                        Setelah ditukarkan kode ini tidak akan
+                                        bisa digunakan kembali
+                                    </p>
+                                </div>
+                                {/* <div className="flex flex-col mt-10">
                                     <div className="flex flex-col items-center gap-1 p-3 border-b border-t w-full">
                                         <span className="text-sm text-gray-600">
                                             Event
@@ -167,16 +220,19 @@ function TicketDetail({ title, transaction }) {
                                         </span>
                                         <span>{transaction.buyer.name}</span>
                                     </div>
-                                </div>
-                                <div className="mt-5 flex justify-center">
+                                </div> */}
+                                {/* <div className="mt-5 flex justify-center">
                                     <a
-                                        href=""
+                                        href={route(
+                                            "ticket.print",
+                                            transaction.invoice
+                                        )}
                                         className="text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 flex justify-center items-center gap-2 w-1/2"
                                     >
                                         <i className="fa-regular fa-down" />
                                         Unduh E-Ticket
                                     </a>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
