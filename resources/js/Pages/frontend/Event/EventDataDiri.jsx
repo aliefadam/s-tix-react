@@ -226,7 +226,7 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
 
             <form action="" onSubmit={handleSubmit}>
                 <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
-                    <div className="col-span-8 h-fit flex flex-col gap-5">
+                    <div className="md:col-span-8 col-span-12 h-fit flex flex-col gap-5">
                         <div
                             className="flex items-center justify-between p-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 "
                             role="alert"
@@ -268,7 +268,7 @@ function EventDataDiri({ title, profile, event, data_ticket }) {
                             errors={errors}
                         />
                     </div>
-                    <div className="col-span-4 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
+                    <div className="md:col-span-4 col-span-12 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
                         <EventDetailPanel
                             processing={processing}
                             event={event}

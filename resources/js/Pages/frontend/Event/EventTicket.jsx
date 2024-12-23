@@ -104,7 +104,7 @@ function EventTicket({ title, event }) {
             <div className="mt-10 min-h-[50vh]">
                 <form onSubmit={handleCheckout} method="POST">
                     <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
-                        <div className="col-span-8 h-fit">
+                        <div className="md:col-span-8 col-span-12 h-fit">
                             <div className="border p-5 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-md">
                                 <span className="text-center block">
                                     Kategori Tiket
@@ -117,7 +117,7 @@ function EventTicket({ title, event }) {
                                 />
                             </div>
                         </div>
-                        <div className="col-span-4 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
+                        <div className="md:col-span-4 col-span-12 h-fit  bg-white border border-teal-700 shadow-md rounded-md">
                             <EventDetailPanel event={event} />
                         </div>
                     </div>

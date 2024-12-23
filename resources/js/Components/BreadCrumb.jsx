@@ -4,7 +4,7 @@ import React from "react";
 function BreadCrumb({ breadCrumbData }) {
     const { before, active } = breadCrumbData;
     return (
-        <div className="flex items-center gap-2 text-sm h-fit">
+        <div className="flex flex-wrap items-center gap-2 text-sm h-fit">
             {before &&
                 before.map((item, index) => (
                     <React.Fragment key={index}>

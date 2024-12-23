@@ -28,7 +28,7 @@ function FooterFollowUs() {
         },
     ];
     return (
-        <div className="mt-4 flex items-center gap-4">
+        <div className="mt-4 flex items-center flex-wrap gap-4">
             {items.map(({ name, url, icon, color }) => (
                 <a
                     key={name}

@@ -50,14 +50,14 @@ function EventDetail({ event, is_session }) {
             <BreadCrumb breadCrumbData={breadCrumbData} />
 
             <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
-                <div className="col-span-8 h-fit">
+                <div className="md:col-span-8 col-span-12 h-fit">
                     <EventBanner path={event.banner} />
                     <EventDescription description={event.description} />
                     <div className="mt-5">
                         <EventLineUp talents={event.talents} />
                     </div>
                 </div>
-                <div className="col-span-4 h-fit sticky top-[110px]">
+                <div className="md:col-span-4 col-span-12 h-fit sticky top-[110px]">
                     <div className="bg-white border border-teal-700 shadow-md rounded-md">
                         <h1 className="poppins-semibold text-teal-700 text-xl p-5 pb-0">
                             {event.name}

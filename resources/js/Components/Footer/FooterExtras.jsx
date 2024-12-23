@@ -4,8 +4,8 @@ import FooterFollowUs from "./FooterFollowUs";
 
 function FooterExtras() {
     return (
-        <div className="p-10 bg-teal-700 bg-opacity-5">
-            <div className="grid grid-cols-4 gap-5">
+        <div className="md:p-10 p-5 bg-teal-700 bg-opacity-5">
+            <div className="grid md:grid-cols-4 grid-cols-2 gap-5">
                 <FooterItem
                     title={"S-TIX"}
                     links={[

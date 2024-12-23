@@ -4,11 +4,11 @@ function Carousel({ carousel }) {
     return (
         <div
             id="default-carousel"
-            className="relative z-0 w-full col-span-7"
+            className="relative z-0 w-full md:col-span-7 col-span-12"
             data-carousel="slide"
         >
             {/* Carousel wrapper */}
-            <div className="relative h-[500px] overflow-hidden rounded-xl shadow-md border-[3px] border-teal-700">
+            <div className="relative md:h-[500px] h-[300px] overflow-hidden rounded-xl shadow-md border-[3px] border-teal-700">
                 {/* Item 1 */}
                 <a
                     href="/"

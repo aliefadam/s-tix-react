@@ -27,8 +27,8 @@ function TicketDetail({ title, transaction }) {
                     E-Tiket
                 </h1>
                 <div className="mt-8 flex justify-center">
-                    <div className="border border-teal-700 rounded-md shadow-md w-1/2 grid grid-cols-2 gap-5">
-                        <div className="flex flex-col items-center gap-8 p-5">
+                    <div className="border border-teal-700 rounded-md shadow-md md:w-1/2 w-full grid md:grid-cols-2 gap-5">
+                        <div className="flex flex-col items-center gap-8 p-5 col-span-2 md:col-span-1">
                             <div className="flex flex-col items-center gap-1">
                                 <span className="text-sm text-gray-600">
                                     Nama Event
@@ -54,7 +54,7 @@ function TicketDetail({ title, transaction }) {
                                 </span>
                             </div>
                         </div>
-                        <div className="flex flex-col items-center gap-8 p-5">
+                        <div className="flex flex-col items-center gap-8 p-5 col-span-2 md:col-span-1 -mt-7 md:mt-0">
                             <div className="flex flex-col items-center gap-1">
                                 <span className="text-sm text-gray-600">
                                     Nomor Invoice
@@ -207,32 +207,6 @@ function TicketDetail({ title, transaction }) {
                                         bisa digunakan kembali
                                     </p>
                                 </div>
-                                {/* <div className="flex flex-col mt-10">
-                                    <div className="flex flex-col items-center gap-1 p-3 border-b border-t w-full">
-                                        <span className="text-sm text-gray-600">
-                                            Event
-                                        </span>
-                                        <span>{transaction.event.name}</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-1 p-3 border-b w-full">
-                                        <span className="text-sm text-gray-600">
-                                            Nama Pembeli
-                                        </span>
-                                        <span>{transaction.buyer.name}</span>
-                                    </div>
-                                </div> */}
-                                {/* <div className="mt-5 flex justify-center">
-                                    <a
-                                        href={route(
-                                            "ticket.print",
-                                            transaction.invoice
-                                        )}
-                                        className="text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 flex justify-center items-center gap-2 w-1/2"
-                                    >
-                                        <i className="fa-regular fa-down" />
-                                        Unduh E-Ticket
-                                    </a>
-                                </div> */}
                             </div>
                         </div>
                     </div>

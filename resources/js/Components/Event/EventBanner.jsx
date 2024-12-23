@@ -4,7 +4,7 @@ function EventBanner({ path }) {
     return (
         <img
             src={path}
-            className="w-full h-[500px] object-cover rounded-md"
+            className="w-full md:h-[500px] h-[200px] object-cover rounded-md"
             alt=""
         />
     );

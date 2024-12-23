@@ -12,7 +12,7 @@ function UserLayout({ title, children }) {
         <>
             <Head title={title} />
             <Navbar />
-            <main className="p-10 mt-[75px] min-h-screen">
+            <main className="md:p-10 p-5 md:mt-[75px] mt-[80px] min-h-screen">
                 <Head title={title}></Head>
                 {children}
             </main>

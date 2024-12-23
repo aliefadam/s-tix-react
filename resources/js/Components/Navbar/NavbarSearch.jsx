@@ -2,7 +2,7 @@ import React from "react";
 
 function NavbarSearch() {
     return (
-        <div className="flex w-[500px]">
+        <div className="md:flex hidden w-[500px]">
             <div className="relative w-full">
                 <input
                     type="search"

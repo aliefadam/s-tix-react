@@ -9,7 +9,7 @@ function Welcome({ events, static_banner, carousel }) {
         <UserLayout title={"Beranda"}>
             <div className="grid grid-cols-12 gap-7">
                 <Carousel carousel={carousel} />
-                <div className="col-span-5 flex flex-col gap-7 h-[500px]">
+                <div className="md:col-span-5 col-span-12 flex flex-col gap-7 h-[500px]">
                     <StaticBanner image={static_banner[0]} />
                     <StaticBanner image={static_banner[1]} />
                 </div>

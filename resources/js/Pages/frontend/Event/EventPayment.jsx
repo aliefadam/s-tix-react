@@ -171,7 +171,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
 
             <form action="" onSubmit={handleSubmit} method="POST">
                 <div className="mt-8 grid grid-cols-12 gap-8 min-h-[80vh]">
-                    <div className="col-span-8 h-fit flex flex-col gap-5">
+                    <div className="md:col-span-8 col-span-12 h-fit flex flex-col gap-5">
                         <div
                             className="flex items-center justify-between p-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800"
                             role="alert"
@@ -210,7 +210,7 @@ function EventPayment({ title, event, data_ticket, method_payment }) {
                             setData={setData}
                         />
                     </div>
-                    <div className="col-span-4 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
+                    <div className="md:col-span-4 col-span-12 h-fit sticky top-[110px] bg-white border border-teal-700 shadow-md rounded-md">
                         <EventDetailPanel
                             handleDeletePromo={handleDeletePromo}
                             ticketCount={data_ticket.pengunjung.length}
