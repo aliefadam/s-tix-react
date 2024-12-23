@@ -4,6 +4,8 @@ import FooterFollowUs from "./FooterFollowUs";
 import FooterExtras from "./FooterExtras";
 import TermConditionModal from "../Modal/TC/TermConditionModal";
 import AboutUsModal from "../Modal/AboutUs/AboutUsModal";
+import HowToModal from "../Modal/HowTo/HowToModal";
+import TMSModal from "../Modal/TMS/TMSModal";
 
 function Footer() {
     return (
@@ -17,6 +19,8 @@ function Footer() {
 
             <TermConditionModal />
             <AboutUsModal />
+            <HowToModal />
+            <TMSModal />
         </footer>
     );
 }

@@ -4,25 +4,25 @@ function FooterFollowUs() {
     const items = [
         {
             name: "Instagram",
-            url: "https://www.instagram.com/stixid/",
+            url: "#",
             icon: "fa-brands fa-instagram",
             color: "bg-gradient-to-r from-pink-500 to-pink-700 text-white",
         },
         {
             name: "YouTube",
-            url: "https://www.youtube.com/channel/UCyIhDQV2Dh2Y2eEiXkN6n4A",
+            url: "#",
             icon: "fa-brands fa-youtube",
             color: "bg-red-700 text-white",
         },
         {
             name: "Twitter",
-            url: "https://twitter.com/stix_id",
+            url: "#",
             icon: "fa-brands fa-x-twitter",
             color: "bg-black text-white",
         },
         {
             name: "TikTok",
-            url: "https://www.tiktok.com/@stix.id",
+            url: "#",
             icon: "fa-brands fa-tiktok",
             color: "bg-gray-800 text-white",
         },

@@ -29,7 +29,8 @@ function FooterExtras() {
                         {
                             name: "Ticketing Management System",
                             url: "home",
-                            type: "link",
+                            type: "button",
+                            modalId: "tms-modal",
                         },
                     ]}
                 />
@@ -48,7 +49,8 @@ function FooterExtras() {
                         {
                             name: "Cara Membeli Tiket",
                             url: "home",
-                            type: "link",
+                            type: "button",
+                            modalId: "how-to-buy-modal",
                         },
                     ]}
                 />
