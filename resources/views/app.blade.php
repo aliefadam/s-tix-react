@@ -5,6 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {{-- Dicoding --}}
+    <meta name="dicoding:email" content="fatihaljabar@gmail.com">
+    <meta name="dicoding:email" content="aliefadam6@gmail.com">
+    <meta name="dicoding:email" content="224260012.mhs@stmikjabar.ac.id">
+    <meta name="dicoding:email" content="anggasianipar2@gmail.com">
+
     {{-- Description --}}
     <meta name="description"
         content="Beli tiket konser artis favorit Anda di S-TIX. Dapatkan pengalaman musik terbaik dengan penawaran harga terbaik dan tiket resmi!">
