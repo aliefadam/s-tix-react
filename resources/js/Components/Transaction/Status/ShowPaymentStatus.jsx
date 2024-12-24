@@ -3,7 +3,8 @@ const ShowPaymentStatus = ({ status, withBackground = false }) => {
         return (
             <span
                 className={`${
-                    withBackground && "bg-amber-100 px-4 py-2.5 rounded-md"
+                    withBackground &&
+                    "bg-amber-100 md:px-4 px-2 py-2.5 rounded-md"
                 } text-amber-600 poppins-semibold`}
             >
                 {status}
@@ -13,7 +14,8 @@ const ShowPaymentStatus = ({ status, withBackground = false }) => {
         return (
             <span
                 className={`${
-                    withBackground && "bg-green-100 px-4 py-2.5 rounded-md"
+                    withBackground &&
+                    "bg-green-100 md:px-4 px-2 py-2.5 rounded-md"
                 } text-green-600 poppins-semibold`}
             >
                 {status}
@@ -23,7 +25,8 @@ const ShowPaymentStatus = ({ status, withBackground = false }) => {
         return (
             <span
                 className={`${
-                    withBackground && "bg-red-100 px-4 py-2.5 rounded-md"
+                    withBackground &&
+                    "bg-red-100 md:px-4 px-2 py-2.5 rounded-md"
                 } text-red-600 poppins-semibold`}
             >
                 {status}
@@ -33,7 +36,8 @@ const ShowPaymentStatus = ({ status, withBackground = false }) => {
         return (
             <span
                 className={`${
-                    withBackground && "bg-gray-100 px-4 py-2.5 rounded-md"
+                    withBackground &&
+                    "bg-gray-100 md:px-4 px-2 py-2.5 rounded-md"
                 } text-gray-600 poppins-semibold`}
             >
                 {status}

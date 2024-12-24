@@ -49,9 +49,9 @@ function ChangeProfileTab({ profile }) {
                 onSubmit={changeProfile}
                 action=""
                 method="POST"
-                className="grid grid-cols-2 w-[80%] mx-auto gap-8 mt-8"
+                className="grid grid-cols-2 md:w-[80%] w-full mx-auto md:gap-8 mt-8"
             >
-                <div className="">
+                <div className="col-span-2 md:col-span-1">
                     <InputGroup
                         type={"text"}
                         id={"name"}
@@ -99,7 +99,7 @@ function ChangeProfileTab({ profile }) {
                         onChange={(e) => setData("works", e.target.value)}
                     />
                 </div>
-                <div className="">
+                <div className="col-span-2 md:col-span-1">
                     <InputGroup
                         type={"number"}
                         id={"height"}

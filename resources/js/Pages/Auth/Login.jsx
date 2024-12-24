@@ -19,7 +19,7 @@ function Login({ title }) {
 
     return (
         <AuthLayout title={title}>
-            <main className="shadow-md w-[70%] grid grid-cols-2 rounded-md overflow-hidden">
+            <main className="shadow-md md:w-[70%] w-[90%] grid md:grid-cols-2 grid-cols-1 rounded-md overflow-hidden">
                 <LoginBrand />
                 <LoginForm
                     handleLogin={handleLogin}

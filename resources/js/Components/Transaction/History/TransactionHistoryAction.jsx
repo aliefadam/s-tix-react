@@ -10,6 +10,7 @@ function TransactionHistoryAction({ status, id, openModal, setData = null }) {
                 name={"Lihat Detail Transaksi"}
                 modalId={"detail-transaksi-modal"}
                 openModal={openModal}
+                icon={"fa-regular fa-eye"}
             />
             {status === "Menunggu Pembayaran" && (
                 <TransactionHistoryButton
@@ -19,6 +20,7 @@ function TransactionHistoryAction({ status, id, openModal, setData = null }) {
                     name={"Batalkan Transaksi"}
                     modalId={"pembatalan-transaksi-modal"}
                     openModal={openModal}
+                    icon={"fa-regular fa-xmark"}
                 />
             )}
         </div>

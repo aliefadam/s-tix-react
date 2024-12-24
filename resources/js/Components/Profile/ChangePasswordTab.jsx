@@ -30,7 +30,7 @@ function ChangePasswordTab() {
             <form
                 onSubmit={changePassword}
                 action=""
-                className="w-1/2 mt-8 ms-auto me-auto"
+                className="md:w-1/2 w-full mt-8 ms-auto me-auto"
             >
                 <InputGroup
                     id={"kata_sandi_lama"}
@@ -62,7 +62,7 @@ function ChangePasswordTab() {
                     <button
                         disabled={processing}
                         type="submit"
-                        className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm w-1/2 px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 ${
+                        className={`text-white bg-teal-700 hover:bg-teal-800 focus:outline-none focus:ring-4 focus:ring-teal-300 font-medium rounded-full text-sm md:-1/2 w-full px-5 py-2.5 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 ${
                             processing ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >

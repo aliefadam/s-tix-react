@@ -2,7 +2,7 @@ import React from "react";
 
 function LoginBrand() {
     return (
-        <div className="bg-gradient-to-r from-teal-600 to-teal-700 h-[80vh] flex flex-col justify-center items-center relative">
+        <div className="bg-gradient-to-r from-teal-600 to-teal-700 h-[80vh] hidden md:flex flex-col justify-center items-center relative">
             <h1 className="text-3xl poppins-black text-white">S-TIX</h1>
             <p className="text-center mt-2 text-white leading-[20px]">
                 Temukan Event Favorit, Kelola Tiket dengan Mudah, Nikmati

@@ -66,6 +66,7 @@ Route::middleware("auth")->group(function () {
 
 Route::prefix("event")->group(function () {
     Route::get("/{slug}", [PageController::class, "event"])->name("event");
+    Route::get("/search/{keyword}", [PageController::class, "eventSearch"])->name("event.search");
     Route::get("/{slug}/tickets", [PageController::class, "eventTickets"])->name("event.tickets");
     Route::post("/{slug}/save-tickets", [PageController::class, "saveTickets"])->name("event.save-tickets");
     Route::get("/{slug}/data-diri", [PageController::class, "eventDataDiri"])->name("event.data-diri");

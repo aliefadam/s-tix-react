@@ -7,6 +7,7 @@ function TransactionHistoryButton({
     name,
     color,
     setData = null,
+    icon,
 }) {
     const onClick = (e) => {
         if (setData) {
@@ -28,11 +29,11 @@ function TransactionHistoryButton({
             data-transaction-id={id}
             data-modal-target={modalId}
             data-modal-toggle={modalId}
-            className={`btn-detail-transaksi w-[220px] text-center lg:text-sm text-xs px-3 py-2 rounded-lg poppins-semibold cursor-pointer hover:bg-opacity-20 duration-200 ${variant()}`}
+            className={`btn-detail-transaksi md:w-[220px] text-center lg:text-sm text-xs px-3 py-2 rounded-lg poppins-semibold cursor-pointer hover:bg-opacity-20 duration-200 ${variant()}`}
         >
             <i
                 data-transaction-id={id}
-                className="fa-regular fa-eye mr-1"
+                className={`${icon} mr-1`}
                 onClick={(e) => onClick(e)}
             />
             {name}

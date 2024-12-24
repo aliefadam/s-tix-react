@@ -6,6 +6,7 @@ import TransactionHistoryItem from "@/Components/Transaction/History/Transaction
 import UserLayout from "@/Layouts/UserLayout";
 import Notification from "@/utils/notification";
 import { useForm, usePage } from "@inertiajs/react";
+import { initModals } from "flowbite";
 import React, { useEffect, useState } from "react";
 
 function TransactionHistory({ title, transactions }) {
@@ -57,6 +58,81 @@ function TransactionHistory({ title, transactions }) {
         }
     }, [notification]);
 
+    const [filteredTransactions, setFilteredTransactions] =
+        useState(transactions);
+    const [filter, setFilter] = useState({
+        status: "Semua Kategori",
+        keyword: "",
+    });
+
+    const handleFilterStatus = (e) => {
+        const newStatus = e.target.value;
+
+        setFilter((prev) => ({
+            ...prev,
+            status: newStatus,
+        }));
+
+        if (newStatus === "Semua Kategori") {
+            setFilteredTransactions(transactions);
+        } else {
+            setFilteredTransactions(
+                transactions.filter((transaction) => {
+                    return transaction.status === newStatus;
+                })
+            );
+        }
+
+        initModals();
+    };
+
+    const handleFilterKeyword = (e) => {
+        const newKeyword = e.target.value;
+
+        setFilter((prev) => ({
+            ...prev,
+            keyword: newKeyword,
+        }));
+
+        if (filter.status === "Semua Kategori") {
+            setFilteredTransactions(
+                transactions.filter((transaction) => {
+                    return (
+                        (transaction.event.name
+                            .toString()
+                            .toLowerCase()
+                            .includes(newKeyword.toString().toLowerCase()) &&
+                            transaction.status == "Menunggu Pembayaran") ||
+                        (transaction.event.name
+                            .toString()
+                            .toLowerCase()
+                            .includes(newKeyword.toString().toLowerCase()) &&
+                            transaction.status == "Pembayaran Berhasil") ||
+                        (transaction.event.name
+                            .toString()
+                            .toLowerCase()
+                            .includes(newKeyword.toString().toLowerCase()) &&
+                            transaction.status == "Pemesanan Dibatalkan")
+                    );
+                })
+            );
+        } else {
+            setFilteredTransactions(
+                transactions.filter((transaction) => {
+                    return (
+                        transaction.event.name
+                            .toString()
+                            .toLowerCase()
+                            .includes(newKeyword.toString().toLowerCase()) &&
+                        transaction.status == filter.status
+                    );
+                })
+            );
+        }
+
+        initModals();
+    };
+
     return (
         <UserLayout title={title}>
             <BreadCrumb breadCrumbData={breadCrumbData} />
@@ -65,11 +141,14 @@ function TransactionHistory({ title, transactions }) {
                     Transaksi
                 </h1>
                 <div className="lg:w-full w-full mt-10">
-                    <TransactionHistoryFilter />
+                    <TransactionHistoryFilter
+                        handleFilterKeyword={handleFilterKeyword}
+                        handleFilterStatus={handleFilterStatus}
+                    />
                     <TransactionHistoryItem
                         setData={setData}
                         openModal={openModal}
-                        transactions={transactions}
+                        transactions={filteredTransactions}
                     />
                 </div>
             </div>

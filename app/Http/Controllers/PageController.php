@@ -455,22 +455,26 @@ class PageController extends Controller
         ]);
     }
 
-    public function ticketPrint($invoice)
+    public function eventSearch($keyword)
     {
-        // $data = [
-        //     'train_code' => 'Dummy Train',
-        //     'passenger_name' => 'Dummy Name',
-        //     'nik' => '1234567890',
-        //     'origin' => 'Dummy Origin',
-        //     'origin_code' => 'DUM',
-        //     'destination' => 'Dummy Destination',
-        //     'destination_code' => 'DST',
-        //     'departure_time' => '2022-01-01 12:00:00',
-        //     'arrival_time' => '2022-01-01 13:00:00',
-        //     'qr_data' => 'Dummy QR Data', // Data yang akan digunakan untuk QR Code
-        // ];
+        $events = [];
+        $keyword = strtolower($keyword);
 
-        // $pdf = PDF::loadView("e-ticket.ticket", $data);
-        // return $pdf->download('boarding-pass.pdf');
+        $eventsQuery = Event::whereRaw("LOWER(name) LIKE ?", ["%{$keyword}%"])
+            ->orWhereRaw("LOWER(address) LIKE ?", ["%{$keyword}%"])
+            ->orWhereRaw("LOWER(building_name) LIKE ?", ["%{$keyword}%"])
+            ->orWhereHas("talent", function ($query) use ($keyword) {
+                $query->whereRaw("LOWER(name) LIKE ?", ["%{$keyword}%"]);
+            });
+
+        foreach ($eventsQuery->get() as $event) {
+            array_push($events, mappingEvent($event));
+        }
+
+        return Inertia::render("frontend/Event/EventSearch", [
+            "title" => "Cari Event",
+            "keyword" => $keyword,
+            "events" => $events,
+        ]);
     }
 }

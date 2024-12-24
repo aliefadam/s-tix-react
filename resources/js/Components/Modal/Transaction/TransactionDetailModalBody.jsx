@@ -7,8 +7,6 @@ import TransactionDetailModalBodyPayment from "./TransactionDetailModalBodyPayme
 
 function TransactionDetailModalBody({ transaction }) {
     const { tickets, buyer, visitor, payment, event } = transaction;
-    console.log(transaction);
-
     return (
         <div id="detail-transaksi-body">
             <div className="modal-transaction-detail p-4 md:p-5 space-y-4 h-[500px] overflow-y-auto scrollbar">

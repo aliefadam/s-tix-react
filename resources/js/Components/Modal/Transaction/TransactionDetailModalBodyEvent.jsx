@@ -13,7 +13,7 @@ function TransactionDetailModalBodyEvent({ transaction, tickets, event }) {
                             <div className="flex gap-3">
                                 <img
                                     src={event.banner}
-                                    className="border w-[200px] h-[100px] object-cover rounded-md"
+                                    className="border md:w-[200px] w-[120px] h-[100px] object-cover rounded-md"
                                 />
                                 <div className="flex flex-col">
                                     <span className="poppins-medium lg:text-base text-sm block !leading-[20px]">
@@ -45,7 +45,7 @@ function TransactionDetailModalBodyEvent({ transaction, tickets, event }) {
                             <span className="lg:text-sm text-xs text-right">
                                 Total Harga
                             </span>
-                            <span className="poppins-semibold leading-none lg:text-base text-sm lg:inline block lg:mt-0 mt-1">
+                            <span className="poppins-semibold leading-none lg:text-base text-right text-sm lg:inline block lg:mt-0 mt-1">
                                 {transaction.total_ticket_price}
                             </span>
                         </div>
