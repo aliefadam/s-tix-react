@@ -6,7 +6,7 @@ import Button from "./Button";
 
 function LoginForm({ handleLogin, data, setData, processing }) {
     return (
-        <div className="bg-white h-[80vh] flex flex-col justify-center items-center">
+        <div className="bg-white h-[90vh] flex flex-col justify-center items-center">
             <h1 className="text-3xl poppins-bold text-teal-700">LOGIN</h1>
             <form
                 onSubmit={handleLogin}

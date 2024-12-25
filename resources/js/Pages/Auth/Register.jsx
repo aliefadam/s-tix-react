@@ -23,7 +23,7 @@ function Register() {
         <AuthLayout title="Register">
             <main className="shadow-md md:w-[70%] w-[90%] grid md:grid-cols-2 grid-cols-1 rounded-md overflow-hidden">
                 <LoginBrand />
-                <div className="bg-white md:h-[80vh] h-[90vh] flex flex-col justify-center items-center">
+                <div className="bg-white md:h-[90vh] h-[90vh] flex flex-col justify-center items-center">
                     <h1 className="text-3xl poppins-bold text-teal-700">
                         REGISTER
                     </h1>
